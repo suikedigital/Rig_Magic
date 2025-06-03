@@ -12,7 +12,7 @@ Example usage:
 from models.yacht.yacht import Yacht
 from models.registry.rope_registry import ROPE_REGISTRY
 from models.sails.sail_registry import SAIL_REGISTRY
-from models.ropes.components.rope_construction import RopeConstructionType
+from models.ropes_rigging.components.rope_construction import RopeConstructionType
 
 
 def main():

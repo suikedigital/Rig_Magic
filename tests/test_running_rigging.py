@@ -4,7 +4,7 @@ Covers rope/rigging instantiation, port/starboard logic for sheets and guys, and
 """
 import pytest
 from models.yacht.yacht import Yacht
-from models.ropes.components.termination import Termination
+from models.ropes_rigging.components.termination import Termination
 from models.registry.rope_registry import ROPE_REGISTRY
 
 @pytest.fixture

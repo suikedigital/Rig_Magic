@@ -17,6 +17,8 @@ class SailService:
         self.sail_factory.set_sail_config(sail_type, config)
 
     def generate_sails(self):
+        # Delete all existing sails for this yacht before generating new ones
+        self.db.delete_sails_by_yacht(self.yacht_id)
         self.sail_factory.generate_all_sails_on_boat()
         for sail_type, sail in self.sail_factory.sails.items():
             print(f"{sail_type} generated with config: {self.sail_factory.sail_config.get(sail_type, {})}")

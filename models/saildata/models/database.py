@@ -20,14 +20,23 @@ class SailDataDatabase:
         ''')
         self.conn.commit()
 
+    def delete_saildata_by_yacht(self, yacht_id):
+        """
+        Delete all saildata entries for a given yacht_id.
+        """
+        self.conn.execute("DELETE FROM saildata WHERE yacht_id = ?", (yacht_id,))
+        self.conn.commit()
+
     def save_saildata(self, saildata: SailData):
         import json
         # Only store kwargs in the data column
         base_keys = {"yacht_id", "i", "j", "p", "e"}
         kwargs = {k: v for k, v in saildata.to_dict().items() if k not in base_keys}
         data_json = json.dumps(kwargs)
+        # Delete any existing entry for this yacht_id before inserting
+        self.delete_saildata_by_yacht(saildata.yacht_id)
         self.conn.execute(
-            "INSERT OR REPLACE INTO saildata (yacht_id, i, j, p, e, data) VALUES (?, ?, ?, ?, ?, ?)",
+            "INSERT INTO saildata (yacht_id, i, j, p, e, data) VALUES (?, ?, ?, ?, ?, ?)",
             (
             saildata.yacht_id,
             saildata.i,

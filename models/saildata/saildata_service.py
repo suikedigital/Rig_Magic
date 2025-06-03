@@ -7,6 +7,8 @@ class SailDataService:
         self.db = SailDataDatabase(db_path)
 
     def save_saildata(self, saildata: SailData):
+        # Ensure only one entry per yacht_id by deleting before saving
+        self.db.delete_saildata_by_yacht(saildata.yacht_id)
         self.db.save_saildata(saildata)
 
     def save_saildata_from_dict(self, yacht_id, data: dict):

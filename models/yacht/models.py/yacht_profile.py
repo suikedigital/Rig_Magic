@@ -3,18 +3,26 @@
 class YachtProfile:
     def __init__(
         self,
+        yacht_id: int,
         yacht_class: str = None,
         model: str = None,
+        version: str = None,
+        builder: str = None,
         designer: str = None,
-        manufacturer: str = None,
-        year_built: int = None,
-        build_material: str = None,
+        year_introduced: int = None,
+        production_start: int = None,
+        production_end: int = None,
+        country_of_origin: str = None,
         notes: str = None
     ):
+        self.yacht_id = yacht_id
         self.yacht_class = yacht_class        # e.g., "Swan 48"
-        self.model = model                    # e.g., "MKII"
+        self.model = model                    # e.g., "Oceanis"
+        self.version = version                    # e.g., "MKII"
         self.designer = designer              # e.g., "Sparkman & Stephens"
-        self.manufacturer = manufacturer      # e.g., "Nautor's Swan"
-        self.year_built = year_built
-        self.build_material = build_material  # e.g., "GRP", "Aluminum", "Wood"
+        self.builder = builder      # e.g., "Nautor's Swan"
+        self.year_introduced = year_introduced  # e.g., 1985
+        self.production_start = production_start  # e.g., 1985
+        self.production_end = production_end      # e.g., 1990
+        self.country_of_origin = country_of_origin
         self.notes = notes or ""

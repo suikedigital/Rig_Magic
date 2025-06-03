@@ -32,11 +32,15 @@ class Yacht:
         wind_speed_knots (float): Default wind speed for calculations.
     """
 
-    def __init__(self, hull: BaseHull, rig_type: str, profile: YachtProfile, saildata: SailData):
-        self.hull = hull
-        self.rig_type = rig_type
+    def __init__(self, yacht_id, hull: BaseHull, rig_type: str, profile: YachtProfile, saildata: SailData):
+        self.yacht_id = yacht_id
         self.profile = profile
+
+        self.hull = hull
+
+        self.rig_type = rig_type
         self.saildata = saildata
+
         self.running_rigging = running_rigging.RunningRigging(self)
         self.sail_service = SailService(saildata.to_dict())
         self.mainsheet_system = mainsheetsystem.MainsheetSystem(purchase_ratio=6, routing="traditional")

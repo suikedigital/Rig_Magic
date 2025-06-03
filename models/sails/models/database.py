@@ -55,5 +55,13 @@ class Database:
         )
         return cursor.fetchone()
 
+    def delete_sails_by_yacht(self, yacht_id):
+        """
+        Delete all sails for a given yacht_id.
+        """
+        cursor = self.conn.cursor()
+        cursor.execute("DELETE FROM sails WHERE yacht_id = ?", (yacht_id,))
+        self.conn.commit()
+
     def close(self):
         self.conn.close()
