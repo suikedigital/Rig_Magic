@@ -25,11 +25,12 @@ class HullRequest(BaseModel):
     beam: Optional[float] = None
     displacement: Optional[float] = None
     ballast: Optional[float] = None
+    construction: Optional[str] = None  # <-- Add this line
     base_id: Optional[int] = None
 
 @app.post("/hull/keel")
 def add_keel(req: KeelRequest):
-    hull_service.save_keel(req.yacht_id, req.keel_type, req.draft)
+    hull_service.save_keel(req.yacht_id, req.keel_type, req.draft, req.base_id)
     return {"status": "ok"}
 
 @app.get("/hull/keel/{yacht_id}")
@@ -61,7 +62,7 @@ def get_hull(yacht_id: int):
     hull = hull_service.get_hull(yacht_id)
     if not hull:
         raise HTTPException(status_code=404, detail="Hull not found")
-    return hull.__dict__
+    return hull
 
 @app.delete("/hull/{yacht_id}")
 def delete_all(yacht_id: int):

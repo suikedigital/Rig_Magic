@@ -13,22 +13,22 @@ export function SailDataTab({ sailData }: SailDataTabProps) {
           <CardTitle>Sail Measurements</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
-              <h3 className="font-medium text-sm text-muted-foreground">I (Foretriangle Height)</h3>
-              <p className="text-lg">{sailData.I}ft</p>
+              <h3 className="font-medium text-sm text-muted-foreground">I</h3>
+              <p className="text-lg">{sailData.I} mts</p>
             </div>
             <div>
-              <h3 className="font-medium text-sm text-muted-foreground">J (Foretriangle Base)</h3>
-              <p className="text-lg">{sailData.J}ft</p>
+              <h3 className="font-medium text-sm text-muted-foreground">J</h3>
+              <p className="text-lg">{sailData.J} mts</p>
             </div>
             <div>
-              <h3 className="font-medium text-sm text-muted-foreground">P (Mainsail Luff)</h3>
-              <p className="text-lg">{sailData.P}ft</p>
+              <h3 className="font-medium text-sm text-muted-foreground">P </h3>
+              <p className="text-lg">{sailData.P} mts</p>
             </div>
             <div>
-              <h3 className="font-medium text-sm text-muted-foreground">E (Mainsail Foot)</h3>
-              <p className="text-lg">{sailData.E}ft</p>
+              <h3 className="font-medium text-sm text-muted-foreground">E</h3>
+              <p className="text-lg">{sailData.E} mts</p>
             </div>
           </div>
         </CardContent>
@@ -42,27 +42,27 @@ export function SailDataTab({ sailData }: SailDataTabProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <h3 className="font-medium text-sm text-muted-foreground">Mainsail Area</h3>
-              <p className="text-lg">{sailData.mainsailArea} sq ft</p>
+              <p className="text-lg">{sailData.mainsailArea} sq mts</p>
             </div>
             <div>
               <h3 className="font-medium text-sm text-muted-foreground">Foretriangle Area</h3>
-              <p className="text-lg">{sailData.foretriangle} sq ft</p>
+              <p className="text-lg">{sailData.foretriangle} sq mts</p>
             </div>
             <div>
               <h3 className="font-medium text-sm text-muted-foreground">Total Sail Area (100% Jib)</h3>
-              <p className="text-lg">{sailData.totalSailArea100} sq ft</p>
+              <p className="text-lg">{sailData.totalSailArea100} sq mts</p>
             </div>
             <div>
               <h3 className="font-medium text-sm text-muted-foreground">Total Sail Area (150% Genoa)</h3>
-              <p className="text-lg">{sailData.totalSailArea150} sq ft</p>
+              <p className="text-lg">{sailData.totalSailArea150} sq mts</p>
             </div>
             <div>
               <h3 className="font-medium text-sm text-muted-foreground">Spinnaker Area</h3>
-              <p className="text-lg">{sailData.spinnakerArea} sq ft</p>
+              <p className="text-lg">{sailData.spinnakerArea} sq mts</p>
             </div>
             <div>
               <h3 className="font-medium text-sm text-muted-foreground">Downwind Sail Area</h3>
-              <p className="text-lg">{sailData.downwindSailArea} sq ft</p>
+              <p className="text-lg">{sailData.downwindSailArea} sq mts</p>
             </div>
           </div>
         </CardContent>

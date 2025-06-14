@@ -13,22 +13,22 @@ export function HullTab({ hull }: HullTabProps) {
           <CardTitle>Hull Specifications</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <h3 className="font-medium text-sm text-muted-foreground">Length Overall (LOA)</h3>
-              <p className="text-lg">{hull.length}ft</p>
+              <p className="text-lg">{hull.loa} mts</p>
             </div>
             <div>
               <h3 className="font-medium text-sm text-muted-foreground">Length Waterline (LWL)</h3>
-              <p className="text-lg">{hull.waterlineLength}ft</p>
+              <p className="text-lg">{hull.lwl} mts</p>
             </div>
             <div>
               <h3 className="font-medium text-sm text-muted-foreground">Beam</h3>
-              <p className="text-lg">{hull.beam}ft</p>
+              <p className="text-lg">{hull.beam} mts</p>
             </div>
             <div>
               <h3 className="font-medium text-sm text-muted-foreground">Draft</h3>
-              <p className="text-lg">{hull.draft}ft</p>
+              <p className="text-lg">{hull.draft} mts</p>
             </div>
             <div>
               <h3 className="font-medium text-sm text-muted-foreground">Displacement</h3>
@@ -38,28 +38,38 @@ export function HullTab({ hull }: HullTabProps) {
               <h3 className="font-medium text-sm text-muted-foreground">Ballast</h3>
               <p className="text-lg">{hull.ballast} kg</p>
             </div>
+            <div>
+              <h3 className="font-medium text-sm text-muted-foreground">Hull Type</h3>
+              <p className="text-lg">{hull.hullType}</p>
+            </div>
+            <div>
+              <h3 className="font-medium text-sm text-muted-foreground">Hull Material</h3>
+              <p className="text-lg">{hull.construction}</p>
+            </div>
           </div>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader>
-          <CardTitle>Hull Construction</CardTitle>
+          <CardTitle>Keel Specifications</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <h3 className="font-medium text-sm text-muted-foreground">Material</h3>
-              <p className="text-lg">{hull.material}</p>
-            </div>
-            <div>
-              <h3 className="font-medium text-sm text-muted-foreground">Keel Type</h3>
+              <h3 className="font-medium text-sm text-muted-foreground">Type</h3>
               <p className="text-lg">{hull.keelType}</p>
             </div>
-            <div>
-              <h3 className="font-medium text-sm text-muted-foreground">Hull Type</h3>
-              <p className="text-lg">{hull.hullType}</p>
-            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Rudder Specifications</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <h3 className="font-medium text-sm text-muted-foreground">Rudder Type</h3>
               <p className="text-lg">{hull.rudderType}</p>

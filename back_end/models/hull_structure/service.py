@@ -20,11 +20,11 @@ class HullStructureService:
         """
         pass
         
-    def save_keel(self, yacht_id, keel_type, draft):
+    def save_keel(self, yacht_id, keel_type, draft, base_id=None):
         from back_end.models.hull_structure.models.database import KeelDatabase
         db = KeelDatabase(self.db_path)
         db.delete_keel_by_yacht(yacht_id)  # Ensure only one keel per yacht
-        db.save_keel(yacht_id, keel_type, draft)
+        db.save_keel(yacht_id, base_id, keel_type, draft)
         db.close()
 
     def get_keel(self, yacht_id):
@@ -65,8 +65,9 @@ class HullStructureService:
         beam = getattr(hull, 'beam', None)
         displacement = getattr(hull, 'displacement', None)
         ballast = getattr(hull, 'ballast', None)
+        construction = getattr(hull, 'construction', None)
         db.delete_hull_by_yacht(yacht_id)  # Ensure only one hull per yacht
-        db.save_hull(yacht_id, hull_type, loa, lwl, beam, displacement, ballast)
+        db.save_hull(yacht_id, hull_type, loa, lwl, beam, displacement, ballast, construction)
         db.close()
 
     def get_hull(self, yacht_id):
@@ -75,8 +76,19 @@ class HullStructureService:
         row = db.get_hull_by_yacht(yacht_id)
         db.close()
         if row:
-            _, yacht_id, base_id, hull_type, loa, lwl, beam, displacement, ballast = row  # Unpack all columns
-            return HullStructureFactory.create_hull(hull_type, yacht_id, loa, lwl, beam, displacement, ballast)
+            # Unpack all columns including construction
+            _, yacht_id, base_id, hull_type, loa, lwl, beam, displacement, ballast, construction = row
+            return {
+                "yacht_id": yacht_id,
+                "base_id": base_id,
+                "hull_type": hull_type,
+                "loa": loa,
+                "lwl": lwl,
+                "beam": beam,
+                "displacement": displacement,
+                "ballast": ballast,
+                "construction": construction
+            }
         return None
 
     def delete_all_by_yacht(self, yacht_id):

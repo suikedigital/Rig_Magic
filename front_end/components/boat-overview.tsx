@@ -65,7 +65,7 @@ export function BoatOverview({ boat }: BoatOverviewProps) {
           <div>
             <h1 className="text-3xl font-bold">{boat.name}</h1>
             <p className="text-xl text-muted-foreground">
-              {boat.manufacturer} {boat.model}
+              {boat.yacht_class} {boat.model} {boat.version}
             </p>
           </div>
 
@@ -85,7 +85,7 @@ export function BoatOverview({ boat }: BoatOverviewProps) {
                 <Ruler className="h-5 w-5 text-muted-foreground" />
                 <div>
                   <p className="text-sm font-medium">Length</p>
-                  <p className="text-lg">{boat.hull.length}ft</p>
+                  <p className="text-lg">{boat.hull.loa} mts</p>
                 </div>
               </CardContent>
             </Card>
@@ -95,7 +95,7 @@ export function BoatOverview({ boat }: BoatOverviewProps) {
                 <Calendar className="h-5 w-5 text-muted-foreground" />
                 <div>
                   <p className="text-sm font-medium">Year</p>
-                  <p className="text-lg">{boat.year}</p>
+                  <p className="text-lg">{boat.year_introduced}</p>
                 </div>
               </CardContent>
             </Card>
@@ -105,7 +105,7 @@ export function BoatOverview({ boat }: BoatOverviewProps) {
                 <Sailboat className="h-5 w-5 text-muted-foreground" />
                 <div>
                   <p className="text-sm font-medium">Rig Type</p>
-                  <p className="text-lg">{boat.rig.type}</p>
+                  <p className="text-lg">{boat.rig?.type || <span className="italic text-gray-400">N/A</span>}</p>
                 </div>
               </CardContent>
             </Card>

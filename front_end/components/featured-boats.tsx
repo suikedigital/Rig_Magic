@@ -20,14 +20,14 @@ export function FeaturedBoats() {
           <CardContent className="p-4">
             <h3 className="text-lg font-semibold">{boat.name}</h3>
             <p className="text-sm text-muted-foreground">
-              {boat.manufacturer} {boat.model}
+              {boat.builder} {boat.model}
             </p>
             <div className="mt-2 grid grid-cols-2 gap-2 text-sm">
               <div>
-                <span className="font-medium">Length:</span> {boat.hull.length}ft
+                <span className="font-medium">Length:</span> {boat.hull.loa}ft
               </div>
               <div>
-                <span className="font-medium">Year:</span> {boat.year}
+                <span className="font-medium">Year:</span> {boat.year_introduced}
               </div>
               <div>
                 <span className="font-medium">Type:</span> {boat.type}

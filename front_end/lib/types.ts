@@ -1,12 +1,16 @@
 export interface Boat {
   id: string
   name: string
-  manufacturer: string
+  yacht_class?: string // Added for compatibility with BoatOverview
   model: string
-  year: number
+  version?: string
+  designer?: string
+  builder?: string
+  year_introduced?: number
+  production_start?: number
+  production_end?: number
   type: string
-  designer: string
-  description: string
+  notes?: string
   imageUrl?: string
   hull: Hull
   rig: Rig
@@ -16,20 +20,21 @@ export interface Boat {
 }
 
 export interface Hull {
-  length: number
-  waterlineLength: number
-  beam: number
-  draft: number
-  displacement: number
-  ballast: number
-  material: string
-  keelType: string
-  hullType: string
-  rudderType: string
-  ballastRatio: number
-  displacementLengthRatio: number
-  sailAreaDisplacementRatio: number
-  capsizeScreeningValue: number
+  loa: number;
+  lwl: number;
+  beam: number;
+  draft: number;
+  displacement: number;
+  ballast: number;
+  material: string;
+  keelType: string;
+  hullType: string;
+  rudderType: string;
+  construction: string;
+  ballastRatio: number;
+  displacementLengthRatio: number;
+  sailAreaDisplacementRatio: number;
+  capsizeScreeningValue: number;
 }
 
 export interface Rig {

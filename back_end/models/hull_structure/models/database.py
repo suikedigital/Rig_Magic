@@ -15,7 +15,7 @@ class KeelDatabase:
         ''')
         self.conn.commit()
 
-    def save_keel(self, yacht_id, keel_type, draft, base_id=None):
+    def save_keel(self, yacht_id, base_id, keel_type, draft):
         self.conn.execute(
             "INSERT OR REPLACE INTO keels (yacht_id, base_id, keel_type, draft) VALUES (?, ?, ?, ?)",
             (yacht_id, base_id, keel_type, draft)
@@ -77,15 +77,16 @@ class HullDatabase:
                 lwl REAL,
                 beam REAL,
                 displacement REAL,
-                ballast REAL
+                ballast REAL,
+                construction TEXT
             )
         ''')
         self.conn.commit()
 
-    def save_hull(self, yacht_id, hull_type, loa, lwl, beam, displacement, ballast, base_id=None):
+    def save_hull(self, yacht_id, hull_type, loa, lwl, beam, displacement, ballast, construction, base_id=None):
         self.conn.execute(
-            "INSERT OR REPLACE INTO hulls (yacht_id, base_id, hull_type, loa, lwl, beam, displacement, ballast) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-            (yacht_id, base_id, hull_type, loa, lwl, beam, displacement, ballast)
+            "INSERT OR REPLACE INTO hulls (yacht_id, base_id, hull_type, loa, lwl, beam, displacement, ballast, construction) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            (yacht_id, base_id, hull_type, loa, lwl, beam, displacement, ballast, construction)
         )
         self.conn.commit()
 
