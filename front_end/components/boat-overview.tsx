@@ -20,9 +20,10 @@ import { AuthDialog } from "@/components/auth-dialog"
 
 interface BoatOverviewProps {
   boat: Boat
+  isBaseYacht?: boolean
 }
 
-export function BoatOverview({ boat }: BoatOverviewProps) {
+export function BoatOverview({ boat, isBaseYacht = false }: BoatOverviewProps) {
   const router = useRouter()
   const { toast } = useToast()
   const [activeTab, setActiveTab] = useState("profile")
@@ -169,7 +170,7 @@ export function BoatOverview({ boat }: BoatOverviewProps) {
         </TabsContent>
 
         <TabsContent value="sails">
-          <SailsTab sails={boat.sails} />
+          <SailsTab sails={boat.sails} isBaseYacht={isBaseYacht} />
         </TabsContent>
 
         <TabsContent value="ropes">

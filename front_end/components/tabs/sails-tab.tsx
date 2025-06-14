@@ -7,13 +7,54 @@ import type { Sail } from "@/lib/types"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
-interface SailsTabProps {
-  sails: Sail[]
+interface PossibleSail {
+  type: string
+  area?: number
 }
 
-export function SailsTab({ sails }: SailsTabProps) {
+interface SailsTabProps {
+  sails: Sail[] | PossibleSail[]
+  isBaseYacht?: boolean
+}
+
+export function SailsTab({ sails, isBaseYacht = false }: SailsTabProps) {
   const [selectedSail, setSelectedSail] = useState<Sail | null>(null)
 
+  if (isBaseYacht) {
+    // Only show type and area for possible sails
+    return (
+      <div className="space-y-6 p-4">
+        <Card>
+          <CardHeader>
+            <CardTitle>Base Sails Inventory</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Type</TableHead>
+                  <TableHead>Area (sq ft)</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {(sails as PossibleSail[]).map((sail, index) => (
+                  <TableRow key={index}>
+                    <TableCell className="font-medium">{sail.type}</TableCell>
+                    <TableCell>{sail.area ?? "-"}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            <div className="mt-4 text-muted-foreground text-sm">
+              To see full sail details and add your own, <b>sign in and clone this boat</b>.
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
+
+  // Only cast to Sail[] for non-base yachts
   return (
     <div className="space-y-6 p-4">
       <Card>
@@ -32,7 +73,7 @@ export function SailsTab({ sails }: SailsTabProps) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {sails.map((sail, index) => (
+              {(sails as Sail[]).map((sail, index) => (
                 <TableRow key={index}>
                   <TableCell className="font-medium">{sail.type}</TableCell>
                   <TableCell>{sail.material}</TableCell>

@@ -91,3 +91,46 @@ class SailService:
         else:
             print(f"Sail {sail_type_str} not found for yacht {yacht_id}")
             return None
+
+    def get_possible_sails(self, yacht_id):
+        factory = self._get_factory(yacht_id)
+        factory.load_possible_sails_from_db()
+        # Return a list of dicts with type and config (minimal info for overview)
+        result = []
+        for sail_type in factory.sails_possible_on_boat:
+            config = factory.sail_config.get(sail_type, {})
+            result.append({
+                "type": sail_type.value,
+                **({"area": config.get("area")} if config and "area" in config else {})
+            })
+        return result
+
+    def add_possible_sail(self, yacht_id, sail_type, config=None):
+        # Only add if not already present
+        factory = self._get_factory(yacht_id)
+        factory.load_possible_sails_from_db()
+        sail_type_str = normalize_sail_type(sail_type)
+        if any(s.value == sail_type_str for s in factory.sails_possible_on_boat):
+            # Already exists, just update config if provided
+            if config:
+                factory.set_sail_config(sail_type_str, config)
+        else:
+            factory.add_sail_type_to_possible_on_boat(sail_type, config)
+        return self.get_possible_sails(yacht_id)
+
+    def remove_possible_sail(self, yacht_id, sail_type):
+        sail_type_str = normalize_sail_type(sail_type)
+        # Remove from DB directly
+        with self.db.db_path and self.db.db_path:
+            import sqlite3
+            with sqlite3.connect(self.db.db_path) as conn:
+                cursor = conn.cursor()
+                cursor.execute(
+                    "DELETE FROM sails_possible WHERE yacht_id = ? AND sail_type = ?",
+                    (yacht_id, sail_type_str)
+                )
+                conn.commit()
+        # Reload possible sails
+        factory = self._get_factory(yacht_id)
+        factory.load_possible_sails_from_db()
+        return self.get_possible_sails(yacht_id)

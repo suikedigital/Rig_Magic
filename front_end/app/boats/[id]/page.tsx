@@ -82,9 +82,12 @@ export default async function BoatPage({ params }: { params: { id: string } }) {
     ropes: boatData.ropes || [],
   }
 
+  // Determine if this is a base yacht (base_id 0, null, undefined, or '0')
+  const isBaseYacht = !boatData.profile?.base_id || String(boatData.profile?.base_id) === '0';
+
   return (
     <main className="container mx-auto px-4 py-8">
-      <BoatOverview boat={boat} />
+      <BoatOverview boat={boat} isBaseYacht={isBaseYacht} />
     </main>
   )
 }

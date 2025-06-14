@@ -65,7 +65,41 @@ MICROSERVICES = {
 def aggregate_yacht_data(yacht_id: int):
     result = {"yacht_id": yacht_id}
     errors = {}
+    # Fetch profile first to check if base yacht
+    profile_url = MICROSERVICES["profile"].format(yacht_id=yacht_id)
+    try:
+        profile_resp = requests.get(profile_url)
+        if profile_resp.ok:
+            result["profile"] = profile_resp.json()
+            base_id = result["profile"].get("base_id", 0)
+        else:
+            result["profile"] = None
+            base_id = 0
+    except Exception as e:
+        errors["profile"] = str(e)
+        result["profile"] = None
+        base_id = 0
+    # Fetch sails: possible for base, full for user
+    try:
+        if str(base_id) in ("0", "None", "", "null"):  # base yacht
+            sails_url = f"{SAILS_API}/sails/possible/{yacht_id}"
+        else:
+            sails_url = f"{SAILS_API}/sails/{yacht_id}"
+        sails_resp = requests.get(sails_url)
+        if sails_resp.ok:
+            result["sails"] = sails_resp.json()
+        elif sails_resp.status_code == 404:
+            result["sails"] = []
+        else:
+            errors["sails"] = f"{sails_resp.status_code}: {sails_resp.text}"
+            result["sails"] = []
+    except Exception as e:
+        errors["sails"] = str(e)
+        result["sails"] = []
+    # Fetch other microservices as before
     for key, url_template in MICROSERVICES.items():
+        if key in ("profile", "sails"):  # already handled
+            continue
         url = url_template.format(yacht_id=yacht_id)
         try:
             resp = requests.get(url)
