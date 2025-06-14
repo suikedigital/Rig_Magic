@@ -174,7 +174,7 @@ export function BoatOverview({ boat, isBaseYacht = false }: BoatOverviewProps) {
         </TabsContent>
 
         <TabsContent value="ropes">
-          <RopesTab ropes={boat.ropes} />
+          <RopesTab ropes={boat.ropes} isBaseYacht={isBaseYacht} />
         </TabsContent>
       </Tabs>
       <AuthDialog

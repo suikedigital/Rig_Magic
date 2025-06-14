@@ -3,8 +3,10 @@ from back_end.models.saildata.models.factory import SailDataFactory
 from back_end.models.saildata.models.database import SailDataDatabase
 from back_end.models.saildata.config import SAILDATA_DB_PATH
 import requests
+import threading
 
 class SailDataService:
+    _thread_local = threading.local()
     def __init__(self, db_path=SAILDATA_DB_PATH, api_url=None):
         self.db = SailDataDatabase(db_path)
         self.api_url = api_url or "http://localhost:8001"  # Default saildata API URL
@@ -44,18 +46,29 @@ class SailDataService:
         self.save_saildata(saildata)
 
     def get_saildata(self, yacht_id):
+        # Use a thread-local cache to avoid repeated HTTP requests for the same yacht_id within a request
+        if not hasattr(self._thread_local, 'saildata_cache'):
+            self._thread_local.saildata_cache = {}
+        cache = self._thread_local.saildata_cache
+        if yacht_id in cache:
+            return cache[yacht_id]
         # Try HTTP API first for microservice orchestration
         try:
             resp = requests.get(f"{self.api_url}/saildata/{yacht_id}", timeout=2)
             if resp.status_code == 200:
-                return resp.json()
+                data = resp.json()
+                cache[yacht_id] = data
+                return data
         except Exception as e:
             pass  # Fallback to DB if HTTP fails
         result = self.db.get_saildata_by_yacht(yacht_id)
         if result is None:
             return None
         if hasattr(result, "to_dict"):
-            return result.to_dict()
+            data = result.to_dict()
+            cache[yacht_id] = data
+            return data
+        cache[yacht_id] = result
         return result
 
     def close(self):

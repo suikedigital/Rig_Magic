@@ -20,6 +20,34 @@ class GenerateRopesRequest(BaseModel):
     dynamic_load_safety_factor: Optional[float] = 2
     length_safety_factor: Optional[float] = 2
 
+class PossibleRopeRequest(BaseModel):
+    rope_type: str
+
+# --- POSSIBLE ROPES ROUTES (must be before generic /ropes/{yacht_id}) ---
+@app.get("/ropes/possible/{yacht_id}")
+def get_possible_ropes(yacht_id: int):
+    ropes = rope_service.db.get_possible_ropes(yacht_id)
+    if ropes is None:
+        return []
+    return [{"rope_type": rope_type} for rope_type, _ in ropes]
+
+@app.post("/ropes/possible/{yacht_id}")
+def add_possible_rope(yacht_id: int, req: PossibleRopeRequest):
+    rope_service.db.save_possible_rope(yacht_id, req.rope_type)
+    return {"status": "ok"}
+
+@app.delete("/ropes/possible/{yacht_id}/{rope_type}")
+def remove_possible_rope(yacht_id: int, rope_type: str):
+    import sqlite3
+    with sqlite3.connect(rope_service.db.db_path) as conn:
+        cursor = conn.cursor()
+        cursor.execute(
+            "DELETE FROM ropes_possible WHERE yacht_id = ? AND rope_type = ?",
+            (yacht_id, rope_type)
+        )
+        conn.commit()
+    return {"status": "ok"}
+
 @app.post("/ropes/add_rope_type")
 def add_rope_type(req: RopeRequest):
     result = rope_service.add_rope_type(req.yacht_id, req.rope_type, req.led_aft, **(req.config or {}))

@@ -6,6 +6,7 @@ import type { Boat } from "@/lib/types"
 async function getBoat(id: string) {
   const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000"
   const apiUrl = `${apiBase}/yachts/${id}`
+  console.log("[BoatPage] API Base URL:", apiBase)
   console.log("[BoatPage] Fetching yacht from:", apiUrl)
   try {
     const res = await fetch(apiUrl)
@@ -17,6 +18,38 @@ async function getBoat(id: string) {
   } catch (e) {
     console.error("[BoatPage] Error fetching yacht:", e)
     return null
+  }
+}
+
+// Fetch possible sails for base yachts
+async function getPossibleSails(id: string) {
+  const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000"
+  const apiUrl = `${apiBase}/sails/possible/${id}`
+  console.log("[BoatPage] API Base URL:", apiBase)
+  console.log("[BoatPage] Fetching possible sails from:", apiUrl)
+  try {
+    const res = await fetch(apiUrl)
+    if (!res.ok) return []
+    return await res.json()
+  } catch (e) {
+    console.error("[BoatPage] Error fetching possible sails:", e)
+    return []
+  }
+}
+
+// Fetch possible ropes for base yachts
+async function getPossibleRopes(id: string) {
+  const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000"
+  const apiUrl = `${apiBase}/ropes/possible/${id}`
+  console.log("[BoatPage] API Base URL:", apiBase)
+  console.log("[BoatPage] Fetching possible ropes from:", apiUrl)
+  try {
+    const res = await fetch(apiUrl)
+    if (!res.ok) return []
+    return await res.json()
+  } catch (e) {
+    console.error("[BoatPage] Error fetching possible ropes:", e)
+    return []
   }
 }
 
@@ -85,9 +118,17 @@ export default async function BoatPage({ params }: { params: { id: string } }) {
   // Determine if this is a base yacht (base_id 0, null, undefined, or '0')
   const isBaseYacht = !boatData.profile?.base_id || String(boatData.profile?.base_id) === '0';
 
+  // Fetch possible sails/ropes if base yacht
+  let sails = boat.sails
+  let ropes = boat.ropes
+  if (isBaseYacht) {
+    sails = await getPossibleSails(id)
+    ropes = await getPossibleRopes(id)
+  }
+
   return (
     <main className="container mx-auto px-4 py-8">
-      <BoatOverview boat={boat} isBaseYacht={isBaseYacht} />
+      <BoatOverview boat={{ ...boat, sails, ropes }} isBaseYacht={isBaseYacht} />
     </main>
   )
 }

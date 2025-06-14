@@ -11,15 +11,9 @@ interface AppInitializerProps {
 
 // Example: Simulate an API call for the splash screen
 const simulateInitialLoadApiCall = (): Promise<{ appName: string }> => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     setTimeout(() => {
-      if (Math.random() > 0.1) { // 90% chance of success
-        console.log("Global initial load API call successful");
-        resolve({ appName: "RigMagic Suite" });
-      } else {
-        console.error("Global initial load API call failed");
-        reject(new Error("Failed to fetch initial global configuration."));
-      }
+      resolve({ appName: "RigMagic Suite" });
     }, 1500); // Simulate 1.5 seconds delay
   });
 };

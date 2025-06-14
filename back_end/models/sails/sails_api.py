@@ -24,6 +24,23 @@ class PossibleSailRequest(BaseModel):
     sail_type: str
     config: Optional[Dict[str, Any]] = None
 
+# --- POSSIBLE SAILS ROUTES (must be before generic /sails/{yacht_id}) ---
+@app.get("/sails/possible/{yacht_id}")
+def get_possible_sails(yacht_id: int):
+    sails = sail_service.get_possible_sails(yacht_id)
+    if sails is None:
+        return []
+    return sails
+
+@app.post("/sails/possible/{yacht_id}")
+def add_possible_sail(yacht_id: int, req: PossibleSailRequest):
+    sail_service.add_possible_sail(yacht_id, req.sail_type, req.config)
+    return {"status": "ok"}
+
+@app.delete("/sails/possible/{yacht_id}/{sail_type}")
+def remove_possible_sail(yacht_id: int, sail_type: str):
+    return sail_service.remove_possible_sail(yacht_id, sail_type)
+
 @app.post("/sails/add_sail_type")
 def add_sail_type(req: SailTypeRequest):
     sail_service.add_sail_type(req.yacht_id, req.sail_type, req.config)
@@ -38,19 +55,6 @@ def set_sail_config(req: SailConfigRequest):
 def generate_sails(req: GenerateSailsRequest):
     sail_service.generate_sails(req.yacht_id)
     return {"status": "ok"}
-
-@app.get("/sails/possible/{yacht_id}")
-def get_possible_sails(yacht_id: int):
-    return sail_service.get_possible_sails(yacht_id)
-
-@app.post("/sails/possible/{yacht_id}")
-def add_possible_sail(yacht_id: int, req: PossibleSailRequest):
-    sail_service.add_possible_sail(yacht_id, req.sail_type, req.config)
-    return {"status": "ok"}
-
-@app.delete("/sails/possible/{yacht_id}/{sail_type}")
-def remove_possible_sail(yacht_id: int, sail_type: str):
-    return sail_service.remove_possible_sail(yacht_id, sail_type)
 
 @app.get("/sails/{yacht_id}/{sail_type}")
 def get_sail(yacht_id: int, sail_type: str):

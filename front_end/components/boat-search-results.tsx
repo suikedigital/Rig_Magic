@@ -35,7 +35,10 @@ export function BoatSearchResults({ query, boat_type }: BoatSearchResultsProps) 
   useEffect(() => {
     setLoading(true)
     const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL
-    fetch(`${apiBase}/yachts/search?query=${encodeURIComponent(query)}&boat_type=${encodeURIComponent(boat_type)}`)
+    console.log("[BoatSearchResults] API Base URL:", apiBase)
+    const searchUrl = `${apiBase}/yachts/search?query=${encodeURIComponent(query)}&boat_type=${encodeURIComponent(boat_type)}`
+    console.log("[BoatSearchResults] Fetching:", searchUrl)
+    fetch(searchUrl)
       .then(res => res.json())
       .then((data) => {
         if (Array.isArray(data)) {

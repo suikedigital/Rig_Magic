@@ -5,6 +5,7 @@ from back_end.models.saildata.models.saildata import SailData
 from back_end.models.sails.sail_service import SailService
 from back_end.models.ropes.models.rope_utils import normalize_rope_type
 import requests
+import threading
 
 SAILDATA_API_URL = "http://127.0.0.1:8001"
 SAILS_API_URL = "http://127.0.0.1:8002"
@@ -12,23 +13,27 @@ PROFILE_API_URL = "http://127.0.0.1:8003"
 HULL_API_URL = "http://127.0.0.1:8004"
 
 class RopeService:
+    _thread_local = threading.local()
     def __init__(self, db_path=ROPES_DB_PATH):
         self.db = RopeDatabase(db_path)
         self.sail_service = SailService()
 
     def _fetch_saildata(self, yacht_id):
+        # Use a thread-local cache to avoid repeated HTTP requests for the same yacht_id within a request
+        if not hasattr(self._thread_local, 'saildata_cache'):
+            self._thread_local.saildata_cache = {}
+        cache = self._thread_local.saildata_cache
+        if yacht_id in cache:
+            return cache[yacht_id]
         try:
             resp = requests.get(f"{SAILDATA_API_URL}/saildata/{yacht_id}", timeout=10)
             if resp.status_code == 200:
                 data = resp.json()
                 if data and isinstance(data, dict) and data.get("i") is not None:
+                    cache[yacht_id] = data
                     return data
-                else:
-                    print(f"[DEBUG] saildata API returned empty or invalid data for yacht_id={yacht_id}: {data}")
-            else:
-                print(f"[DEBUG] saildata API returned status {resp.status_code} for yacht_id={yacht_id}")
         except Exception as e:
-            print(f"[DEBUG] saildata API exception for yacht_id={yacht_id}: {e}")
+            pass  # Optionally log error
         return None
 
     def _fetch_sails(self, yacht_id):

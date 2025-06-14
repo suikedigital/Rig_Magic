@@ -83,8 +83,10 @@ def aggregate_yacht_data(yacht_id: int):
     try:
         if str(base_id) in ("0", "None", "", "null"):  # base yacht
             sails_url = f"{SAILS_API}/sails/possible/{yacht_id}"
+            ropes_url = f"{ROPES_API}/ropes/possible/{yacht_id}"
         else:
             sails_url = f"{SAILS_API}/sails/{yacht_id}"
+            ropes_url = f"{ROPES_API}/ropes/{yacht_id}"
         sails_resp = requests.get(sails_url)
         if sails_resp.ok:
             result["sails"] = sails_resp.json()
@@ -93,12 +95,38 @@ def aggregate_yacht_data(yacht_id: int):
         else:
             errors["sails"] = f"{sails_resp.status_code}: {sails_resp.text}"
             result["sails"] = []
+        # Fetch ropes (possible for base, full for user)
+        ropes_resp = requests.get(ropes_url)
+        if ropes_resp.ok:
+            result["ropes"] = ropes_resp.json()
+        elif ropes_resp.status_code == 404:
+            result["ropes"] = []
+        else:
+            errors["ropes"] = f"{ropes_resp.status_code}: {ropes_resp.text}"
+            result["ropes"] = []
     except Exception as e:
         errors["sails"] = str(e)
         result["sails"] = []
+        errors["ropes"] = str(e)
+        result["ropes"] = []
+    # Fetch saildata directly for frontend display
+    saildata_url = MICROSERVICES["saildata"].format(yacht_id=yacht_id)
+    try:
+        resp = requests.get(saildata_url)
+        if resp.ok:
+            result["saildata"] = resp.json()
+        elif resp.status_code == 404:
+            result["saildata"] = None
+        else:
+            errors["saildata"] = f"{resp.status_code}: {resp.text}"
+            result["saildata"] = None
+    except Exception as e:
+        errors["saildata"] = str(e)
+        result["saildata"] = None
+
     # Fetch other microservices as before
     for key, url_template in MICROSERVICES.items():
-        if key in ("profile", "sails"):  # already handled
+        if key in ("profile", "sails", "ropes", "saildata"):  # already handled or redundant
             continue
         url = url_template.format(yacht_id=yacht_id)
         try:
@@ -270,5 +298,27 @@ def create_profile(yacht_id: int, profile_data: dict):
         return resp.json()
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Internal error: {e}")
+
+@app.get("/sails/possible/{yacht_id}")
+def get_possible_sails_passthrough(yacht_id: int):
+    url = f"{SAILS_API}/sails/possible/{yacht_id}"
+    resp = requests.get(url)
+    if resp.ok:
+        return resp.json()
+    elif resp.status_code == 404:
+        return []
+    else:
+        raise HTTPException(status_code=resp.status_code, detail=resp.text)
+
+@app.get("/ropes/possible/{yacht_id}")
+def get_possible_ropes_passthrough(yacht_id: int):
+    url = f"{ROPES_API}/ropes/possible/{yacht_id}"
+    resp = requests.get(url)
+    if resp.ok:
+        return resp.json()
+    elif resp.status_code == 404:
+        return []
+    else:
+        raise HTTPException(status_code=resp.status_code, detail=resp.text)
 
 # --- End of yacht_api.py ---

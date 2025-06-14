@@ -2,15 +2,59 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import type { Rope } from "@/lib/types"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
-interface RopesTabProps {
-  ropes: Rope[]
+interface PossibleRope {
+  rope_type: string
 }
 
-export function RopesTab({ ropes }: RopesTabProps) {
-  // Group ropes by category
-  const runningRigging = ropes.filter((rope) => rope.category === "Running Rigging")
-  const controlLines = ropes.filter((rope) => rope.category === "Control Lines")
-  const dockingLines = ropes.filter((rope) => rope.category === "Docking Lines")
+interface RopesTabProps {
+  ropes: Rope[] | PossibleRope[]
+  isBaseYacht?: boolean
+}
+
+export function RopesTab({ ropes, isBaseYacht = false }: RopesTabProps) {
+  if (isBaseYacht) {
+    console.log("[RopesTab] isBaseYacht:", isBaseYacht, "ropes:", ropes)
+    return (
+      <div className="space-y-6 p-4">
+        <Card>
+          <CardHeader>
+            <CardTitle>Base Ropes Inventory</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Type</TableHead>
+                  {/* Optionally add Area or Length if available in the future */}
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {(ropes as PossibleRope[]).map((rope, index) => {
+                  // Insert space before 'Halyard' if present, and between camel case words
+                  let displayType = rope.rope_type
+                  displayType = displayType.replace(/([a-z])([A-Z])/g, '$1 $2')
+                  displayType = displayType.replace(/ Halyard$/, ' Halyard') // ensure space before Halyard
+                  return (
+                    <TableRow key={index}>
+                      <TableCell className="font-medium">{displayType}</TableCell>
+                    </TableRow>
+                  )
+                })}
+              </TableBody>
+            </Table>
+            <div className="mt-4 text-muted-foreground text-sm">
+              To see full rope details and add your own, <b>sign in and clone this boat</b>.
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
+
+  // Only cast to Rope[] for non-base yachts
+  const runningRigging = (ropes as Rope[]).filter((rope) => rope.category === "Running Rigging")
+  const controlLines = (ropes as Rope[]).filter((rope) => rope.category === "Control Lines")
+  const dockingLines = (ropes as Rope[]).filter((rope) => rope.category === "Docking Lines")
 
   return (
     <div className="space-y-6 p-4">
