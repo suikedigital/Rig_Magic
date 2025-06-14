@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import { fontFamily } from "tailwindcss/defaultTheme"; // Added import
 
 const config: Config = {
     darkMode: ["class"],
@@ -13,6 +14,7 @@ const config: Config = {
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
+        rigMagicBlue: '#22A2DA', // Added new color
   			card: {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'
@@ -67,6 +69,9 @@ const config: Config = {
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
   		},
+        fontFamily: { // Added for Poppins font
+            sans: ["var(--font-poppins)", ...fontFamily.sans],
+        },
   		keyframes: {
   			'accordion-down': {
   				from: {
@@ -83,11 +88,21 @@ const config: Config = {
   				to: {
   					height: '0'
   				}
-  			}
+  			},
+            'fade-in': { // Added for splash screen
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+            },
+            'fade-out': { // Added for splash screen
+                '0%': { opacity: '1' },
+                '100%': { opacity: '0' },
+            },
   		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
-  			'accordion-up': 'accordion-up 0.2s ease-out'
+  			'accordion-up': 'accordion-up 0.2s ease-out',
+            'fade-in': 'fade-in 0.5s ease-out forwards', // Added for splash screen
+            'fade-out': 'fade-out 0.5s ease-out forwards', // Added for splash screen
   		}
   	}
   },

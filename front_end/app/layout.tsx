@@ -9,7 +9,7 @@ import { fontSans } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import { Navigation } from "@/components/navigation"
 import AppInitializer from "@/components/app-initializer";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 
 export const metadata: Metadata = {
   title: "Rig Magic",
@@ -17,8 +17,11 @@ export const metadata: Metadata = {
   generator: "v0.dev",
 }
 
-
-const inter = Inter({ subsets: ["latin"] });
+const poppins = Poppins({
+  subsets: ["latin"], // Common subset
+  weight: ["300", "400", "500", "600", "700"], // Choose the weights you'll use
+  variable: "--font-poppins", // Creates a CSS variable `--font-poppins`
+});
 
 export default function RootLayout({
   children,
@@ -27,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
+      <body className={cn("min-h-screen bg-background font-sans antialiased", poppins.variable)}>
         <AuthProvider>
           <CartProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>

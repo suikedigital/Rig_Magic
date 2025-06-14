@@ -52,8 +52,7 @@ export default function AppInitializer({ children }: AppInitializerProps) {
         minDisplayTime={2000}    // Show for at least 2 seconds
         maxDisplayTime={10000}   // Timeout after 10 seconds
         onComplete={handleSplashComplete}
-        showDebugInfo={process.env.NODE_ENV === 'development'} // Show debug only in dev
-        themeDetection="auto" // Or your preferred method
+        showDebugInfo={process.env.NODE_ENV === 'development'} // Show debug info only in development
       />
     );
   }
