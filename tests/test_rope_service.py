@@ -1,4 +1,4 @@
-from models.ropes_rigging.rope_service import RopeService
+from models.ropes.rope_service import RopeService
 from models.saildata.saildata_service import SailDataService
 from models.sails.sail_service import SailService
 

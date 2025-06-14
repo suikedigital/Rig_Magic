@@ -1,4 +1,4 @@
-from models.hull_structure.hull_structure_service import HullStructureService
+from models.hull_structure.service import HullStructureService
 
 hullstructureservice = HullStructureService()
 

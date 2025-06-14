@@ -1,4 +1,4 @@
-from models.rig.rig_service import RigService
+from models.rig.service import RigService
 
 # Instantiate the service
 rig_service = RigService()

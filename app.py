@@ -1,51 +1,110 @@
 """
-Main entry point for the yacht running rigging and sail management system.
+Main entry point for the yacht management system.
 
-This script demonstrates how to create a yacht, configure its sail wardrobe and running rigging,
-override sail and rope configurations, and generate all sails and ropes using the registry system.
-It also shows how to use the RopeConstructionType enum for robust rope construction overrides.
+This script provides a command-line interface for users to search for base yachts,
+create their own yachts from base yachts, and view or modify their yacht profiles.
+It uses the orchestration Services class to manage all yacht data.
 
 Example usage:
     $ python app.py
 """
 
-from models.yacht.yacht import Yacht
-from models.registry.rope_registry import ROPE_REGISTRY
-from models.sails.sail_registry import SAIL_REGISTRY
-from models.ropes_rigging.components.rope_construction import RopeConstructionType
+from back_end.orchestration.services import Services
+
+
+def main_menu():
+    print("\nYacht Management System")
+    print("1. Search for a base yacht")
+    print("2. Create your own yacht from a base yacht")
+    print("3. View or modify your yacht")
+    print("4. Exit")
+    return input("Choose an option: ")
+
+
+def search_base_yachts(services):
+    print("\nAvailable Base Yachts:")
+    yachts = []
+    # For demo, just list all base yachts (base_id is None)
+    for yid in range(1, 100):
+        row, columns = services.profile_service.db.get_by_yacht_id(yid)
+        if row:
+            yacht = services.profile_service.db.get_by_yacht_id(yid)[0]
+            if yacht and columns[columns.index('base_id')] is None:
+                yachts.append((yid, row, columns))
+    if not yachts:
+        print("No base yachts found.")
+        return None
+    for yid, row, columns in yachts:
+        profile = services.profile_service.get_profile(yid)
+        print(f"ID: {profile.yacht_id} | Class: {profile.yacht_class} | Model: {profile.model} | Designer: {profile.designer}")
+    return yachts
+
+
+def create_user_yacht(services, user_id):
+    base_yachts = search_base_yachts(services)
+    if not base_yachts:
+        return
+    base_id = int(input("Enter the ID of the base yacht to use: "))
+    base_profile = services.profile_service.get_profile(base_id)
+    if not base_profile:
+        print("Base yacht not found.")
+        return
+    new_yacht_id = int(input("Enter a new yacht ID for your yacht: "))
+    user_profile = type(base_profile)(
+        yacht_id=new_yacht_id,
+        base_id=base_profile.yacht_id,
+        yacht_class=base_profile.yacht_class,
+        model=base_profile.model,
+        version=base_profile.version,
+        builder=base_profile.builder,
+        designer=base_profile.designer,
+        year_introduced=base_profile.year_introduced,
+        production_start=base_profile.production_start,
+        production_end=base_profile.production_end,
+        country_of_origin=base_profile.country_of_origin,
+        notes=(base_profile.notes or "") + f" (User {user_id})"
+    )
+    services.profile_service.save_profile(user_profile)
+    print(f"Created your yacht with ID {new_yacht_id} based on base yacht {base_id}.")
+    # TODO: Call other services to initialize hull, rig, sails, etc.
+
+
+def view_or_modify_yacht(services, user_id):
+    yacht_id = int(input("Enter your yacht ID: "))
+    profile = services.profile_service.get_profile(yacht_id)
+    if not profile:
+        print("Yacht not found.")
+        return
+    print(f"\nYour Yacht Profile:")
+    for k, v in profile.__dict__.items():
+        print(f"{k}: {v}")
+    print("\n1. Modify notes\n2. Back")
+    choice = input("Choose an option: ")
+    if choice == "1":
+        new_notes = input("Enter new notes: ")
+        profile.notes = new_notes
+        services.profile_service.save_profile(profile)
+        print("Notes updated.")
 
 
 def main():
-    try:
-        # Create a yacht with basic dimensions
-        yacht = Yacht(i=20.0, j=5, p=11.0, e=3.5, boom_above_deck=1.0, boat_length=8.0)
+    user_id = input("Enter your user ID: ")
+    services = Services()
+    while True:
+        choice = main_menu()
+        if choice == "1":
+            search_base_yachts(services)
+        elif choice == "2":
+            create_user_yacht(services, user_id)
+        elif choice == "3":
+            view_or_modify_yacht(services, user_id)
+        elif choice == "4":
+            print("Goodbye!")
+            break
+        else:
+            print("Invalid choice.")
+    services.profile_service.close()
 
-        # --- SailWardrobe Example ---
-        yacht.sailwardrobe.add_sail_type("Mainsail")
-        yacht.sailwardrobe.add_sail_type("Genoa")
-        yacht.sailwardrobe.add_sail_type("Jib")
-        yacht.sailwardrobe.add_sail_type("AsymSpinnaker")
-        # User can override any dimension if desired:
-        yacht.sailwardrobe.set_sail_config("Genoa", {"luff": 15.2, "foot": 5.1})
-        yacht.sailwardrobe.generate_sails(SAIL_REGISTRY)
-        print("\n--- Generated Sails ---\n")
-        for sail_type, sail in yacht.sailwardrobe.sails.items():
-            print(f"{sail_type}: luff={sail.luff}, foot={sail.foot}, leech={sail.leech}, area={sail.area():.2f} m^2")
-
-        # --- Running Rigging Example ---
-        yacht.running_rigging.add_rope_type("MainHalyard", led_aft=True)
-        yacht.running_rigging.add_rope_and_sheet("GenoaHalyard", led_aft=True)
-        yacht.running_rigging.add_rope_and_sheet("SpinnakerHalyard", led_aft=True)
-        # Use the new construction_type enum for overrides
-        yacht.running_rigging.set_rope_config("MainHalyard", {"construction_type": RopeConstructionType.DYNEEMA_BRAID, "colour": "Red"})
-        yacht.running_rigging.set_rope_config("GenoaSheet_Port", {"colour": "Blue", "construction_type": RopeConstructionType.BRAID_BRAID})
-        yacht.running_rigging.generate_ropes(ROPE_REGISTRY)
-        print("\n--- Generated Running Rigging ---\n")
-        for rope_type, rope in yacht.running_rigging.ropes.items():
-            print(f"{rope_type}:\n{rope}\n")
-
-    except Exception as e:
-        print(f"Error: {e}")
 
 if __name__ == "__main__":
     main()

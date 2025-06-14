@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  yacht_orchestrator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: yacht_orchestrator
+    command: uvicorn back_end.models.yacht.yacht_api:app --host 0.0.0.0 --port 8050
+    ports:
+      - "8050:8050"
+    volumes:
+      - ./back_end/models/yacht/:/app/back_end/models/yacht/
+      - ./back_end/models/profile/:/app/back_end/models/profile/
+      - ./back_end/data/:/app/back_end/data/
+    depends_on:
+      - profile
+      - ropes
+      - sails
+      - hull_structure
+      - saildata
+
+  profile:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: profile
+    command: uvicorn back_end.models.profile.profile_api:app --host 0.0.0.0 --port 8003
+    ports:
+      - "8003:8003"
+    volumes:
+      - ./back_end/models/profile/:/app/back_end/models/profile/
+      - ./back_end/data/:/app/back_end/data/
+
+  ropes:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ropes
+    command: uvicorn back_end.models.ropes.ropes_api:app --host 0.0.0.0 --port 8010
+    ports:
+      - "8010:8010"
+    volumes:
+      - ./back_end/models/ropes/:/app/back_end/models/ropes/
+      - ./back_end/data/:/app/back_end/data/
+
+  sails:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sails
+    command: uvicorn back_end.models.sails.sails_api:app --host 0.0.0.0 --port 8020
+    ports:
+      - "8020:8020"
+    volumes:
+      - ./back_end/models/sails/:/app/back_end/models/sails/
+      - ./back_end/data/:/app/back_end/data/
+
+  hull_structure:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hull_structure
+    command: uvicorn back_end.models.hull_structure.hull_structure_api:app --host 0.0.0.0 --port 8004
+    ports:
+      - "8004:8004"
+    volumes:
+      - ./back_end/models/hull_structure/:/app/back_end/models/hull_structure/
+      - ./back_end/data/:/app/back_end/data/
+
+  saildata:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: saildata
+    command: uvicorn back_end.models.saildata.saildata_api:app --host 0.0.0.0 --port 8001
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./back_end/models/saildata/:/app/back_end/models/saildata/
+      - ./back_end/data/:/app/back_end/data/

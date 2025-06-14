@@ -1,12 +1,12 @@
-from models.yacht.models.yacht_profile import YachtProfile
+from models.profile.models.yacht_profile import YachtProfile
 
 
-from models.hull_structure.hull_structure_service import HullStructureService
+from models.hull_structure.service import HullStructureService
 from models.saildata.saildata_service import SailDataService
 from models.sails.sail_service import SailService
 from models.settings.settings_service import SettingsService
-from models.ropes_rigging.rope_service import RopeService
-from models.rig.rig_service import RigService
+from models.ropes.rope_service import RopeService
+from models.rig.service import RigService
 
 
 hullservice = HullStructureService()
