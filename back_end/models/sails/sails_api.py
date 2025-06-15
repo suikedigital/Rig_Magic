@@ -73,3 +73,8 @@ def get_aero_force(yacht_id: int, sail_type: str, wind_speed: float):
     if force is None:
         raise HTTPException(status_code=404, detail="Sail or force not found")
     return {"aero_force": force}
+
+@app.delete("/sails/{yacht_id}")
+def delete_sails(yacht_id: int):
+    sail_service.delete_sails_by_yacht(yacht_id)
+    return {"status": "ok"}

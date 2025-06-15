@@ -36,3 +36,8 @@ def get_saildata(yacht_id: int):
 def list_ids():
     return saildata_service.db.list_yacht_ids()
 
+@app.delete("/saildata/{yacht_id}")
+def delete_saildata(yacht_id: int):
+    saildata_service.delete_saildata_by_yacht(yacht_id)
+    return {"status": "ok"}
+

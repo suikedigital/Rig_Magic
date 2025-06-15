@@ -5,7 +5,7 @@ Central API for orchestrating yacht creation, updates, and aggregation across al
 """
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List, Union
 import requests
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -27,12 +27,10 @@ app.add_middleware(
 )
 
 # --- Models ---
-class YachtCreateRequest(BaseModel):
-    yacht_id: int
-    base_yacht: Optional[Dict[str, Any]] = None
-    saildata: Optional[Dict[str, Any]] = None
-    hull: Optional[Dict[str, Any]] = None
-    profile: Optional[Dict[str, Any]] = None
+class KeelCreateRequest(BaseModel):
+    keel_type: str
+    draft: float
+    base_id: Optional[int] = None
 
 class RopeTypeRequest(BaseModel):
     yacht_id: int
@@ -45,10 +43,20 @@ class SailTypeRequest(BaseModel):
     sail_type: str
     config: dict = None
 
-class KeelCreateRequest(BaseModel):
-    keel_type: str
-    draft: float
-    base_id: Optional[int] = None
+class YachtCreateRequest(BaseModel):
+    yacht_id: Optional[int] = None
+    base_yacht: Optional[Dict[str, Any]] = None
+    profile: Optional[Dict[str, Any]] = None
+    hull: Optional[Dict[str, Any]] = None
+    keel: Optional[Dict[str, Any]] = None
+    rudder: Optional[Dict[str, Any]] = None
+    saildata: Optional[Dict[str, Any]] = None
+    rig: Optional[Dict[str, Any]] = None
+    possible_sails: Optional[List[Union[str, Dict[str, Any]]]] = None
+    possible_ropes: Optional[List[Union[str, Dict[str, Any]]]] = None
+    sails: Optional[List[Dict[str, Any]]] = None
+    ropes: Optional[List[Dict[str, Any]]] = None
+    # Add more as needed
 
 # --- Microservice Registry ---
 MICROSERVICES = {
@@ -187,35 +195,85 @@ def search_yachts(query: str = ""):
 # --- CRUD Endpoints ---
 @app.post("/yachts/create")
 def create_yacht(req: YachtCreateRequest):
-    if req.hull:
-        try:
-            r = requests.post(f"{HULL_API}/hull/create", json=req.hull)
-            r.raise_for_status()
-        except Exception as e:
-            raise HTTPException(status_code=500, detail=f"Hull creation failed: {e}")
-    if req.saildata:
-        try:
-            r = requests.post(f"{SAILDATA_API}/saildata/create", json=req.saildata)
-            r.raise_for_status()
-        except Exception as e:
-            raise HTTPException(status_code=500, detail=f"Saildata creation failed: {e}")
-    try:
-        r = requests.post(f"{SAILS_API}/sails/generate", json={"yacht_id": req.yacht_id})
-        r.raise_for_status()
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Sails generation failed: {e}")
-    try:
-        r = requests.post(f"{ROPES_API}/ropes/generate", json={"yacht_id": req.yacht_id})
-        r.raise_for_status()
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Ropes generation failed: {e}")
+    # Auto-increment yacht_id if not provided
+    if req.yacht_id is None:
+        # This is a simple example; in production, use a DB sequence or atomic counter
+        import sqlite3
+        conn = sqlite3.connect("back_end/data/settings.db")
+        c = conn.cursor()
+        c.execute("CREATE TABLE IF NOT EXISTS yacht_id_counter (id INTEGER PRIMARY KEY AUTOINCREMENT)")
+        c.execute("INSERT INTO yacht_id_counter DEFAULT VALUES")
+        conn.commit()
+        c.execute("SELECT last_insert_rowid()")
+        yacht_id = c.fetchone()[0]
+        conn.close()
+    else:
+        yacht_id = req.yacht_id
+
+    # Save profile
     if req.profile:
-        try:
-            r = requests.post(f"{PROFILE_API}/profile/create", json=req.profile)
+        profile = dict(req.profile)
+        profile["yacht_id"] = yacht_id
+        r = requests.post(f"{PROFILE_API}/profile/", json=profile)
+        r.raise_for_status()
+    # Save hull
+    if req.hull:
+        hull = dict(req.hull)
+        hull["yacht_id"] = yacht_id
+        r = requests.post(f"{HULL_API}/hull/hull", json=hull)
+        r.raise_for_status()
+    # Save keel
+    if req.keel:
+        keel = dict(req.keel)
+        keel["yacht_id"] = yacht_id
+        r = requests.post(f"{HULL_API}/hull/keel", json=keel)
+        r.raise_for_status()
+    # Save rudder
+    if req.rudder:
+        rudder = dict(req.rudder)
+        rudder["yacht_id"] = yacht_id
+        r = requests.post(f"{HULL_API}/hull/rudder", json=rudder)
+        r.raise_for_status()
+    # Save saildata
+    if req.saildata:
+        saildata = dict(req.saildata)
+        saildata["yacht_id"] = yacht_id
+        r = requests.post(f"{SAILDATA_API}/saildata/", json=saildata)
+        r.raise_for_status()
+    # Save rig
+    if req.rig:
+        rig = dict(req.rig)
+        rig["yacht_id"] = yacht_id
+        # TODO: Add rig microservice endpoint if available
+        # r = requests.post(f"{RIG_API}/rig/", json=rig)
+        # r.raise_for_status()
+    # Save possible sails
+    if req.possible_sails:
+        for sail in req.possible_sails:
+            sail_type = sail["sail_type"] if isinstance(sail, dict) else sail
+            r = requests.post(f"{SAILS_API}/sails/possible/{yacht_id}", json={"sail_type": sail_type})
             r.raise_for_status()
-        except Exception as e:
-            raise HTTPException(status_code=500, detail=f"Profile creation failed: {e}")
-    return {"status": "ok", "message": f"Yacht {req.yacht_id} created and orchestrated."}
+    # Save possible ropes
+    if req.possible_ropes:
+        for rope in req.possible_ropes:
+            rope_type = rope["rope_type"] if isinstance(rope, dict) else rope
+            r = requests.post(f"{ROPES_API}/ropes/possible/{yacht_id}", json={"rope_type": rope_type})
+            r.raise_for_status()
+    # Save sails
+    if req.sails:
+        for sail in req.sails:
+            sail_data = dict(sail)
+            sail_data["yacht_id"] = yacht_id
+            r = requests.post(f"{SAILS_API}/sails/add_sail_type", json=sail_data)
+            r.raise_for_status()
+    # Save ropes
+    if req.ropes:
+        for rope in req.ropes:
+            rope_data = dict(rope)
+            rope_data["yacht_id"] = yacht_id
+            r = requests.post(f"{ROPES_API}/ropes/add_rope_type", json=rope_data)
+            r.raise_for_status()
+    return {"status": "ok", "yacht_id": yacht_id, "message": f"Yacht {yacht_id} created and orchestrated."}
 
 @app.get("/yachts/{yacht_id}")
 def get_yacht(yacht_id: int):

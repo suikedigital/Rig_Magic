@@ -91,8 +91,8 @@ def delete_rope(yacht_id: int, rope_type: str):
 
 @app.delete("/ropes/{yacht_id}")
 def delete_ropes(yacht_id: int):
-    # Not implemented in RopeDatabase, placeholder for future
-    raise HTTPException(status_code=501, detail="Delete not implemented yet")
+    rope_service.delete_ropes_by_yacht(yacht_id)
+    return {"status": "ok"}
 
 @app.post("/ropes/set_rope_config")
 def set_rope_config(req: RopeRequest):

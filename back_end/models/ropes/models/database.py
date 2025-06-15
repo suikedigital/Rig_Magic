@@ -120,6 +120,12 @@ class RopeDatabase:
             # Normalize all rope_type values on load
             return [(normalize_rope_type(row[0]), row[1]) for row in cursor.fetchall()]
 
+    def delete_ropes_by_yacht(self, yacht_id):
+        with sqlite3.connect(self.db_path) as conn:
+            cursor = conn.cursor()
+            cursor.execute("DELETE FROM ropes WHERE yacht_id = ?", (yacht_id,))
+            conn.commit()
+
     def delete_possible_ropes(self, yacht_id):
         with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()

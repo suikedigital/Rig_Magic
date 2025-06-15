@@ -71,5 +71,8 @@ class SailDataService:
         cache[yacht_id] = result
         return result
 
+    def delete_saildata_by_yacht(self, yacht_id):
+        self.db.delete_saildata_by_yacht(yacht_id)
+
     def close(self):
         self.db.close()

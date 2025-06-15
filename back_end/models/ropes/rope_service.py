@@ -96,6 +96,10 @@ class RopeService:
         factory = self._get_factory(yacht_id, **kwargs)
         return factory.get(rope_type)
 
+    def delete_ropes_by_yacht(self, yacht_id):
+        self.db.delete_ropes_by_yacht(yacht_id)
+        self.db.delete_possible_ropes(yacht_id)
+
     def close(self):
         self.db.close()
         print("Rope database connection closed.")

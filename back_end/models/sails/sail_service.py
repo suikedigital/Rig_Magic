@@ -1,13 +1,27 @@
-from back_end.models.sails.config import SAILS_DB_PATH
+import requests
+from back_end.models.sails.config import SAILS_DB_PATH, SAILDATA_API_URL
 from back_end.models.sails.models.sail_factory import SailFactory, SailType
 from back_end.models.sails.models.database import Database
-from back_end.models.saildata.saildata_service import SailDataService
 from back_end.models.sails.models.sail_utils import normalize_sail_type
 
 class SailService:
     def __init__(self, db_path=SAILS_DB_PATH):
         self.db = Database(db_path)
-        self.saildata_service = SailDataService()
+
+    def _fetch_saildata_http(self, yacht_id):
+        url = f"{SAILDATA_API_URL}/saildata/{yacht_id}"
+        print(f"[DEBUG] Fetching saildata via HTTP: {url}")
+        try:
+            resp = requests.get(url, timeout=5)
+            if resp.status_code == 200:
+                data = resp.json()
+                print(f"[DEBUG] saildata HTTP response: {data}")
+                return data
+            else:
+                print(f"[DEBUG] saildata HTTP error: {resp.status_code} {resp.text}")
+        except Exception as e:
+            print(f"[DEBUG] saildata HTTP exception: {e}")
+        return None
 
     def initialize_from_base(self, yacht_id, base_yacht):
         if base_yacht.mainsail is True:
@@ -32,7 +46,9 @@ class SailService:
         print(f"Sails initialized for yacht {yacht_id} based on base yacht {base_yacht.id}.")
         
     def _get_factory(self, yacht_id):
-        saildata = self.saildata_service.get_saildata(yacht_id)
+        print(f"[DEBUG] _get_factory called for yacht_id={yacht_id}")
+        saildata = self._fetch_saildata_http(yacht_id)
+        print(f"[DEBUG] _fetch_saildata_http({yacht_id}) returned: {saildata}")
         if saildata is None:
             raise ValueError(f"No saildata found for yacht_id={yacht_id}. Cannot create SailFactory.")
         return SailFactory(saildata, yacht_id)
@@ -93,7 +109,12 @@ class SailService:
             return None
 
     def get_possible_sails(self, yacht_id):
-        factory = self._get_factory(yacht_id)
+        print(f"[DEBUG] get_possible_sails called for yacht_id={yacht_id}")
+        try:
+            factory = self._get_factory(yacht_id)
+        except Exception as e:
+            print(f"[DEBUG] Exception in get_possible_sails for yacht_id={yacht_id}: {e}")
+            raise
         factory.load_possible_sails_from_db()
         # Return a list of dicts with type and config (minimal info for overview)
         result = []
@@ -134,3 +155,7 @@ class SailService:
         factory = self._get_factory(yacht_id)
         factory.load_possible_sails_from_db()
         return self.get_possible_sails(yacht_id)
+
+    def delete_sails_by_yacht(self, yacht_id):
+        self.db.delete_sails_by_yacht(yacht_id)
+        self.db.delete_possible_sails(yacht_id)
