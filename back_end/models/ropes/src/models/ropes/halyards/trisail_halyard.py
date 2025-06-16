@@ -12,6 +12,7 @@ from .base_halyard import Halyard
 from ...components.termination import Termination
 from ...components.rope_construction import RopeConstructionType
 
+
 class TrisailHalyard(Halyard):
     default_upper_termination = Termination(term_type="Covered Splice", hardware="Shackle")
     default_lower_termination = Termination(term_type="Pull Through Whipping", hardware=None)
@@ -64,11 +65,11 @@ class TrisailHalyard(Halyard):
         self.halyard_load_safety_factor = halyard_load_safety_factor
         self.dynamic_load_safety_factor = dynamic_load_safety_factor
         self.led_aft = led_aft
-        self.length_safety_margin = length_safety_margin 
+        self.length_safety_margin = length_safety_margin
         self.construction_type = construction_type
         if diameter is None:
             diameter = self.calc_diameter(HALYARD_TO_SAIL, wind_speed_in_knots)
-        
+
         length = self.calc_length(saildata, led_aft, self.length_safety_margin) if length is None else length
 
         super().__init__(

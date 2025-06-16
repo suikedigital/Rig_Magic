@@ -23,7 +23,6 @@ Classes:
     BaseHalyard: Abstract base class for halyard ropes.
 """
 
-from typing import Optional
 from math import radians, sin
 
 from ..rope import Rope
@@ -51,8 +50,9 @@ class Halyard(Rope, ABC):
         **kwargs: Additional keyword arguments for extensibility.
     """
     halyard_angle_deg = 15  # Default angle, can be overridden in subclasses
-    def __init__(self, yacht_id, construction_type: RopeConstructionType, diameter: int, length: float, 
-                 halyard_load_safety_factor: float, dynamic_load_safety_factor: float, sail_service, colour: str = None, 
+
+    def __init__(self, yacht_id, construction_type: RopeConstructionType, diameter: int, length: float,
+                 halyard_load_safety_factor: float, dynamic_load_safety_factor: float, sail_service, colour: str = None,
                  upper_termination: Termination = None, lower_termination: Termination = None, **kwargs):
         """
         Base class for halyard ropes.
@@ -65,7 +65,7 @@ class Halyard(Rope, ABC):
             lower_termination (Termination, optional): Lower end termination.
             length (float): Rope length in meters.
         """
-        
+
         self.yacht_id = yacht_id
         self.halyard_angle_deg = getattr(self, 'halyard_angle_deg', 15)
         self.construction_type = construction_type
@@ -78,7 +78,8 @@ class Halyard(Rope, ABC):
         self.sail_service = sail_service
         if 'length' in kwargs:
             kwargs.pop('length')
-        super().__init__(yacht_id=yacht_id, construction_type=construction_type, diameter=diameter, length=length, colour=colour, upper_termination=upper_termination, lower_termination=lower_termination, **kwargs)
+        super().__init__(yacht_id=yacht_id, construction_type=construction_type, diameter=diameter, length=length,
+                         colour=colour, upper_termination=upper_termination, lower_termination=lower_termination, **kwargs)
 
     def __str__(self):
         return (

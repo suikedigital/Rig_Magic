@@ -59,7 +59,7 @@ class MainHalyard(Halyard):
         self.length = self.calc_length(saildata)
         self.diameter = self.calc_diameter(HALYARD_TO_SAIL, wind_speed_in_knots)
         self.sync_construction_diameter()
-        
+
     def calc_length(self, saildata) -> float:
         """
         Calculate the length of the main halyard.

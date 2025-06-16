@@ -19,6 +19,9 @@ class Trimaran:
         print(f"Beam Width: {self.beam_width} meters")
         print(f"Draft Depth: {self.draft_depth} meters")
 
+    def __str__(self):
+        return f"Trimaran: {self.name}"
+
 
 # Add 2 blank lines before each top-level function/class as per E302
 
