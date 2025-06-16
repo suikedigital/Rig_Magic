@@ -1,6 +1,4 @@
-# hulls/base.py
 from abc import ABC, abstractmethod
-from enum import Enum
 
 
 class BaseHull(ABC):
@@ -9,12 +7,12 @@ class BaseHull(ABC):
     """
 
     def __init__(self, yacht_id, loa: int, lwl: int, beam: int, displacement: int, ballast: int, construction: str):
-        self.yacht_id = yacht_id  # Unique identifier for the yacht
-        self.loa = loa  # LOA (Length Overall) mm
-        self.lwl = lwl # LWL (Length Waterline) mm
-        self.beam = beam      # Beam (width) mm
-        self.displacement = displacement # Displacement (weight) kg
-        self.ballast = ballast # Ballast weight (kg)
+        self.yacht_id = yacht_id                # Unique identifier for the yacht
+        self.loa = loa                          # LOA (Length Overall) mm
+        self.lwl = lwl                          # LWL (Length Waterline) mm
+        self.beam = beam                        # Beam (width) mm
+        self.displacement = displacement        # Displacement (weight) kg
+        self.ballast = ballast                  # Ballast weight (kg)
         self.construction = construction
 
     @abstractmethod

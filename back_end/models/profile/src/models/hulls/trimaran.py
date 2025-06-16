@@ -2,6 +2,8 @@
 
 
 class Trimaran:
+    pass
+
     def __init__(self, hull_length, beam_width, draft_depth):
         self.hull_length = hull_length
         self.beam_width = beam_width

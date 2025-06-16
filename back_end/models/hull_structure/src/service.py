@@ -1,10 +1,5 @@
 from .config import HULL_STRUCTURE_DB_PATH
-from .models.keel import Keel
-from .models.rudder import Rudder
 
-from .models.hulls.catamaran import Catamaran
-from .models.hulls.monohull import Monohull
-from .models.hulls.trimaran import Trimaran
 from .models.factory import HullStructureFactory
 
 
@@ -23,7 +18,7 @@ class HullStructureService:
     def save_keel(self, yacht_id, keel_type, draft, base_id=None):
         from .models.database import KeelDatabase
         db = KeelDatabase(self.db_path)
-        db.delete_keel_by_yacht(yacht_id)  # Ensure only one keel per yacht
+        db.delete_keel_by_yacht(yacht_id)       # Ensure only one keel per yacht
         db.save_keel(yacht_id, base_id, keel_type, draft)
         db.close()
 
@@ -96,3 +91,4 @@ class HullStructureService:
         KeelDatabase(self.db_path).delete_keel_by_yacht(yacht_id)
         RudderDatabase(self.db_path).delete_rudder_by_yacht(yacht_id)
         HullDatabase(self.db_path).delete_hull_by_yacht(yacht_id)
+        

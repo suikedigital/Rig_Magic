@@ -1,6 +1,7 @@
 import sqlite3
 from ..config import HULL_STRUCTURE_DB_PATH
 
+
 class KeelDatabase:
     def __init__(self, db_path=HULL_STRUCTURE_DB_PATH):
         self.conn = sqlite3.connect(db_path)
@@ -33,6 +34,7 @@ class KeelDatabase:
     def close(self):
         self.conn.close()
 
+
 class RudderDatabase:
     def __init__(self, db_path=HULL_STRUCTURE_DB_PATH):
         self.conn = sqlite3.connect(db_path)
@@ -63,6 +65,7 @@ class RudderDatabase:
 
     def close(self):
         self.conn.close()
+
 
 class HullDatabase:
     def __init__(self, db_path=HULL_STRUCTURE_DB_PATH):

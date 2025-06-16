@@ -4,6 +4,7 @@ from .hulls.monohull import Monohull
 from .hulls.catamaran import Catamaran
 from .hulls.trimaran import Trimaran
 
+
 class HullStructureFactory:
     @staticmethod
     def create_keel(yacht_id, keel_type, draft):
@@ -23,3 +24,4 @@ class HullStructureFactory:
         if hull_type == "catamaran":
             return Catamaran(yacht_id, loa, lwl, beam, displacement, ballast, construction="GRP")
         raise ValueError(f"Unknown hull type: {hull_type}")
+    

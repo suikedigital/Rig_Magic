@@ -6,6 +6,7 @@ class YachtProfileDatabase:
     def __init__(self, db_path=PROFILE_DB_PATH):
         self.db_path = db_path
         self.create_table()
+ 
 
     def create_table(self):
         with sqlite3.connect(self.db_path) as conn:

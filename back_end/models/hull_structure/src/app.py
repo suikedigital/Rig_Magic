@@ -7,16 +7,19 @@ from .service import HullStructureService
 app = FastAPI()
 hull_service = HullStructureService()
 
+
 class KeelRequest(BaseModel):
     yacht_id: int
     keel_type: str
     draft: float
     base_id: Optional[int] = None
 
+
 class RudderRequest(BaseModel):
     yacht_id: int
     rudder_type: str
     base_id: Optional[int] = None
+
 
 class HullRequest(BaseModel):
     yacht_id: int
@@ -29,6 +32,7 @@ class HullRequest(BaseModel):
     construction: Optional[str] = None  # <-- Add this line
     base_id: Optional[int] = None
 
+
 @app.post("/hull/keel")
 def add_keel(req: KeelRequest):
     hull_service.save_keel(req.yacht_id, req.keel_type, req.draft, req.base_id)
@@ -38,12 +42,14 @@ def add_keel(req: KeelRequest):
         raise HTTPException(status_code=500, detail="Keel save failed")
     return {"status": "ok", "keel": keel.__dict__}
 
+
 @app.get("/hull/keel/{yacht_id}")
 def get_keel(yacht_id: int):
     keel = hull_service.get_keel(yacht_id)
     if not keel:
         raise HTTPException(status_code=404, detail="Keel not found")
     return keel.__dict__
+
 
 @app.post("/hull/rudder")
 def add_rudder(req: RudderRequest):
@@ -54,6 +60,7 @@ def add_rudder(req: RudderRequest):
         raise HTTPException(status_code=500, detail="Rudder save failed")
     return {"status": "ok", "rudder": rudder.__dict__}
 
+
 @app.get("/hull/rudder/{yacht_id}")
 def get_rudder(yacht_id: int):
     rudder = hull_service.get_rudder(yacht_id)
@@ -61,10 +68,12 @@ def get_rudder(yacht_id: int):
         raise HTTPException(status_code=404, detail="Rudder not found")
     return rudder.__dict__
 
+
 @app.post("/hull/hull")
 def add_hull(req: HullRequest):
     hull_service.save_hull(req)
     return {"status": "ok"}
+
 
 @app.get("/hull/{yacht_id}")
 def get_hull(yacht_id: int):
@@ -73,10 +82,12 @@ def get_hull(yacht_id: int):
         raise HTTPException(status_code=404, detail="Hull not found")
     return hull
 
+
 @app.delete("/hull/{yacht_id}")
 def delete_all(yacht_id: int):
     hull_service.delete_all_by_yacht(yacht_id)
     return {"status": "deleted"}
+
 
 @app.delete("/hull/keel/{yacht_id}")
 def delete_keel(yacht_id: int):
@@ -86,6 +97,7 @@ def delete_keel(yacht_id: int):
     db.delete_keel_by_yacht(yacht_id)
     db.close()
     return {"status": "deleted"}
+
 
 @app.delete("/hull/rudder/{yacht_id}")
 def delete_rudder(yacht_id: int):

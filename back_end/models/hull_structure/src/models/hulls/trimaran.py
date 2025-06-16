@@ -1,5 +1,5 @@
-# hulls/trimaran.py
 from .base import BaseHull
+
 
 class Trimaran(BaseHull):
     def __init__(self, yacht_id, loa: int, lwl: int, beam: int, displacement: int, ballast: int, construction: str):

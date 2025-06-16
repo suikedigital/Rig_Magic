@@ -9,3 +9,4 @@ class Keel:
             "keel_type": self.keel_type,
             "draft": self.draft,
         }
+    

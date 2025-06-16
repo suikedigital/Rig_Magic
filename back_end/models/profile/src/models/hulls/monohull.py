@@ -14,3 +14,7 @@ class MonoHull:
 
 def some_top_level_function():
     pass
+
+
+class Monohull:
+    pass
