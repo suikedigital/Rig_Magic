@@ -9,9 +9,9 @@ Handles SQLite database integration for rope storage and retrieval in the runnin
 """
 
 import sqlite3
-from pathlib import Path
 from config import ROPES_DB_PATH
 from .rope_utils import normalize_rope_type
+
 
 class RopeDatabase:
     def __init__(self, db_path=ROPES_DB_PATH):

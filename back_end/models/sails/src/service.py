@@ -1,11 +1,12 @@
 import requests
 from config import SAILS_DB_PATH, SAILDATA_API_URL
-from .models.sail_factory import SailFactory, SailType
+from .models.sail_factory import SailFactory
 from .models.database import Database
 from .models.sail_utils import normalize_sail_type
 from back_end.logger import get_logger
 
 logger = get_logger(__name__)
+
 
 class SailService:
     def __init__(self, db_path=SAILS_DB_PATH):
@@ -47,7 +48,7 @@ class SailService:
             self.add_sail_type(yacht_id, "storm_jib")
         self.generate_sails(yacht_id)
         print(f"Sails initialized for yacht {yacht_id} based on base yacht {base_yacht.id}.")
-        
+
     def _get_factory(self, yacht_id):
         logger.debug(f"[DEBUG] _get_factory called for yacht_id={yacht_id}")
         saildata = self._fetch_saildata_http(yacht_id)
@@ -162,4 +163,3 @@ class SailService:
     def delete_sails_by_yacht(self, yacht_id):
         self.db.delete_sails_by_yacht(yacht_id)
         self.db.delete_possible_sails(yacht_id)
-# Ensure requests is in requirements.txt

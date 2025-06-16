@@ -2,6 +2,7 @@
 Rope utilities for normalization and mapping.
 """
 
+
 def normalize_rope_type(rope_type):
     """
     Normalize any rope type input (enum, string, etc.) to the canonical registry key.

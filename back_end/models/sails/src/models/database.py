@@ -2,6 +2,7 @@ import sqlite3
 from config import SAILS_DB_PATH
 from .sail_utils import normalize_sail_type
 
+
 class Database:
     def __init__(self, db_path=SAILS_DB_PATH):
         self.db_path = db_path

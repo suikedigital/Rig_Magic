@@ -2,6 +2,7 @@
 Sail utilities for normalization and mapping.
 """
 
+
 def normalize_sail_type(sail_type):
     """
     Normalize any sail type input (enum, string, etc.) to the canonical registry key.

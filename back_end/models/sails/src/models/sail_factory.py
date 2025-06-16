@@ -1,3 +1,4 @@
+import inspect
 from enum import Enum
 from .sails.jib import Jib
 from .sails.genoa import Genoa
@@ -10,7 +11,7 @@ from .sails.trisail import Trisail
 from .database import Database
 from config import SAILS_DB_PATH
 from .sail_utils import normalize_sail_type
-import inspect
+
 
 class SailType(Enum):
     JIB = "Jib"
@@ -21,6 +22,7 @@ class SailType(Enum):
     SYMSPINNAKER = "SymSpinnaker"
     ASYMSPINNAKER = "AsymSpinnaker"
     TRISAIL = "Trisail"
+
 
 class SailFactory:
     _registry = {
@@ -40,7 +42,6 @@ class SailFactory:
         self.sails_possible_on_boat: list[SailType] = []
         self.sail_config: dict[SailType, dict] = {}
         self.sails: dict[SailType, object] = {}
-
 
     @classmethod
     def available_types(cls) -> list[SailType]:
@@ -80,7 +81,6 @@ class SailFactory:
         self.load_possible_sails_from_db()
 
     def generate_all_sails_on_boat(self):
-        import inspect
         self.load_possible_sails_from_db()
         if not isinstance(self.saildata, dict):
             raise ValueError(f"No saildata found for yacht_id={self.yacht_id}. Cannot generate sails.")

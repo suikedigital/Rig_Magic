@@ -18,13 +18,14 @@ Class Details:
     - Area is calculated as 0.5 * luff * foot.
     - Inherits aerodynamic_force() from BaseSail for force estimation.
 """
-from math import sqrt
 from .base_sail import BaseSail
+
 
 def get_val(saildata, key):
     if isinstance(saildata, dict):
         return saildata.get(key)
     return getattr(saildata, key)
+
 
 class Mainsail(BaseSail):
     """

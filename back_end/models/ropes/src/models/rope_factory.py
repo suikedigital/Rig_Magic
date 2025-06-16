@@ -19,7 +19,6 @@ Classes:
     RunningRigging: Manages a yacht's running rigging system.
 """
 
-from enum import Enum
 from .ropes.halyards import (
     MainHalyard, GenoaHalyard, JibHalyard, SpinnakerHalyard,
     CodeZeroHalyard, StaysailHalyard, ToppingLiftHalyard, TrisailHalyard

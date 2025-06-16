@@ -10,8 +10,10 @@ SAILS_API_URL = "http://127.0.0.1:8002"
 PROFILE_API_URL = "http://127.0.0.1:8003"
 HULL_API_URL = "http://127.0.0.1:8004"
 
+
 class RopeService:
     _thread_local = threading.local()
+
     def __init__(self, db_path=ROPES_DB_PATH):
         self.db = RopeDatabase(db_path)
 

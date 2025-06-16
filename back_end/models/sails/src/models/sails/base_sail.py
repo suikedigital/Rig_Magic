@@ -23,6 +23,7 @@ Class Details:
 
 from abc import ABC, abstractmethod
 
+
 class BaseSail(ABC):
     """
     Abstract base class for sails.

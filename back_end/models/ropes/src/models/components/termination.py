@@ -11,6 +11,7 @@ Classes:
 
 from typing import Optional
 
+
 class Termination:
     """
     Represents a rope end termination.

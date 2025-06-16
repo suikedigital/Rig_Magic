@@ -10,10 +10,12 @@ Defines RopeConstruction class and RopeConstructionType enums for rope construct
 from dataclasses import dataclass
 from enum import Enum
 
+
 class RopeConstructionType(Enum):
     BRAID_BRAID = "Braid/Braid"
     DYNEEMA_BRAID = "Dyneema/Braid"
     DYNEEMA_DYNEEMA = "Dyneema/Dyneema"
+
 
 CONSTRUCTION_MAP = {
     RopeConstructionType.BRAID_BRAID: ("braid", "braid"),
@@ -28,6 +30,7 @@ PRESET_BREAK_STRAINS = {
     RopeConstructionType.DYNEEMA_BRAID: {4: 1600, 5: 2300, 6: 3100, 7: 4100, 8: 5200, 10: 7700, 12: 10500, 14: 13500},
     RopeConstructionType.DYNEEMA_DYNEEMA: {4: 2000, 5: 3000, 6: 4000, 7: 5200, 8: 6500, 10: 9500, 12: 13000, 14: 17000},
 }
+
 
 @dataclass
 class RopeConstruction:
