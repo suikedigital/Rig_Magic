@@ -1,0 +1,52 @@
+name: CI for Monorepo
+# This GitHub Actions workflow is designed to build and test multiple microservices in a monorepo setup.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        service:
+          - auth_service
+          - front_end
+          - back_end/models/sails
+          - back_end/models/profile
+          - back_end/models/hull_structure
+          - back_end/models/ropes
+          - back_end/models/saildata
+          - back_end/models/user_profile
+          - back_end/models/yacht
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python (if Python service)
+      if: contains(matrix.service, 'back_end/')
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: Install dependencies (Python only)
+      if: contains(matrix.service, 'back_end/')
+      working-directory: ${{ matrix.service }}
+      run: |
+        if [ -f "requirements.txt" ]; then pip install -r requirements.txt; fi
+
+    - name: Lint and Test (Python only)
+      if: contains(matrix.service, 'back_end/')
+      working-directory: ${{ matrix.service }}
+      run: |
+        pip install flake8 pytest
+        if [ -d "src" ]; then flake8 src/ --ignore=E501; fi
+        if [ -d "tests" ]; then pytest tests/; fi
+
+    - name: Build Docker image
+      working-directory: ${{ matrix.service }}
+      run: |
+        docker build -t microservice/${{ matrix.service }} .
