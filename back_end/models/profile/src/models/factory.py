@@ -2,6 +2,7 @@ from .yacht_profile import YachtProfile
 
 
 class YachtProfileFactory:
+
     @staticmethod
     def from_row(row, columns):
         data = dict(zip(columns, row))

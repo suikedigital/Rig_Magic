@@ -3,6 +3,7 @@ from typing import List, Optional
 from .address import Address
 from .payment import PaymentInfo
 
+
 class BaseUser(BaseModel):
     user_id: str = Field(..., description="Unique ID from Auth.js")
     role: str = Field(default="customer", description="User role")

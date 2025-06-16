@@ -2,6 +2,7 @@ import json
 from src.database import get_connection
 from src.models import BaseUser, TradeUser, CustomerUser
 
+
 def save_user(user: BaseUser):
     conn = get_connection()
     c = conn.cursor()
@@ -21,6 +22,7 @@ def save_user(user: BaseUser):
     conn.commit()
     conn.close()
 
+
 def get_user(user_id: str):
     conn = get_connection()
     c = conn.cursor()
@@ -39,6 +41,7 @@ def get_user(user_id: str):
         return TradeUser(**data)
     else:
         return CustomerUser(**data)
+
 
 def list_users():
     conn = get_connection()
