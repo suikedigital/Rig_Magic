@@ -1,6 +1,7 @@
 import sqlite3
 from config import PROFILE_DB_PATH
 
+
 class YachtProfileDatabase:
     def __init__(self, db_path=PROFILE_DB_PATH):
         self.db_path = db_path

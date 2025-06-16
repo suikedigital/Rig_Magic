@@ -1,5 +1,6 @@
 # yachts/profile.py
 
+
 class YachtProfile:
     def __init__(
         self,

@@ -3,7 +3,9 @@ from .models.database import YachtProfileDatabase
 from .models.factory import YachtProfileFactory
 from back_end.logger import get_logger
 
+
 logger = get_logger(__name__)
+
 
 class YachtProfileService:
     def __init__(self, db_path=PROFILE_DB_PATH):
