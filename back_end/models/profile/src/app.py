@@ -3,8 +3,6 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import Optional
 from .service import YachtProfileService
-from fastapi.responses import JSONResponse
-from fastapi.encoders import jsonable_encoder
 from fastapi import Request
 
 app = FastAPI()
