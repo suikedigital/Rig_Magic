@@ -1,9 +1,9 @@
 import os
 import pytest
 import tempfile
-from back_end.models.saildata.models.saildata import SailData
-from back_end.models.saildata.models.factory import SailDataFactory
-from back_end.models.saildata.saildata_service import SailDataService
+from src.models.saildata import SailData
+from src.models.factory import SailDataFactory
+from src.saildata_service import SailDataService
 
 @pytest.fixture
 def temp_db_path():

@@ -1,4 +1,4 @@
-from back_end.models.settings.models.settings import Settings
+from .settings import Settings
 
 class SettingsFactory:
     @staticmethod

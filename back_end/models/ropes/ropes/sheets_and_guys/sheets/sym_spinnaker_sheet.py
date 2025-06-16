@@ -11,9 +11,9 @@ Classes:
 
 from typing import Optional
 
-from models.ropes.components.rope_construction import RopeConstructionType
-from models.ropes.components.termination import Termination
-from models.ropes.sheets_and_guys.sheets.base_sheet import Sheet
+from ...components.rope_construction import RopeConstructionType
+from ...components.termination import Termination
+from .base_sheet import Sheet
 
 from utils.calculations import round_up_half_meter
 

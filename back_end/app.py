@@ -10,17 +10,20 @@ Example usage:
 """
 
 from orchestration.services import Services
+from back_end.logger import get_logger
+
+logger = get_logger(__name__)
 
 def main_menu():
-    print("\nYacht Management System")
-    print("1. Search for a base yacht")
-    print("2. Create your own yacht from a base yacht")
-    print("3. View or modify your yacht")
-    print("4. Exit")
+    logger.info("\nYacht Management System")
+    logger.info("1. Search for a base yacht")
+    logger.info("2. Create your own yacht from a base yacht")
+    logger.info("3. View or modify your yacht")
+    logger.info("4. Exit")
     return input("Choose an option: ")
 
 def search_base_yachts(services):
-    print("\nAvailable Base Yachts:")
+    logger.info("\nAvailable Base Yachts:")
     yachts = []
     for yid in range(1, 100):
         row, columns = services.profile_service.db.get_by_yacht_id(yid)
@@ -29,11 +32,11 @@ def search_base_yachts(services):
             if yacht and columns[columns.index('base_id')] is None:
                 yachts.append((yid, row, columns))
     if not yachts:
-        print("No base yachts found.")
+        logger.info("No base yachts found.")
         return None
     for yid, row, columns in yachts:
         profile = services.profile_service.get_profile(yid)
-        print(f"ID: {profile.yacht_id} | Class: {profile.yacht_class} | Model: {profile.model} | Designer: {profile.designer}")
+        logger.info(f"ID: {profile.yacht_id} | Class: {profile.yacht_class} | Model: {profile.model} | Designer: {profile.designer}")
     return yachts
 
 def create_user_yacht(services, user_id):
@@ -43,7 +46,7 @@ def create_user_yacht(services, user_id):
     base_id = int(input("Enter the ID of the base yacht to use: "))
     base_profile = services.profile_service.get_profile(base_id)
     if not base_profile:
-        print("Base yacht not found.")
+        logger.info("Base yacht not found.")
         return
     new_yacht_id = int(input("Enter a new yacht ID for your yacht: "))
     user_profile = type(base_profile)(
@@ -61,25 +64,25 @@ def create_user_yacht(services, user_id):
         notes=(base_profile.notes or "") + f" (User {user_id})"
     )
     services.profile_service.save_profile(user_profile)
-    print(f"Created your yacht with ID {new_yacht_id} based on base yacht {base_id}.")
+    logger.info(f"Created your yacht with ID {new_yacht_id} based on base yacht {base_id}.")
     # TODO: Call other services to initialize hull, rig, sails, etc.
 
 def view_or_modify_yacht(services, user_id):
     yacht_id = int(input("Enter your yacht ID: "))
     profile = services.profile_service.get_profile(yacht_id)
     if not profile:
-        print("Yacht not found.")
+        logger.info("Yacht not found.")
         return
-    print(f"\nYour Yacht Profile:")
+    logger.info(f"\nYour Yacht Profile:")
     for k, v in profile.__dict__.items():
-        print(f"{k}: {v}")
-    print("\n1. Modify notes\n2. Back")
+        logger.info(f"{k}: {v}")
+    logger.info("\n1. Modify notes\n2. Back")
     choice = input("Choose an option: ")
     if choice == "1":
         new_notes = input("Enter new notes: ")
         profile.notes = new_notes
         services.profile_service.save_profile(profile)
-        print("Notes updated.")
+        logger.info("Notes updated.")
 
 def main():
     user_id = input("Enter your user ID: ")
@@ -93,10 +96,10 @@ def main():
         elif choice == "3":
             view_or_modify_yacht(services, user_id)
         elif choice == "4":
-            print("Goodbye!")
+            logger.info("Goodbye!")
             break
         else:
-            print("Invalid choice.")
+            logger.info("Invalid choice.")
     services.profile_service.close()
 
 if __name__ == "__main__":

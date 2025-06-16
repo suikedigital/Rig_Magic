@@ -1,6 +1,6 @@
-from back_end.models.rig.config import RIG_DB_PATH
-from back_end.models.rig.models.factory import RigFactory
-from back_end.models.rig.models.database import RigDatabase
+from .config import RIG_DB_PATH
+from .models.factory import RigFactory
+from .models.database import RigDatabase
 
 class RigService:
     def __init__(self, db_path=RIG_DB_PATH):

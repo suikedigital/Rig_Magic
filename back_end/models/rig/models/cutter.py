@@ -1,4 +1,4 @@
-from back_end.models.rig.models.rig import Rig
+from .rig import Rig
 
 class Cutter(Rig):
     """

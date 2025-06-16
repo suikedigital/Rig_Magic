@@ -25,15 +25,15 @@
 
 ## Example: What Would Be in `yacht_aggregate_service.py`
 
-from back_end.models.hull_structure.service import HullStructureService
-from back_end.models.rig.service import RigService
-from back_end.models.sails.sail_service import SailService
-from back_end.models.saildata.saildata_service import SailDataService
-from back_end.models.ropes.rope_service import RopeService
-from back_end.models.settings.settings_service import SettingsService
-from back_end.models.yacht.user_yacht_service import UserYachtService
-from back_end.models.yacht.base_yacht_service import BaseYachtService
-from back_end.models.profile.service import YachtProfileService
+from ..models.hull_structure.service import HullStructureService
+from ..models.rig.service import RigService
+from ..models.sails.sail_service import SailService
+from ..models.saildata.saildata_service import SailDataService
+from ..models.ropes.rope_service import RopeService
+from ..models.settings.settings_service import SettingsService
+from ..models.yacht.user_yacht_service import UserYachtService
+from ..models.yacht.base_yacht_service import BaseYachtService
+from ..models.profile.service import YachtProfileService
 
 
 class Services:

@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from typing import Optional
-from back_end.models.rig.service import RigService
+from .service import RigService
 
 app = FastAPI()
 rig_service = RigService()

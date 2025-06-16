@@ -1,6 +1,6 @@
-from back_end.models.settings.models.settings import Settings
-from back_end.models.settings.models.factory import SettingsFactory
-from back_end.models.settings.models.database import SettingsDatabase
+from .models.settings import Settings
+from .models.factory import SettingsFactory
+from .models.database import SettingsDatabase
 
 class SettingsService:
     def __init__(self, db_path="data/settings.db"):

@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  userprofile:
+    build: .
+    container_name: userprofile_service
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data    # Persist SQLite DB outside container (optional)
+    environment:
+      - PYTHONUNBUFFERED=1

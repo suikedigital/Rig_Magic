@@ -11,11 +11,11 @@ Classes:
 
 from typing import Optional
 
-from back_end.models.ropes.components.rope_construction import RopeConstructionType
-from back_end.models.ropes.components.termination import Termination
-from back_end.models.ropes.sheets_and_guys.sheets.base_sheet import Sheet
+from ...components.rope_construction import RopeConstructionType
+from ...components.termination import Termination
+from .base_sheet import Sheet
 
-from utils.calculations import round_up_half_meter
+from ...utils.calculations import round_up_half_meter
 
 
 class TrisailSheet(Sheet):
