@@ -13,6 +13,7 @@ AUTH_JS_SECRET = os.environ.get("AUTH_JS_SECRET", "your_authjs_secret")
 
 # Dependency to extract user_id from JWT
 
+
 def get_user_id_from_jwt(request: Request):
     auth = request.headers.get("Authorization")
     if not auth or not auth.startswith("Bearer "):
