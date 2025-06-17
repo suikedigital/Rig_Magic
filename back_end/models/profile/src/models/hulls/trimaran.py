@@ -35,7 +35,7 @@ class Trimaran:
 
 
 def main():
-    trimaran = Trimaran(12, 8, 1.5, 'Fiberglass', 14)
+    trimaran = Trimaran(12, 8, 1.5, "Fiberglass", 14)
     trimaran.display_specs()
     sail_area = trimaran.calculate_sail_area()
     print(f"Sail Area: {sail_area} square meters")

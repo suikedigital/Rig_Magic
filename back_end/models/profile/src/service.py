@@ -25,20 +25,24 @@ class YachtProfileService:
             "production_start": base_yacht.production_start,
             "production_end": base_yacht.production_end,
             "country_of_origin": base_yacht.country_of_origin,
-            "notes": base_yacht.notes
+            "notes": base_yacht.notes,
         }
 
         profile = YachtProfileFactory.from_dict(profile_data)
         self.save_profile(profile)
-        logger.info(f"Profile initialized for yacht {yacht_id} based on base yacht {base_id}.")
+        logger.info(
+            f"Profile initialized for yacht {yacht_id} based on base yacht {base_id}."
+        )
 
     def save_profile(self, profile, base_id=None):
         # Accepts a YachtProfile object or dict, and optional base_id
-        profile_dict = profile.__dict__ if hasattr(profile, '__dict__') else dict(profile)
+        profile_dict = (
+            profile.__dict__ if hasattr(profile, "__dict__") else dict(profile)
+        )
         if base_id is not None:
-            profile_dict['base_id'] = base_id
-        elif 'base_id' not in profile_dict:
-            profile_dict['base_id'] = None
+            profile_dict["base_id"] = base_id
+        elif "base_id" not in profile_dict:
+            profile_dict["base_id"] = None
         self.db.insert(profile_dict)
 
     def get_profile(self, yacht_id):
