@@ -3,7 +3,8 @@ SailData class for the Running Rigging Management system.
 
 Stores all relevant sail and rigging dimensions for a yacht, including main, jib, genoa,
 spinnaker, code zero, staysail, and trisail measurements. Allows for easy extension and
-overriding of values via keyword arguments.
+Overriding of values via keyword arguments.
+
 """
 
 from back_end.logger import get_logger
