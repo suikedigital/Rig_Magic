@@ -1,3 +1,3 @@
 # ...existing code...
 
-# Add newline at end of file
+# Add a newline at the end of the file

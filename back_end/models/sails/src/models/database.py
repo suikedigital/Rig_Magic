@@ -109,3 +109,7 @@ class Database:
             cursor = conn.cursor()
             cursor.execute("DELETE FROM sails_possible WHERE yacht_id = ?", (yacht_id,))
             conn.commit()
+
+    """
+    Additional methods for sail management can be added here.
+    """

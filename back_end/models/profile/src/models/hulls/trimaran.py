@@ -22,6 +22,9 @@ class Trimaran:
     def __str__(self):
         return f"Trimaran hull: {self.name}"
 
+    def __post_init__(self):
+        print(f"Trimaran hull created with beams: {self.beams}")
+
 
 # Add 2 blank lines before each top-level function/class as per E302
 
