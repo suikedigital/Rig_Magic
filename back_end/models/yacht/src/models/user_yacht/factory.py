@@ -1,5 +1,4 @@
 from ...service import BaseYachtService
-# from ..user_yacht_service import UserYachtService  # Not found, please implement or correct path
 from .user_yacht import UserYacht
 
 
