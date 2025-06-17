@@ -70,10 +70,10 @@ class CodeZeroHalyard(Halyard):
             float: The halyard length, rounded up to the nearest 0.5 meter.
         """
         raw_length = (
-            saildata.codezero_i
-            + sqrt(saildata.codezero_i ** 2 + saildata.codezero_j ** 2)
-            + led_aft
-            + length_safety_margin
+            saildata.codezero_i +
+            sqrt(saildata.codezero_i ** 2 + saildata.codezero_j ** 2) +
+            led_aft +
+            length_safety_margin
         )
         return self.round_up_half_meter(raw_length)
 

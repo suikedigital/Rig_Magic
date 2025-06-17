@@ -74,10 +74,10 @@ class JibHalyard(Halyard):
             float: The halyard length, rounded up to the nearest 0.5 meter.
         """
         raw_length = (
-            get_val(saildata, "jib_i")
-            + sqrt(get_val(saildata, "jib_i") ** 2 + get_val(saildata, "jib_j") ** 2)
-            + led_aft
-            + length_safety_margin
+            get_val(saildata, "jib_i") +
+            sqrt(get_val(saildata, "jib_i") ** 2 + get_val(saildata, "jib_j") ** 2) +
+            led_aft +
+            length_safety_margin
         )
         return self.round_up_half_meter(raw_length)
 

@@ -93,10 +93,10 @@ class StaysailHalyard(Halyard):
             float: The halyard length, rounded up to the nearest 0.5 meter.
         """
         raw_length = (
-            self.saildata["staysail_i"]
-            + sqrt(self.saildata["staysail_i"] ** 2 + self.saildata["staysail_j"] ** 2)
-            + self.led_aft
-            + self.halyard_length_safety_margin
+            self.saildata["staysail_i"] +
+            sqrt(self.saildata["staysail_i"] ** 2 + self.saildata["staysail_j"] ** 2) +
+            self.led_aft +
+            self.halyard_length_safety_margin
         )
         return self.round_up_half_meter(raw_length)
 

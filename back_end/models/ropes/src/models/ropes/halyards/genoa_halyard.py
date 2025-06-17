@@ -68,27 +68,27 @@ class GenoaHalyard(Halyard):
             float: The halyard length, rounded up to the nearest 0.5 meter.
         """
         raw_length = (
-            get_val(saildata, "i") +
-            sqrt(get_val(saildata, "i") ** 2 + get_val(saildata, "j") ** 2) +
-            led_aft +
-            length_safety_margin
+            get_val(saildata, "i")
+            + sqrt(get_val(saildata, "i") ** 2 + get_val(saildata, "j") ** 2)
+            + led_aft
+            + length_safety_margin
         )
         return self.round_up_half_meter(raw_length)
 
     def is_valid(self):
         return (
-            self.length is not None and
-            self.diameter is not None and
-            self.material is not None and
-            self.cover is not None and
-            self.core is not None and
-            self.termination is not None and
-            self.construction is not None and
-            self.breaking_load is not None and
-            self.stretch is not None and
-            self.weight is not None and
-            self.price is not None and
-            self.notes is not None
+            self.length is not None
+            and self.diameter is not None
+            and self.material is not None
+            and self.cover is not None
+            and self.core is not None
+            and self.termination is not None
+            and self.construction is not None
+            and self.breaking_load is not None
+            and self.stretch is not None
+            and self.weight is not None
+            and self.price is not None
+            and self.notes is not None
         )
 
 
