@@ -10,7 +10,6 @@ from pydantic import BaseModel
 from typing import Optional, Dict, Any, List, Union
 import requests
 from fastapi.middleware.cors import CORSMiddleware
-from .service import BaseYachtService
 from back_end.logger import get_logger
 
 logger = get_logger(__name__)
@@ -77,6 +76,7 @@ MICROSERVICES = {
     "possible_ropes": f"{ROPES_API}/ropes/possible/{{yacht_id}}",
 }
 
+
 @app.get("/yachts/search")
 def search_yachts(query: str = Query("", description="Free-form search query")):
     # Call the profile microservice to get all profiles
@@ -100,6 +100,7 @@ def search_yachts(query: str = Query("", description="Free-form search query")):
                 results.append(profile)
                 break
     return results
+
 
 @app.get("/yacht/{yacht_id}")
 def get_yacht(yacht_id: int):
@@ -144,6 +145,7 @@ def get_yacht(yacht_id: int):
     if errors:
         result["errors"] = errors
     return result
+
 
 @app.post("/yacht/")
 def create_yacht(req: YachtCreateRequest):
@@ -248,6 +250,7 @@ def create_yacht(req: YachtCreateRequest):
     if errors:
         result["errors"] = errors
     return result
+
 
 @app.delete("/yacht/{yacht_id}")
 def delete_yacht(yacht_id: int):

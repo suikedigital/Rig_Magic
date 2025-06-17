@@ -1,5 +1,6 @@
 from .base_yacht import BaseYacht
 
+
 class BaseYachtFactory:
     @staticmethod
     def from_row(row, columns):

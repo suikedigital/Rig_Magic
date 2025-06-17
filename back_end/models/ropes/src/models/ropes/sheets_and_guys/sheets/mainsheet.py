@@ -16,7 +16,6 @@ from ....components.termination import Termination
 from .base_sheet import Sheet
 
 
-
 class MainSheet(Sheet):
     """
     Represents a mainsheet for a yacht.
@@ -41,7 +40,7 @@ class MainSheet(Sheet):
     default_lower_termination = Termination(term_type="Whipping", hardware=None)
     default_colour = "White"
 
-    def __init__(self, yacht, 
+    def __init__(self, yacht,
                  colour: Optional[str] = None,
                  construction_type: RopeConstructionType = None,
                  diameter: int = None,
@@ -80,7 +79,7 @@ class MainSheet(Sheet):
             **kwargs
         )
         self.type = "Asymetric Spinnaker Sheet"
-    
+
     def calc_diameter(self):
         """Return a sensible default or implement logic as needed."""
         return 10

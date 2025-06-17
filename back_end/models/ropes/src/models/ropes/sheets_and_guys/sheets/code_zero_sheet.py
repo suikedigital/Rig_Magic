@@ -16,7 +16,6 @@ from ....components.termination import Termination
 from .base_sheet import Sheet
 
 
-
 class CodeZeroSheet(Sheet):
     """
     Represents a Code Zero sheet for a yacht.
@@ -42,7 +41,7 @@ class CodeZeroSheet(Sheet):
     default_upper_termination = Termination(term_type="Covered Splice", hardware="Snap Shackle")
     default_lower_termination = Termination(term_type="Pull Through Whipping", hardware=None)
 
-    def __init__(self, yacht, 
+    def __init__(self, yacht,
                  colour: Optional[str] = None,
                  construction_type: RopeConstructionType = None,
                  diameter: int = None,
@@ -76,7 +75,6 @@ class CodeZeroSheet(Sheet):
         Calculate the length of the Code Zero sheet based on yacht dimensions.
         """
         return self.round_up_half_meter(2.6 * yacht.saildata.codezero_j + 2.1 * yacht.boat_length)
-        
 
     def calc_diameter(self):
         """Return a sensible default or implement logic as needed."""

@@ -30,6 +30,8 @@ from .ropes.sheets_and_guys.guys import SymSpinGuy
 from .database import RopeDatabase
 from config import ROPES_DB_PATH
 from .rope_utils import normalize_rope_type
+import os
+import sqlite3
 
 
 class Factory:

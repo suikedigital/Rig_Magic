@@ -16,7 +16,6 @@ from ....components.termination import Termination
 from ....components.rope_construction import RopeConstructionType
 
 
-
 class Sheet(Rope, ABC):
     """
     Abstract base class for sheet ropes.
@@ -35,14 +34,14 @@ class Sheet(Rope, ABC):
         side (str, optional): Side of the yacht (port/starboard). Defaults to None.
         **kwargs: Additional keyword arguments for extensibility.
     """
-    def __init__(self, yacht, 
-                 construction_type: RopeConstructionType, 
-                 diameter: int, 
-                 length: float, 
+    def __init__(self, yacht,
+                 construction_type: RopeConstructionType,
+                 diameter: int,
+                 length: float,
                  side: Optional[str] = None,
-                 colour: str = None, 
-                 upper_termination: Termination = None, 
-                 lower_termination: Termination = None, 
+                 colour: str = None,
+                 upper_termination: Termination = None,
+                 lower_termination: Termination = None,
                  **kwargs):
         """
         Base class for sheet ropes.
@@ -80,7 +79,7 @@ class Sheet(Rope, ABC):
             f"Upper: {self.upper_termination}\n"
             f"Lower: {self.lower_termination}\n"
         )
-    
+
     @abstractmethod
     def calc_length(self) -> float:
         """
@@ -99,7 +98,7 @@ class Sheet(Rope, ABC):
         Returns:
             float: The calculated diameter in millimeters.
         """
-        return  str(NotImplementedError("Diameter calculation not implemented yet."))
+        return str(NotImplementedError("Diameter calculation not implemented yet."))
 
     def break_strength(self):
         """

@@ -9,7 +9,6 @@ Classes:
     Rope: Abstract base class for all running rigging ropes.
 """
 
-from typing import Optional
 import math 
 
 from ..components.termination import Termination
@@ -76,8 +75,6 @@ class Rope:
             float: The rope's diameter.
         """
         return self.diameter
-    
-    
 
     def round_up_half_meter(self, value: float) -> float:
         """

@@ -2,6 +2,7 @@ from .models.base_yacht.database import BaseYachtDatabase
 from .models.base_yacht.factory import BaseYachtFactory
 from .models.base_yacht.base_yacht import BaseYacht
 
+
 class BaseYachtService:
     def __init__(self, db_path="data/base_yachts.db"):
         self.db = BaseYachtDatabase(db_path)

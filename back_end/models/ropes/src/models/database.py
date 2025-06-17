@@ -134,3 +134,11 @@ class RopeDatabase:
 
     def close(self):
         pass  # No persistent connection to close
+
+    def get_rope_by_id(self, rope_id):
+        query = "SELECT * FROM ropes WHERE id = ?"
+        result = self.conn.execute(query, (rope_id,))
+        row = result.fetchone()
+        if row:
+            return dict(row)
+        return None

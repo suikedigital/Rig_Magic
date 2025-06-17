@@ -1,6 +1,7 @@
 from .models.user_yacht.database import UserYachtDatabase
 from .models.user_yacht.user_yacht import UserYacht
 
+
 class UserYachtService:
     def __init__(self, db_path="data/user_yachts.db"):
         self.db = UserYachtDatabase(db_path)

@@ -16,7 +16,6 @@ from ....components.termination import Termination
 from .base_sheet import Sheet
 
 
-
 class SymSpinSheet(Sheet):
     """
     Represents a symmetric spinnaker sheet for a yacht.
@@ -42,7 +41,7 @@ class SymSpinSheet(Sheet):
     default_upper_termination = Termination(term_type="Covered Splice", hardware="Snap Shackle")
     default_lower_termination = Termination(term_type="Pull Through Whipping", hardware=None)
 
-    def __init__(self, yacht, 
+    def __init__(self, yacht,
                  colour: Optional[str] = None,
                  construction_type: RopeConstructionType = None,
                  diameter: int = None,

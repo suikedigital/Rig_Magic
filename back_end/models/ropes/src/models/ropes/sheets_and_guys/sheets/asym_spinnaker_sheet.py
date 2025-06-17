@@ -16,7 +16,6 @@ from ....components.termination import Termination
 from .base_sheet import Sheet
 
 
-
 class AsymSpinSheet(Sheet):
     """
     Represents an asymmetric spinnaker sheet for a yacht's running rigging system.
@@ -42,7 +41,7 @@ class AsymSpinSheet(Sheet):
     default_upper_termination = Termination(term_type="Covered Splice", hardware="Snap Shackle")
     default_lower_termination = Termination(term_type="Pull Through Whipping", hardware=None)
 
-    def __init__(self, yacht, 
+    def __init__(self, yacht,
                  colour: Optional[str] = None,
                  construction_type: RopeConstructionType = None,
                  diameter: int = None,
@@ -85,7 +84,7 @@ class AsymSpinSheet(Sheet):
         """
         # Example: 2.8 * J + 2.2 * LOA (can be adjusted as needed)
         return self.round_up_half_meter(2.8 * yacht.saildata.spin_j + 2.2 * yacht.boat_length)
-        
+
     def calc_diameter(self):
         """
         Calculate the diameter of the sheet.
@@ -96,4 +95,4 @@ class AsymSpinSheet(Sheet):
         Note:
             Not yet implemented. Raises NotImplementedError.
         """
-        return  str(NotImplementedError("Diameter calculation not implemented yet."))
+        return str(NotImplementedError("Diameter calculation not implemented yet."))

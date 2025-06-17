@@ -1,5 +1,6 @@
 import sqlite3
 
+
 class UserYachtDatabase:
     def __init__(self, db_path="data/user_yachts.db"):
         self.conn = sqlite3.connect(db_path)

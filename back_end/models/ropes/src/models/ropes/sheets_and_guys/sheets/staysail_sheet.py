@@ -16,7 +16,6 @@ from ....components.termination import Termination
 from .base_sheet import Sheet
 
 
-
 class StaysailSheet(Sheet):
     """
     Represents a staysail sheet for a yacht.
@@ -41,7 +40,7 @@ class StaysailSheet(Sheet):
     default_lower_termination = Termination(term_type="Whipping", hardware=None)
     default_colour = "Silver Grey"
 
-    def __init__(self, yacht, 
+    def __init__(self, yacht,
                  colour: Optional[str] = None,
                  construction_type: RopeConstructionType = None,
                  diameter: int = None,
@@ -80,7 +79,7 @@ class StaysailSheet(Sheet):
             **kwargs
         )
         self.type = "Staysail Sheet"
-    
+
     def calc_length(self, yacht) -> float:
         """
         Calculate the length of the staysail sheet based on yacht dimensions.
@@ -93,7 +92,7 @@ class StaysailSheet(Sheet):
         """
         # Example: 2.1 * J + 1.7 * LOA (can be adjusted as needed)
         return self.round_up_half_meter(2.1 * yacht.saildata.staysail_j + 1.7 * yacht.boat_length)
-        
+
     def calc_diameter(self) -> float:
         """
         Calculate the diameter of the sheet.
@@ -104,4 +103,4 @@ class StaysailSheet(Sheet):
         Note:
             Not yet implemented. Raises NotImplementedError.
         """
-        return  str(NotImplementedError("Diameter calculation not implemented yet."))
+        return str(NotImplementedError("Diameter calculation not implemented yet."))

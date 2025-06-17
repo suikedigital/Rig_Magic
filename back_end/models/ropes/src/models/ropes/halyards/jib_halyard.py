@@ -11,10 +11,12 @@ from .base_halyard import Halyard
 from ...components.termination import Termination
 from ...components.rope_construction import RopeConstructionType
 
+
 def get_val(saildata, key):
     if isinstance(saildata, dict):
         return saildata.get(key)
     return getattr(saildata, key)
+
 
 class JibHalyard(Halyard):
     default_upper_termination = Termination(term_type="Covered Splice", hardware="Shackle")

@@ -1,4 +1,3 @@
-
 class BaseYacht:
     _next_base_id = 1  # private class variable
 
@@ -13,27 +12,26 @@ class BaseYacht:
         self.rig = rig
         self.saildata = saildata
 
-
     def save_profile(self):
         """
         Saves the yacht profile in microservice.
         """
-        return Services().profile_service.save_profile(self.base_id, self.profile)
-    
+        raise NotImplementedError("Service call not implemented.")
+
     def save_hull(self):
         """
         Saves the yacht hull structure in microservice.
         """
-        return Services().hull_service.save_hull(self.base_id, self.hull)
-    
+        raise NotImplementedError("Service call not implemented.")
+
     def save_rig(self):
         """
         Saves the yacht rig configuration in microservice.
         """
-        return Services().rig_service.save_rig(self.base_id, self.rig)
-    
+        raise NotImplementedError("Service call not implemented.")
+
     def save_saildata(self):
         """
         Saves the yacht sail data in microservice.
         """
-        return Services().saildata.save_saildata(self.base_id, self.saildata)
+        raise NotImplementedError("Service call not implemented.")

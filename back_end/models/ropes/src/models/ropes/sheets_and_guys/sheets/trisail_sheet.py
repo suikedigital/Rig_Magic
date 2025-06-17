@@ -16,7 +16,6 @@ from ....components.termination import Termination
 from .base_sheet import Sheet
 
 
-
 class TrisailSheet(Sheet):
     """
     Represents a trisail sheet for a yacht.
@@ -41,7 +40,7 @@ class TrisailSheet(Sheet):
     default_lower_termination = Termination(term_type="Whipping", hardware=None)
     default_colour = "Solid Orange"
 
-    def __init__(self, yacht, 
+    def __init__(self, yacht,
                  colour: Optional[str] = None,
                  construction_type: RopeConstructionType = None,
                  diameter: int = None,
@@ -80,7 +79,7 @@ class TrisailSheet(Sheet):
             **kwargs
         )
         self.type = "Trisail Sheet"
-    
+
     def calc_length(self, yacht) -> float:
         """
         Calculate the length of the trisail sheet based on yacht dimensions.
@@ -92,7 +91,6 @@ class TrisailSheet(Sheet):
             float: The calculated and rounded-up length in meters.
         """
         return self.round_up_half_meter(1.8 * yacht.saildata.trisail_j + 1.5 * yacht.boat_length)
-        
 
     def calc_diameter(self) -> float:
         """
@@ -104,4 +102,4 @@ class TrisailSheet(Sheet):
         Note:
             Not yet implemented. Raises NotImplementedError.
         """
-        return  str(NotImplementedError("Diameter calculation not implemented yet."))
+        return str(NotImplementedError("Diameter calculation not implemented yet."))

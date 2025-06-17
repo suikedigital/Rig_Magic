@@ -2,6 +2,7 @@ from ...service import BaseYachtService
 # from ..user_yacht_service import UserYachtService  # Not found, please implement or correct path
 from .user_yacht import UserYacht
 
+
 class UserYachtFactory:
     @staticmethod
     def create_user_yacht_from_base(base_yacht_id, owner_id, name, services):
@@ -25,7 +26,7 @@ class UserYachtFactory:
         services.saildata.initialize_from_base(yacht_id, base_yacht)
         services.sail_service.initialize_from_base(yacht_id, base_yacht)
         services.rig_service.initialize_from_base(yacht_id, base_yacht)
-        
+
         # ...add more as needed
         return yacht_id
 

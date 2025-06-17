@@ -9,7 +9,6 @@ Classes:
     JibSheet: Represents a jib sheet with sensible defaults and calculation logic.
 """
 
-from abc import ABC, abstractmethod
 from typing import Optional
 
 from ....components.rope_construction import RopeConstructionType
