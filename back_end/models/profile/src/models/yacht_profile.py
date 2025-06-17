@@ -31,4 +31,3 @@ class YachtProfile:
         self.production_end = production_end      # e.g., 1990
         self.country_of_origin = country_of_origin
         self.notes = notes or ""
-
