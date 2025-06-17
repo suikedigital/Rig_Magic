@@ -79,7 +79,7 @@ class RopeDatabase:
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
                 (
                     yacht_id, base_id, rope_type, construction, colour, length, diameter,
-                    upper_term_type, upper_hardware, lower_term_type, lower_hardware, led_aft, required_wl_kg, str(config)
+                    upper_term_type, upper_hardware, lower_term_type, lower_hardware, led_aft, required_wl_kg, config
                 )
             )
             conn.commit()

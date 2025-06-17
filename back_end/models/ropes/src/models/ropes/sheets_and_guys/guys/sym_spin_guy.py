@@ -66,7 +66,7 @@ class SymSpinGuy(Guy):
             lower_termination = self.default_lower_termination
         super().__init__(yacht, colour, construction, upper_termination, lower_termination, side=side, **kwargs)
         self.type = "Asymetric Spinnaker Sheet"
-    
+
     def calc_length(self) -> float:
         """
         Calculate the length of the asymmetric spinnaker sheet.
@@ -76,7 +76,7 @@ class SymSpinGuy(Guy):
         """
         raw_length = (self.yacht.boat_length * 2.5) + self.safety_margin
         return self.round_up_half_meter(raw_length)
-        
+
     def calc_diameter(self) -> float:
         """
         Calculate the diameter of the sheet.
@@ -87,4 +87,4 @@ class SymSpinGuy(Guy):
         Note:
             Not yet implemented. Raises NotImplementedError.
         """
-        return  str(NotImplementedError("Diameter calculation not implemented yet."))
+        return str(NotImplementedError("Diameter calculation not implemented yet."))
