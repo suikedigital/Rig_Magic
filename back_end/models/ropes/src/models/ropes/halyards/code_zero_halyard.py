@@ -14,25 +14,35 @@ from ...components.rope_construction import RopeConstructionType
 
 
 class CodeZeroHalyard(Halyard):
-    default_upper_termination = Termination(term_type="Covered Splice", hardware="Swivel Shackle")
-    default_lower_termination = Termination(term_type="Pull Through Whipping", hardware=None)
+    default_upper_termination = Termination(
+        term_type="Covered Splice", hardware="Swivel Shackle"
+    )
+    default_lower_termination = Termination(
+        term_type="Pull Through Whipping", hardware=None
+    )
     default_colour = "Black Fleck"
     default_construction = RopeConstructionType.BRAID_BRAID
     halyard_angle_deg = 20
 
-    def __init__(self, yacht_id, saildata, HALYARD_TO_SAIL, wind_speed_in_knots,
-                 led_aft: float,
-                 length_safety_margin: float = 1.0,
-                 construction_type: RopeConstructionType = None,
-                 diameter: int = None,
-                 length: float = None,
-                 colour: str = None,
-                 upper_termination: Optional[Termination] = None,
-                 lower_termination: Optional[Termination] = None,
-                 halyard_load_safety_factor: float = 1.25,
-                 dynamic_load_safety_factor: float = 1.5,
-                 sail_service=None,
-                 **kwargs):
+    def __init__(
+        self,
+        yacht_id,
+        saildata,
+        HALYARD_TO_SAIL,
+        wind_speed_in_knots,
+        led_aft: float,
+        length_safety_margin: float = 1.0,
+        construction_type: RopeConstructionType = None,
+        diameter: int = None,
+        length: float = None,
+        colour: str = None,
+        upper_termination: Optional[Termination] = None,
+        lower_termination: Optional[Termination] = None,
+        halyard_load_safety_factor: float = 1.25,
+        dynamic_load_safety_factor: float = 1.5,
+        sail_service=None,
+        **kwargs
+    ):
         if colour is None:
             colour = self.default_colour
         if upper_termination is None:
@@ -48,7 +58,7 @@ class CodeZeroHalyard(Halyard):
             yacht_id=yacht_id,
             construction_type=construction_type,
             diameter=None,  # Will set after
-            length=None,    # Will set after
+            length=None,  # Will set after
             colour=colour,
             upper_termination=upper_termination,
             lower_termination=lower_termination,
@@ -71,7 +81,7 @@ class CodeZeroHalyard(Halyard):
         """
         raw_length = (
             saildata.codezero_i
-            + sqrt(saildata.codezero_i ** 2 + saildata.codezero_j ** 2)
+            + sqrt(saildata.codezero_i**2 + saildata.codezero_j**2)
             + led_aft
             + length_safety_margin
         )

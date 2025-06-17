@@ -36,20 +36,28 @@ class AsymSpinSheet(Sheet):
         side (str, optional): Side of the yacht (port/starboard). Used for automatic pairing. Defaults to None.
         **kwargs: Additional keyword arguments for extensibility.
     """
+
     default_colour = "Solid Red"
     default_construction = RopeConstructionType.BRAID_BRAID
-    default_upper_termination = Termination(term_type="Covered Splice", hardware="Snap Shackle")
-    default_lower_termination = Termination(term_type="Pull Through Whipping", hardware=None)
+    default_upper_termination = Termination(
+        term_type="Covered Splice", hardware="Snap Shackle"
+    )
+    default_lower_termination = Termination(
+        term_type="Pull Through Whipping", hardware=None
+    )
 
-    def __init__(self, yacht,
-                 colour: Optional[str] = None,
-                 construction_type: RopeConstructionType = None,
-                 diameter: int = None,
-                 length: float = None,
-                 side: Optional[str] = None,
-                 upper_termination: Optional[Termination] = None,
-                 lower_termination: Optional[Termination] = None,
-                 **kwargs):
+    def __init__(
+        self,
+        yacht,
+        colour: Optional[str] = None,
+        construction_type: RopeConstructionType = None,
+        diameter: int = None,
+        length: float = None,
+        side: Optional[str] = None,
+        upper_termination: Optional[Termination] = None,
+        lower_termination: Optional[Termination] = None,
+        **kwargs
+    ):
         """
         Initialize an AsymSpinSheet instance.
         Calculates length if not provided, and passes all arguments to the base Sheet class.
@@ -83,7 +91,9 @@ class AsymSpinSheet(Sheet):
             float: The calculated and rounded-up length in meters.
         """
         # Example: 2.8 * J + 2.2 * LOA (can be adjusted as needed)
-        return self.round_up_half_meter(2.8 * yacht.saildata.spin_j + 2.2 * yacht.boat_length)
+        return self.round_up_half_meter(
+            2.8 * yacht.saildata.spin_j + 2.2 * yacht.boat_length
+        )
 
     def calc_diameter(self):
         """

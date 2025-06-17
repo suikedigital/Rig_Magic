@@ -13,24 +13,35 @@ from ...components.rope_construction import RopeConstructionType
 
 
 class GenoaHalyard(Halyard):
-    default_upper_termination = Termination(term_type="Covered Splice", hardware="Shackle")
-    default_lower_termination = Termination(term_type="Pull Through Whipping", hardware=None)
+    default_upper_termination = Termination(
+        term_type="Covered Splice", hardware="Shackle"
+    )
+    default_lower_termination = Termination(
+        term_type="Pull Through Whipping", hardware=None
+    )
     default_colour = "Red Fleck"
     default_construction = RopeConstructionType.BRAID_BRAID
     halyard_angle_deg = 15
 
-    def __init__(self, yacht_id, saildata, HALYARD_TO_SAIL, wind_speed_in_knots, led_aft: float, 
-                 length_safety_margin: float = 1.0,
-                 construction_type: RopeConstructionType = None,
-                 diameter: int = None,
-                 length: float = None,
-                 colour: Optional[str] = None,
-                 upper_termination: Optional[Termination] = None,
-                 lower_termination: Optional[Termination] = None,
-                 halyard_load_safety_factor: float = 1.25,
-                 dynamic_load_safety_factor: float = 1.5,
-                 sail_service=None,
-                 **kwargs):
+    def __init__(
+        self,
+        yacht_id,
+        saildata,
+        HALYARD_TO_SAIL,
+        wind_speed_in_knots,
+        led_aft: float,
+        length_safety_margin: float = 1.0,
+        construction_type: RopeConstructionType = None,
+        diameter: int = None,
+        length: float = None,
+        colour: Optional[str] = None,
+        upper_termination: Optional[Termination] = None,
+        lower_termination: Optional[Termination] = None,
+        halyard_load_safety_factor: float = 1.25,
+        dynamic_load_safety_factor: float = 1.5,
+        sail_service=None,
+        **kwargs
+    ):
         if colour is None:
             colour = self.default_colour
         if upper_termination is None:
@@ -46,7 +57,7 @@ class GenoaHalyard(Halyard):
             yacht_id=yacht_id,
             construction_type=construction_type,
             diameter=None,  # Will set after
-            length=None,    # Will set after
+            length=None,  # Will set after
             colour=colour,
             upper_termination=upper_termination,
             lower_termination=lower_termination,
@@ -77,18 +88,18 @@ class GenoaHalyard(Halyard):
 
     def is_valid(self):
         return (
-            self.length is not None and
-            self.diameter is not None and
-            self.material is not None and
-            self.cover is not None and
-            self.core is not None and
-            self.termination is not None and
-            self.construction is not None and
-            self.breaking_load is not None and
-            self.stretch is not None and
-            self.weight is not None and
-            self.price is not None and
-            self.notes is not None
+            self.length is not None
+            and self.diameter is not None
+            and self.material is not None
+            and self.cover is not None
+            and self.core is not None
+            and self.termination is not None
+            and self.construction is not None
+            and self.breaking_load is not None
+            and self.stretch is not None
+            and self.weight is not None
+            and self.price is not None
+            and self.notes is not None
         )
 
 

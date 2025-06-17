@@ -47,7 +47,7 @@ class Rope:
         colour: str = None,
         upper_termination: Termination = None,
         lower_termination: Termination = None,
-        **kwargs
+        **kwargs,
     ):
         self.yacht = yacht_id
         self.construction_type = construction_type
@@ -56,8 +56,10 @@ class Rope:
         self.colour = colour
         self.upper_termination = upper_termination
         self.lower_termination = lower_termination
-        self.construction = RopeConstruction(construction_type=construction_type, diameter=diameter)
-        self.type = getattr(self, 'type', self.__class__.__name__)
+        self.construction = RopeConstruction(
+            construction_type=construction_type, diameter=diameter
+        )
+        self.type = getattr(self, "type", self.__class__.__name__)
 
     def break_strength(self):
         """

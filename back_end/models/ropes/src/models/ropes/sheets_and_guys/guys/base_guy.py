@@ -35,13 +35,17 @@ class Guy(Rope, ABC):
         colour (str): Colour of the rope.
         type (str): Rope type label (default: "Guy").
     """
-    def __init__(self, yacht,
-                 colour: Optional[str] = None,
-                 construction: Optional[str] = None,
-                 upper_termination: Optional[Termination] = None,
-                 lower_termination: Optional[Termination] = None,
-                 side: Optional[str] = None,
-                 **kwargs):
+
+    def __init__(
+        self,
+        yacht,
+        colour: Optional[str] = None,
+        construction: Optional[str] = None,
+        upper_termination: Optional[Termination] = None,
+        lower_termination: Optional[Termination] = None,
+        side: Optional[str] = None,
+        **kwargs,
+    ):
         """
         Base class for Guy ropes.
 
@@ -59,7 +63,14 @@ class Guy(Rope, ABC):
         self.length = self.calc_length()
         self.diameter = self.calc_diameter()
         self.colour = colour
-        super().__init__(self.length, self.diameter, colour, construction, upper_termination, lower_termination)
+        super().__init__(
+            self.length,
+            self.diameter,
+            colour,
+            construction,
+            upper_termination,
+            lower_termination,
+        )
         self.type = "Guy"
 
     def __str__(self):

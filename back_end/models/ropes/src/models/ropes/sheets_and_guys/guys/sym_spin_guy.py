@@ -35,17 +35,23 @@ class SymSpinGuy(Guy):
         lower_termination (Termination, optional): Lower end termination. Defaults to class default.
         **kwargs: Additional keyword arguments for extensibility.
     """
-    default_upper_termination = Termination(term_type="Splice", hardware="Small-Bail Snap Shackle")
+
+    default_upper_termination = Termination(
+        term_type="Splice", hardware="Small-Bail Snap Shackle"
+    )
     default_lower_termination = Termination(term_type="Whipping", hardware=None)
     default_colour = "Solid Green"
 
-    def __init__(self, yacht, 
-                 colour: Optional[str] = None,
-                 construction: Optional[str] = None,
-                 upper_termination: Optional[Termination] = None,
-                 lower_termination: Optional[Termination] = None,
-                 side: Optional[str] = None,
-                 **kwargs):
+    def __init__(
+        self,
+        yacht,
+        colour: Optional[str] = None,
+        construction: Optional[str] = None,
+        upper_termination: Optional[Termination] = None,
+        lower_termination: Optional[Termination] = None,
+        side: Optional[str] = None,
+        **kwargs
+    ):
         """
         Initialize an SymSpinSheet instance.
 
@@ -64,7 +70,15 @@ class SymSpinGuy(Guy):
             upper_termination = self.default_upper_termination
         if lower_termination is None:
             lower_termination = self.default_lower_termination
-        super().__init__(yacht, colour, construction, upper_termination, lower_termination, side=side, **kwargs)
+        super().__init__(
+            yacht,
+            colour,
+            construction,
+            upper_termination,
+            lower_termination,
+            side=side,
+            **kwargs
+        )
         self.type = "Asymetric Spinnaker Sheet"
 
     def calc_length(self) -> float:

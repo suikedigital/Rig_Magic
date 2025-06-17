@@ -27,8 +27,26 @@ CONSTRUCTION_MAP = {
 # These are example values; adjust as needed for your application or vendor data.
 PRESET_BREAK_STRAINS = {
     RopeConstructionType.BRAID_BRAID: {6: 820, 8: 2400, 10: 2400, 12: 3200, 14: 4500},
-    RopeConstructionType.DYNEEMA_BRAID: {4: 1600, 5: 2300, 6: 3100, 7: 4100, 8: 5200, 10: 7700, 12: 10500, 14: 13500},
-    RopeConstructionType.DYNEEMA_DYNEEMA: {4: 2000, 5: 3000, 6: 4000, 7: 5200, 8: 6500, 10: 9500, 12: 13000, 14: 17000},
+    RopeConstructionType.DYNEEMA_BRAID: {
+        4: 1600,
+        5: 2300,
+        6: 3100,
+        7: 4100,
+        8: 5200,
+        10: 7700,
+        12: 10500,
+        14: 13500,
+    },
+    RopeConstructionType.DYNEEMA_DYNEEMA: {
+        4: 2000,
+        5: 3000,
+        6: 4000,
+        7: 5200,
+        8: 6500,
+        10: 9500,
+        12: 13000,
+        14: 17000,
+    },
 }
 
 

@@ -21,7 +21,8 @@ class RopeDatabase:
     def create_tables(self):
         with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
-            cursor.execute('''
+            cursor.execute(
+                """
                 CREATE TABLE IF NOT EXISTS ropes (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     yacht_id INTEGER NOT NULL,
@@ -40,47 +41,65 @@ class RopeDatabase:
                     config TEXT,
                     UNIQUE(yacht_id, rope_type) ON CONFLICT REPLACE
                 )
-            ''')
-            cursor.execute('''
+            """
+            )
+            cursor.execute(
+                """
                 CREATE TABLE IF NOT EXISTS ropes_possible (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     yacht_id INTEGER NOT NULL,
                     rope_type TEXT NOT NULL,
                     config TEXT
                 )
-            ''')
+            """
+            )
             conn.commit()
 
     def save_rope(self, rope_type, rope, base_id=None):
         with sqlite3.connect(self.db_path) as conn:
             cursor = conn.cursor()
-            yacht_id = getattr(rope, 'yacht_id', None)
-            construction = getattr(rope, 'construction_type', None) or getattr(rope, 'construction', None)
-            if hasattr(construction, 'value'):
+            yacht_id = getattr(rope, "yacht_id", None)
+            construction = getattr(rope, "construction_type", None) or getattr(
+                rope, "construction", None
+            )
+            if hasattr(construction, "value"):
                 construction = construction.value
             elif construction is not None:
                 construction = str(construction)
-            colour = getattr(rope, 'colour', None)
-            length = getattr(rope, 'length', None)
-            diameter = getattr(rope, 'diameter', None)
-            upper_termination = getattr(rope, 'upper_termination', None)
-            lower_termination = getattr(rope, 'lower_termination', None)
-            upper_term_type = getattr(upper_termination, 'term_type', None)
-            upper_hardware = getattr(upper_termination, 'hardware', None)
-            lower_term_type = getattr(lower_termination, 'term_type', None)
-            lower_hardware = getattr(lower_termination, 'hardware', None)
-            led_aft = getattr(rope, 'led_aft', None)
-            required_wl_kg = getattr(rope, 'required_wl_kg', None)
-            config = getattr(rope, 'config', None)
-            cursor.execute('''
+            colour = getattr(rope, "colour", None)
+            length = getattr(rope, "length", None)
+            diameter = getattr(rope, "diameter", None)
+            upper_termination = getattr(rope, "upper_termination", None)
+            lower_termination = getattr(rope, "lower_termination", None)
+            upper_term_type = getattr(upper_termination, "term_type", None)
+            upper_hardware = getattr(upper_termination, "hardware", None)
+            lower_term_type = getattr(lower_termination, "term_type", None)
+            lower_hardware = getattr(lower_termination, "hardware", None)
+            led_aft = getattr(rope, "led_aft", None)
+            required_wl_kg = getattr(rope, "required_wl_kg", None)
+            config = getattr(rope, "config", None)
+            cursor.execute(
+                """
                 INSERT OR REPLACE INTO ropes (
                     yacht_id, base_id, rope_type, construction, colour, length, diameter,
                     upper_term_type, upper_hardware, lower_term_type, lower_hardware, led_aft, required_wl_kg, config
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (
-                    yacht_id, base_id, rope_type, construction, colour, length, diameter,
-                    upper_term_type, upper_hardware, lower_term_type, lower_hardware, led_aft, required_wl_kg, config
-                )
+                    yacht_id,
+                    base_id,
+                    rope_type,
+                    construction,
+                    colour,
+                    length,
+                    diameter,
+                    upper_term_type,
+                    upper_hardware,
+                    lower_term_type,
+                    lower_hardware,
+                    led_aft,
+                    required_wl_kg,
+                    config,
+                ),
             )
             conn.commit()
 
@@ -106,7 +125,7 @@ class RopeDatabase:
             cursor = conn.cursor()
             cursor.execute(
                 "INSERT INTO ropes_possible (yacht_id, rope_type, config) VALUES (?, ?, ?)",
-                (yacht_id, rope_type, str(config) if config else None)
+                (yacht_id, rope_type, str(config) if config else None),
             )
             conn.commit()
 
@@ -115,7 +134,7 @@ class RopeDatabase:
             cursor = conn.cursor()
             cursor.execute(
                 "SELECT rope_type, config FROM ropes_possible WHERE yacht_id = ?",
-                (yacht_id,)
+                (yacht_id,),
             )
             # Normalize all rope_type values on load
             return [(normalize_rope_type(row[0]), row[1]) for row in cursor.fetchall()]

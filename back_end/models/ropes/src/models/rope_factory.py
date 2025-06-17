@@ -112,10 +112,19 @@ class Factory:
         "JibHalyard": ["Jib"],
         "SpinnakerHalyard": ["AsymSpinnaker", "SymSpinnaker"],
         "CodeZeroHalyard": ["CodeZero"],
-        "TrisailHalyard": ["Trisail"]
+        "TrisailHalyard": ["Trisail"],
     }
 
-    def __init__(self, yacht_id, saildata, sail_service, wind_speed_in_knots=30, halyard_load_safety_factor=1.25, dynamic_load_safety_factor=1.5, length_safety_factor=1.2):
+    def __init__(
+        self,
+        yacht_id,
+        saildata,
+        sail_service,
+        wind_speed_in_knots=30,
+        halyard_load_safety_factor=1.25,
+        dynamic_load_safety_factor=1.5,
+        length_safety_factor=1.2,
+    ):
         """
         Initialize RunningRigging for a yacht.
 
@@ -128,15 +137,23 @@ class Factory:
 
         self.sail_service = sail_service
 
-        self.rope_types = []      # List of rope type names (e.g., ["MainHalyard"])
-        self.led_aft = {}         # Dict: rope_type (str) -> led aft length (float)
-        self.rope_config = {}     # Dict: rope_type (str) -> config dict (construction, color, etc.)
-        self.ropes = {}           # Dict: rope_type (str) -> Rope instance
+        self.rope_types = []  # List of rope type names (e.g., ["MainHalyard"])
+        self.led_aft = {}  # Dict: rope_type (str) -> led aft length (float)
+        self.rope_config = (
+            {}
+        )  # Dict: rope_type (str) -> config dict (construction, color, etc.)
+        self.ropes = {}  # Dict: rope_type (str) -> Rope instance
 
-        self.halyard_load_safety_factor = halyard_load_safety_factor  # Safety factor for halyard loads
-        self.dynamic_load_safety_factor = dynamic_load_safety_factor  # Safety factor for dynamic loads
+        self.halyard_load_safety_factor = (
+            halyard_load_safety_factor  # Safety factor for halyard loads
+        )
+        self.dynamic_load_safety_factor = (
+            dynamic_load_safety_factor  # Safety factor for dynamic loads
+        )
 
-        self.length_safety_factor = length_safety_factor  # Safety factors for halyard length
+        self.length_safety_factor = (
+            length_safety_factor  # Safety factors for halyard length
+        )
         self.wind_speed_in_knots = wind_speed_in_knots
 
     def _to_classname(self, rope_type):
@@ -170,7 +187,11 @@ class Factory:
             # If it's a sheet or guy, add both port and starboard if needed
             if child.endswith("Sheet") or child.endswith("Guy"):
                 for side in ["Port", "Starboard"]:
-                    child_name = f"{child}_{side}" if f"{child}_{side}" in Factory._ROPE_REGISTRY else child
+                    child_name = (
+                        f"{child}_{side}"
+                        if f"{child}_{side}" in Factory._ROPE_REGISTRY
+                        else child
+                    )
                     self.add_rope_type(child_name)
             else:
                 self.add_rope_type(child)
@@ -215,7 +236,9 @@ class Factory:
             led_aft = self.led_aft.get(rope_type_str, 0.0)
             rope_class = rope_registry.get(rope_type_str)
             if rope_class is None:
-                raise KeyError(f"Rope class for '{rope_type_str}' not found in registry.")
+                raise KeyError(
+                    f"Rope class for '{rope_type_str}' not found in registry."
+                )
             rope = rope_class(
                 yacht_id=self.yacht_id,
                 saildata=self.saildata,
@@ -225,7 +248,7 @@ class Factory:
                 halyard_load_safety_factor=self.halyard_load_safety_factor,
                 dynamic_load_safety_factor=self.dynamic_load_safety_factor,
                 sail_service=self.sail_service,
-                **config
+                **config,
             )
             self.ropes[rope_type_str] = rope
 
@@ -243,11 +266,17 @@ class Factory:
             KeyError: If the rope type does not exist in the registry.
         """
         rope_type_str = normalize_rope_type(rope_type)
-        print(f"[DEBUG] Factory.get: rope_type_str={rope_type_str}, available={list(self.ropes.keys())}")
+        print(
+            f"[DEBUG] Factory.get: rope_type_str={rope_type_str}, available={list(self.ropes.keys())}"
+        )
         if rope_type_str not in self.ropes:
             # Try to regenerate ropes from DB if missing
             self.generate_all_ropes_on_boat()
-            print(f"[DEBUG] Factory.get: After regeneration, available={list(self.ropes.keys())}")
+            print(
+                f"[DEBUG] Factory.get: After regeneration, available={list(self.ropes.keys())}"
+            )
             if rope_type_str not in self.ropes:
-                raise KeyError(f"Rope type '{rope_type_str}' not found in running rigging.")
+                raise KeyError(
+                    f"Rope type '{rope_type_str}' not found in running rigging."
+                )
         return self.ropes[rope_type_str]

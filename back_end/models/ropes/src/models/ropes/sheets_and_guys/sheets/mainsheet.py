@@ -36,19 +36,23 @@ class MainSheet(Sheet):
         lower_termination (Termination, optional): Lower end termination. Defaults to class default.
         **kwargs: Additional keyword arguments for extensibility.
     """
+
     default_upper_termination = Termination(term_type="Splice", hardware=None)
     default_lower_termination = Termination(term_type="Whipping", hardware=None)
     default_colour = "White"
 
-    def __init__(self, yacht,
-                 colour: Optional[str] = None,
-                 construction_type: RopeConstructionType = None,
-                 diameter: int = None,
-                 length: float = None,
-                 side: Optional[str] = None,
-                 upper_termination: Optional[Termination] = None,
-                 lower_termination: Optional[Termination] = None,
-                 **kwargs):
+    def __init__(
+        self,
+        yacht,
+        colour: Optional[str] = None,
+        construction_type: RopeConstructionType = None,
+        diameter: int = None,
+        length: float = None,
+        side: Optional[str] = None,
+        upper_termination: Optional[Termination] = None,
+        lower_termination: Optional[Termination] = None,
+        **kwargs
+    ):
         """
         Initialize a MainSheet instance.
         Calculates length if not provided, and passes all arguments to the base Sheet class.
@@ -95,4 +99,6 @@ class MainSheet(Sheet):
             float: The calculated and rounded-up length in meters.
         """
         # Example: 2.0 * E + 1.5 * LOA (can be adjusted as needed)
-        return self.round_up_half_meter(2.0 * yacht.saildata.main_e + 1.5 * yacht.boat_length)
+        return self.round_up_half_meter(
+            2.0 * yacht.saildata.main_e + 1.5 * yacht.boat_length
+        )

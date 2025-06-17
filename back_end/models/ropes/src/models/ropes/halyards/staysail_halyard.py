@@ -14,23 +14,34 @@ from ...components.rope_construction import RopeConstructionType
 
 
 class StaysailHalyard(Halyard):
-    default_upper_termination = Termination(term_type="Covered Splice", hardware="Shackle")
-    default_lower_termination = Termination(term_type="Pull Through Whipping", hardware=None)
+    default_upper_termination = Termination(
+        term_type="Covered Splice", hardware="Shackle"
+    )
+    default_lower_termination = Termination(
+        term_type="Pull Through Whipping", hardware=None
+    )
     default_colour = "Orange Fleck"
     default_construction = RopeConstructionType.BRAID_BRAID
     halyard_angle_deg = 15
 
-    def __init__(self, yacht_id, saidata, HALYARD_TO_SAIL, wind_speed_in_knots, led_aft: float,
-                 construction_type: RopeConstructionType = None,
-                 diameter: int = None,
-                 length: float = None,
-                 colour: Optional[str] = None,
-                 upper_termination: Optional[Termination] = None,
-                 lower_termination: Optional[Termination] = None,
-                 halyard_load_safety_factor: float = 1.25,
-                 dynamic_load_safety_factor: float = 1.5,
-                 sail_service=None,
-                 **kwargs):
+    def __init__(
+        self,
+        yacht_id,
+        saidata,
+        HALYARD_TO_SAIL,
+        wind_speed_in_knots,
+        led_aft: float,
+        construction_type: RopeConstructionType = None,
+        diameter: int = None,
+        length: float = None,
+        colour: Optional[str] = None,
+        upper_termination: Optional[Termination] = None,
+        lower_termination: Optional[Termination] = None,
+        halyard_load_safety_factor: float = 1.25,
+        dynamic_load_safety_factor: float = 1.5,
+        sail_service=None,
+        **kwargs
+    ):
         """
         Initialize a Staysail Halyard.
 
@@ -65,8 +76,8 @@ class StaysailHalyard(Halyard):
         self.construction_type = construction_type
         if diameter is None:
             diameter = self.calc_diameter(HALYARD_TO_SAIL, wind_speed_in_knots)
-        if 'length' in kwargs:
-            kwargs.pop('length')
+        if "length" in kwargs:
+            kwargs.pop("length")
         if length is None:
             length = self.calc_length()
         super().__init__(

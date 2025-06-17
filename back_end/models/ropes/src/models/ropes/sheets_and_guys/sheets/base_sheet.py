@@ -34,15 +34,19 @@ class Sheet(Rope, ABC):
         side (str, optional): Side of the yacht (port/starboard). Defaults to None.
         **kwargs: Additional keyword arguments for extensibility.
     """
-    def __init__(self, yacht,
-                 construction_type: RopeConstructionType,
-                 diameter: int,
-                 length: float,
-                 side: Optional[str] = None,
-                 colour: str = None,
-                 upper_termination: Termination = None,
-                 lower_termination: Termination = None,
-                 **kwargs):
+
+    def __init__(
+        self,
+        yacht,
+        construction_type: RopeConstructionType,
+        diameter: int,
+        length: float,
+        side: Optional[str] = None,
+        colour: str = None,
+        upper_termination: Termination = None,
+        lower_termination: Termination = None,
+        **kwargs,
+    ):
         """
         Base class for sheet ropes.
 
@@ -62,7 +66,16 @@ class Sheet(Rope, ABC):
         self.colour = colour
         self.upper_termination = upper_termination
         self.lower_termination = lower_termination
-        super().__init__(yacht=yacht, construction_type=construction_type, diameter=diameter, length=length, colour=colour, upper_termination=upper_termination, lower_termination=lower_termination, **kwargs)
+        super().__init__(
+            yacht=yacht,
+            construction_type=construction_type,
+            diameter=diameter,
+            length=length,
+            colour=colour,
+            upper_termination=upper_termination,
+            lower_termination=lower_termination,
+            **kwargs,
+        )
         self.type = "Sheet"
 
     def __str__(self):

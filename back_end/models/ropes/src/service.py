@@ -19,7 +19,7 @@ class RopeService:
 
     def _fetch_saildata(self, yacht_id):
         # Use a thread-local cache to avoid repeated HTTP requests for the same yacht_id within a request
-        if not hasattr(self._thread_local, 'saildata_cache'):
+        if not hasattr(self._thread_local, "saildata_cache"):
             self._thread_local.saildata_cache = {}
         cache = self._thread_local.saildata_cache
         if yacht_id in cache:
@@ -53,11 +53,20 @@ class RopeService:
             pass
         return None
 
-    def _get_factory(self, yacht_id, wind_speed_in_knots=30, halyard_load_safety_factor=4, dynamic_load_safety_factor=2, length_safety_factor=2):
+    def _get_factory(
+        self,
+        yacht_id,
+        wind_speed_in_knots=30,
+        halyard_load_safety_factor=4,
+        dynamic_load_safety_factor=2,
+        length_safety_factor=2,
+    ):
         saildata_dict = self._fetch_saildata(yacht_id)
         saildata = saildata_dict  # Use dict directly or refactor as needed
         if saildata is None:
-            raise ValueError(f"No saildata found for yacht_id={yacht_id}. Cannot create ropes.")
+            raise ValueError(
+                f"No saildata found for yacht_id={yacht_id}. Cannot create ropes."
+            )
         return Factory(
             yacht_id=yacht_id,
             saildata=saildata,
@@ -70,7 +79,10 @@ class RopeService:
     def add_rope_type(self, yacht_id, rope_type, led_aft=0.0, **kwargs):
         rope_type = normalize_rope_type(rope_type)
         known_factory_args = [
-            'wind_speed_in_knots', 'halyard_load_safety_factor', 'dynamic_load_safety_factor', 'length_safety_factor'
+            "wind_speed_in_knots",
+            "halyard_load_safety_factor",
+            "dynamic_load_safety_factor",
+            "length_safety_factor",
         ]
         factory_kwargs = {k: v for k, v in kwargs.items() if k in known_factory_args}
         config = {k: v for k, v in kwargs.items() if k not in known_factory_args}

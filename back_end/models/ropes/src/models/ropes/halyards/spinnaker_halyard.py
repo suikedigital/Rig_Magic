@@ -13,23 +13,33 @@ from ...components.rope_construction import RopeConstructionType
 
 
 class SpinnakerHalyard(Halyard):
-    default_upper_termination = Termination(term_type="Covered Splice", hardware="Swivel Shackle")
-    default_lower_termination = Termination(term_type="Pull Through Whipping", hardware=None)
+    default_upper_termination = Termination(
+        term_type="Covered Splice", hardware="Swivel Shackle"
+    )
+    default_lower_termination = Termination(
+        term_type="Pull Through Whipping", hardware=None
+    )
     default_colour = "Yellow Fleck"
     default_construction = RopeConstructionType.DYNEEMA_BRAID
     halyard_angle_deg = 25
 
-    def __init__(self, yacht_id, HALYARD_TO_SAIL, wind_speed_in_knots, led_aft: float,
-                 construction_type: RopeConstructionType = None,
-                 diameter: int = None,
-                 length: float = None,
-                 colour: Optional[str] = None,
-                 upper_termination: Optional[Termination] = None,
-                 lower_termination: Optional[Termination] = None,
-                 halyard_load_safety_factor: float = 1.25,
-                 dynamic_load_safety_factor: float = 1.5,
-                 sail_service=None,
-                 **kwargs):
+    def __init__(
+        self,
+        yacht_id,
+        HALYARD_TO_SAIL,
+        wind_speed_in_knots,
+        led_aft: float,
+        construction_type: RopeConstructionType = None,
+        diameter: int = None,
+        length: float = None,
+        colour: Optional[str] = None,
+        upper_termination: Optional[Termination] = None,
+        lower_termination: Optional[Termination] = None,
+        halyard_load_safety_factor: float = 1.25,
+        dynamic_load_safety_factor: float = 1.5,
+        sail_service=None,
+        **kwargs
+    ):
         self.type = self.__class__.__name__
         if colour is None:
             colour = self.default_colour
@@ -73,7 +83,7 @@ class SpinnakerHalyard(Halyard):
         """
         raw_length = (
             self.yacht.saildata.spin_i
-            + sqrt(self.yacht.saildata.spin_i ** 2 + self.yacht.saildata.spin_j ** 2)
+            + sqrt(self.yacht.saildata.spin_i**2 + self.yacht.saildata.spin_j**2)
             + self.led_aft
             + self.halyard_length_safety_margin
         )

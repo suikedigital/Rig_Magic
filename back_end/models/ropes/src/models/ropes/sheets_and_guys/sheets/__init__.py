@@ -15,5 +15,5 @@ __all__ = [
     "MainSheet",
     "StaysailSheet",
     "SymSpinSheet",
-    "TrisailSheet"
+    "TrisailSheet",
 ]

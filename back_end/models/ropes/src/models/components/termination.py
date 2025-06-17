@@ -24,6 +24,7 @@ class Termination:
         term_type (str): The type of termination.
         hardware (str, optional): Hardware attached to the termination.
     """
+
     def __init__(self, term_type: str, hardware: Optional[str] = None):
         """
         Represents a rope termination (end), e.g., eye splice, knot, with optional hardware.

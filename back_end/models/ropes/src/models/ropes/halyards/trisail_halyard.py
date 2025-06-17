@@ -14,24 +14,35 @@ from ...components.rope_construction import RopeConstructionType
 
 
 class TrisailHalyard(Halyard):
-    default_upper_termination = Termination(term_type="Covered Splice", hardware="Shackle")
-    default_lower_termination = Termination(term_type="Pull Through Whipping", hardware=None)
+    default_upper_termination = Termination(
+        term_type="Covered Splice", hardware="Shackle"
+    )
+    default_lower_termination = Termination(
+        term_type="Pull Through Whipping", hardware=None
+    )
     default_colour = "Purple Fleck"
     default_construction = RopeConstructionType.BRAID_BRAID
     halyard_angle_deg = 10
 
-    def __init__(self, yacht_id, saildata, HALYARD_TO_SAIL, wind_speed_in_knots, led_aft: float,
-                 length_safety_margin: float = 1.0,
-                 construction_type: RopeConstructionType = None,
-                 diameter: int = None,
-                 length: float = None,
-                 colour: Optional[str] = None,
-                 upper_termination: Optional[Termination] = None,
-                 lower_termination: Optional[Termination] = None,
-                 halyard_load_safety_factor: float = 1.25,
-                 dynamic_load_safety_factor: float = 1.5,
-                 sail_service=None,
-                 **kwargs):
+    def __init__(
+        self,
+        yacht_id,
+        saildata,
+        HALYARD_TO_SAIL,
+        wind_speed_in_knots,
+        led_aft: float,
+        length_safety_margin: float = 1.0,
+        construction_type: RopeConstructionType = None,
+        diameter: int = None,
+        length: float = None,
+        colour: Optional[str] = None,
+        upper_termination: Optional[Termination] = None,
+        lower_termination: Optional[Termination] = None,
+        halyard_load_safety_factor: float = 1.25,
+        dynamic_load_safety_factor: float = 1.5,
+        sail_service=None,
+        **kwargs
+    ):
         self.type = self.__class__.__name__
         """
         Initialize a Trisail Halyard.
@@ -70,7 +81,11 @@ class TrisailHalyard(Halyard):
         if diameter is None:
             diameter = self.calc_diameter(HALYARD_TO_SAIL, wind_speed_in_knots)
 
-        length = self.calc_length(saildata, led_aft, self.length_safety_margin) if length is None else length
+        length = (
+            self.calc_length(saildata, led_aft, self.length_safety_margin)
+            if length is None
+            else length
+        )
 
         super().__init__(
             yacht_id=yacht_id,
@@ -128,22 +143,66 @@ class TrisailHalyard(Halyard):
         ]
         # Add all trisail-related saildata keys
         trisail_keys = [
-            "trisail_i", "trisail_j", "trisail_area", "trisail_luff", "trisail_leech", "trisail_foot",
-            "trisail_clew", "trisail_head", "trisail_tack", "trisail_mid_girth", "trisail_top_girth",
-            "trisail_bottom_girth", "trisail_batten_type", "trisail_batten_length", "trisail_batten_quantity",
-            "trisail_window", "trisail_window_location", "trisail_reef_points", "trisail_cunningham",
-            "trisail_halyard", "trisail_downhaul", "trisail_sheets", "trisail_blocks", "trisail_outriggers",
-            "trisail_tack_line", "trisail_clew_line", "trisail_head_line", "trisail_mid_girth_line",
-            "trisail_top_girth_line", "trisail_bottom_girth_line", "trisail_batten_type_line",
-            "trisail_batten_length_line", "trisail_batten_quantity_line", "trisail_window_line",
-            "trisail_window_location_line", "trisail_reef_points_line", "trisail_cunningham_line",
-            "trisail_halyard_line", "trisail_downhaul_line", "trisail_sheets_line", "trisail_blocks_line",
-            "trisail_outriggers_line", "trisail_tack_line_line", "trisail_clew_line_line", "trisail_head_line_line",
-            "trisail_mid_girth_line_line", "trisail_top_girth_line_line", "trisail_bottom_girth_line_line",
-            "trisail_batten_type_line_line", "trisail_batten_length_line_line", "trisail_batten_quantity_line_line",
-            "trisail_window_line_line", "trisail_window_location_line_line", "trisail_reef_points_line_line",
-            "trisail_cunningham_line_line", "trisail_halyard_line_line", "trisail_downhaul_line_line",
-            "trisail_sheets_line_line", "trisail_blocks_line_line", "trisail_outriggers_line_line",
+            "trisail_i",
+            "trisail_j",
+            "trisail_area",
+            "trisail_luff",
+            "trisail_leech",
+            "trisail_foot",
+            "trisail_clew",
+            "trisail_head",
+            "trisail_tack",
+            "trisail_mid_girth",
+            "trisail_top_girth",
+            "trisail_bottom_girth",
+            "trisail_batten_type",
+            "trisail_batten_length",
+            "trisail_batten_quantity",
+            "trisail_window",
+            "trisail_window_location",
+            "trisail_reef_points",
+            "trisail_cunningham",
+            "trisail_halyard",
+            "trisail_downhaul",
+            "trisail_sheets",
+            "trisail_blocks",
+            "trisail_outriggers",
+            "trisail_tack_line",
+            "trisail_clew_line",
+            "trisail_head_line",
+            "trisail_mid_girth_line",
+            "trisail_top_girth_line",
+            "trisail_bottom_girth_line",
+            "trisail_batten_type_line",
+            "trisail_batten_length_line",
+            "trisail_batten_quantity_line",
+            "trisail_window_line",
+            "trisail_window_location_line",
+            "trisail_reef_points_line",
+            "trisail_cunningham_line",
+            "trisail_halyard_line",
+            "trisail_downhaul_line",
+            "trisail_sheets_line",
+            "trisail_blocks_line",
+            "trisail_outriggers_line",
+            "trisail_tack_line_line",
+            "trisail_clew_line_line",
+            "trisail_head_line_line",
+            "trisail_mid_girth_line_line",
+            "trisail_top_girth_line_line",
+            "trisail_bottom_girth_line_line",
+            "trisail_batten_type_line_line",
+            "trisail_batten_length_line_line",
+            "trisail_batten_quantity_line_line",
+            "trisail_window_line_line",
+            "trisail_window_location_line_line",
+            "trisail_reef_points_line_line",
+            "trisail_cunningham_line_line",
+            "trisail_halyard_line_line",
+            "trisail_downhaul_line_line",
+            "trisail_sheets_line_line",
+            "trisail_blocks_line_line",
+            "trisail_outriggers_line_line",
             # Add more as needed
         ]
         attrs.extend(self.saildata.get(key) for key in trisail_keys)

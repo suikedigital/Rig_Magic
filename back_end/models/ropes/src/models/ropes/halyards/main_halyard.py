@@ -14,23 +14,34 @@ from ...components.rope_construction import RopeConstructionType
 
 
 class MainHalyard(Halyard):
-    default_upper_termination = Termination(term_type="Covered Splice", hardware="Shackle")
-    default_lower_termination = Termination(term_type="Pull Through Whipping", hardware=None)
+    default_upper_termination = Termination(
+        term_type="Covered Splice", hardware="Shackle"
+    )
+    default_lower_termination = Termination(
+        term_type="Pull Through Whipping", hardware=None
+    )
     default_colour = "Blue Fleck"
     default_construction = RopeConstructionType.BRAID_BRAID
     halyard_angle_deg = 10
 
-    def __init__(self, yacht_id, saildata, HALYARD_TO_SAIL, wind_speed_in_knots, led_aft: float,
-                 construction_type: RopeConstructionType = None,
-                 diameter: int = None,
-                 colour: Optional[str] = None,
-                 upper_termination: Optional[Termination] = None,
-                 lower_termination: Optional[Termination] = None,
-                 halyard_load_safety_factor: float = 1.25,
-                 dynamic_load_safety_factor: float = 1.5,
-                 halyard_length_safety_margin: float = 1.0,
-                 sail_service=None,
-                 **kwargs):
+    def __init__(
+        self,
+        yacht_id,
+        saildata,
+        HALYARD_TO_SAIL,
+        wind_speed_in_knots,
+        led_aft: float,
+        construction_type: RopeConstructionType = None,
+        diameter: int = None,
+        colour: Optional[str] = None,
+        upper_termination: Optional[Termination] = None,
+        lower_termination: Optional[Termination] = None,
+        halyard_load_safety_factor: float = 1.25,
+        dynamic_load_safety_factor: float = 1.5,
+        halyard_length_safety_margin: float = 1.0,
+        sail_service=None,
+        **kwargs
+    ):
         self.type = self.__class__.__name__
         if colour is None:
             colour = self.default_colour
@@ -47,7 +58,7 @@ class MainHalyard(Halyard):
             yacht_id=yacht_id,
             construction_type=construction_type,
             diameter=None,  # Will set after
-            length=None,    # Will set after
+            length=None,  # Will set after
             colour=colour,
             upper_termination=upper_termination,
             lower_termination=lower_termination,
@@ -71,7 +82,7 @@ class MainHalyard(Halyard):
         # Typical main halyard: 2x luff length (P), plus foot (E), plus led_aft, plus margin
         raw_length = (
             (saildata.p * 2)
-            + sqrt(saildata.p ** 2 + saildata.e ** 2)
+            + sqrt(saildata.p**2 + saildata.e**2)
             + self.led_aft
             + self.halyard_length_safety_margin
         )

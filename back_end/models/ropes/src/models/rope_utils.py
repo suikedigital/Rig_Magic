@@ -7,7 +7,7 @@ def normalize_rope_type(rope_type):
     """
     Normalize any rope type input (enum, string, etc.) to the canonical registry key.
     """
-    if hasattr(rope_type, 'value'):
+    if hasattr(rope_type, "value"):
         rope_type = rope_type.value
     s = str(rope_type).replace(" ", "").replace("_", "").title().lower()
     mapping = {
