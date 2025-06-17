@@ -80,3 +80,27 @@ class JibHalyard(Halyard):
             + length_safety_margin
         )
         return self.round_up_half_meter(raw_length)
+
+    def is_complete(self):
+        """
+        Check if the halyard instance has all the necessary attributes set.
+
+        Returns:
+            bool: True if the instance is complete, False otherwise.
+        """
+        return all(
+            [
+                self.length is not None,
+                self.diameter is not None,
+                self.material is not None,
+                self.cover is not None,
+                self.core is not None,
+                self.termination is not None,
+                self.construction is not None,
+                self.breaking_load is not None,
+                self.stretch is not None,
+                self.weight is not None,
+                self.price is not None,
+                self.notes is not None,
+            ]
+        )

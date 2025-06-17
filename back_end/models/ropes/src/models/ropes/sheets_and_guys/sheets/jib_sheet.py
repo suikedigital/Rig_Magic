@@ -79,7 +79,7 @@ class JibSheet(Sheet):
             **kwargs
         )
         self.type = "Jib Sheet"
-    
+
     def calc_length(self, yacht) -> float:
         """
         Calculate the length of the jib sheet based on yacht dimensions.
@@ -91,7 +91,6 @@ class JibSheet(Sheet):
             float: The calculated and rounded-up length in meters.
         """
         return self.round_up_half_meter(2.2 * yacht.saildata.jib_j + 1.8 * yacht.boat_length)
-        
 
     def calc_diameter(self) -> float:
         """

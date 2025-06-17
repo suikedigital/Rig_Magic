@@ -31,7 +31,7 @@ class RopeService:
                 if data and isinstance(data, dict) and data.get("i") is not None:
                     cache[yacht_id] = data
                     return data
-        except:
+        except Exception:
             pass  # Optionally log error
         return None
 

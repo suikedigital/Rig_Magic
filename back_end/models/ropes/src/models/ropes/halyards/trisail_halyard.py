@@ -100,6 +100,51 @@ class TrisailHalyard(Halyard):
             saildata["trisail_i"]
             + sqrt(saildata["trisail_i"] ** 2 + saildata["trisail_j"] ** 2)
             + led_aft
-            + length_safety_margin
+            + self.halyard_length_safety_margin
         )
         return self.round_up_half_meter(raw_length)
+
+    def is_complete(self):
+        """
+        Check if the halyard instance is complete with all necessary attributes set.
+
+        Returns:
+            bool: True if the instance is complete, False otherwise.
+        """
+        attrs = [
+            self.yacht_id,
+            self.sail_service,
+            self.saildata,
+            self.led_aft,
+            self.length_safety_margin,
+            self.construction_type,
+            self.diameter,
+            self.length,
+            self.colour,
+            self.upper_termination,
+            self.lower_termination,
+            self.halyard_load_safety_factor,
+            self.dynamic_load_safety_factor,
+        ]
+        # Add all trisail-related saildata keys
+        trisail_keys = [
+            "trisail_i", "trisail_j", "trisail_area", "trisail_luff", "trisail_leech", "trisail_foot",
+            "trisail_clew", "trisail_head", "trisail_tack", "trisail_mid_girth", "trisail_top_girth",
+            "trisail_bottom_girth", "trisail_batten_type", "trisail_batten_length", "trisail_batten_quantity",
+            "trisail_window", "trisail_window_location", "trisail_reef_points", "trisail_cunningham",
+            "trisail_halyard", "trisail_downhaul", "trisail_sheets", "trisail_blocks", "trisail_outriggers",
+            "trisail_tack_line", "trisail_clew_line", "trisail_head_line", "trisail_mid_girth_line",
+            "trisail_top_girth_line", "trisail_bottom_girth_line", "trisail_batten_type_line",
+            "trisail_batten_length_line", "trisail_batten_quantity_line", "trisail_window_line",
+            "trisail_window_location_line", "trisail_reef_points_line", "trisail_cunningham_line",
+            "trisail_halyard_line", "trisail_downhaul_line", "trisail_sheets_line", "trisail_blocks_line",
+            "trisail_outriggers_line", "trisail_tack_line_line", "trisail_clew_line_line", "trisail_head_line_line",
+            "trisail_mid_girth_line_line", "trisail_top_girth_line_line", "trisail_bottom_girth_line_line",
+            "trisail_batten_type_line_line", "trisail_batten_length_line_line", "trisail_batten_quantity_line_line",
+            "trisail_window_line_line", "trisail_window_location_line_line", "trisail_reef_points_line_line",
+            "trisail_cunningham_line_line", "trisail_halyard_line_line", "trisail_downhaul_line_line",
+            "trisail_sheets_line_line", "trisail_blocks_line_line", "trisail_outriggers_line_line",
+            # Add more as needed
+        ]
+        attrs.extend(self.saildata.get(key) for key in trisail_keys)
+        return all(attr is not None for attr in attrs)

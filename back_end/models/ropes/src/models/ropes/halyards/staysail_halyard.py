@@ -96,6 +96,33 @@ class StaysailHalyard(Halyard):
             self.saildata["staysail_i"]
             + sqrt(self.saildata["staysail_i"] ** 2 + self.saildata["staysail_j"] ** 2)
             + self.led_aft
-            + self.safety_margin
+            + self.halyard_length_safety_margin
         )
         return self.round_up_half_meter(raw_length)
+
+    def is_complete(self):
+        """
+        Check if the staysail halyard instance has all the necessary attributes set.
+
+        Returns:
+            bool: True if the instance is complete, False otherwise.
+        """
+        return all(
+            attr is not None
+            for attr in (
+                self.yacht_id,
+                self.led_aft,
+                self.length,
+                self.diameter,
+                self.material,
+                self.cover,
+                self.core,
+                self.termination,
+                self.construction,
+                self.breaking_load,
+                self.stretch,
+                self.weight,
+                self.price,
+                self.notes,
+            )
+        )

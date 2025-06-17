@@ -75,6 +75,22 @@ class GenoaHalyard(Halyard):
         )
         return self.round_up_half_meter(raw_length)
 
+    def is_valid(self):
+        return (
+            self.length is not None
+            and self.diameter is not None
+            and self.material is not None
+            and self.cover is not None
+            and self.core is not None
+            and self.termination is not None
+            and self.construction is not None
+            and self.breaking_load is not None
+            and self.stretch is not None
+            and self.weight is not None
+            and self.price is not None
+            and self.notes is not None
+        )
+
 
 def get_val(saildata, key):
     if isinstance(saildata, dict):

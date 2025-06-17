@@ -93,6 +93,43 @@ class ToppingLiftHalyard(Halyard):
             self.saildata["main_p"]
             + sqrt(self.saildata["main_p"] ** 2 + self.saildata["main_e"] ** 2)
             + self.led_aft
-            + self.safety_margin
+            + self.halyard_length_safety_margin
         )
         return self.round_up_half_meter(raw_length)
+
+    def is_complete(self):
+        """
+        Check if the halyard instance has all the required attributes set.
+
+        Returns:
+            bool: True if the instance is complete, False otherwise.
+        """
+        return all(
+            attr is not None
+            for attr in (
+                self.yacht_id,
+                self.saildata,
+                self.HALYARD_TO_SAIL,
+                self.wind_speed_in_knots,
+                self.led_aft,
+                self.construction_type,
+                self.diameter,
+                self.length,
+                self.colour,
+                self.upper_termination,
+                self.lower_termination,
+                self.halyard_load_safety_factor,
+                self.dynamic_load_safety_factor,
+                self.sail_service,
+                self.material,
+                self.cover,
+                self.core,
+                self.termination,
+                self.construction,
+                self.breaking_load,
+                self.stretch,
+                self.weight,
+                self.price,
+                self.notes,
+            )
+        )
