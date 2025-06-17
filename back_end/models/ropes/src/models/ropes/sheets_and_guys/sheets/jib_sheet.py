@@ -40,7 +40,7 @@ class JibSheet(Sheet):
     default_lower_termination = Termination(term_type="Whipping", hardware=None)
     default_colour = "Solid Blue"
 
-    def __init__(self, yacht, 
+    def __init__(self, yacht,
                  colour: Optional[str] = None,
                  construction_type: RopeConstructionType = None,
                  diameter: int = None,

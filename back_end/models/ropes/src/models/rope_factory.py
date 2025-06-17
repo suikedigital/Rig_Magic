@@ -1,24 +1,3 @@
-"""
-rope_factory.py
----------------
-Factory for creating rope objects based on type and configuration in the running rigging management system.
-
-- Maps rope type names to rope classes
-- Instantiates rope objects with correct parameters
-- Used by RopeService and other modules to generate ropes dynamically
-"""
-
-"""
-RunningRigging module
----------------------
-This module defines the RunningRigging class, representing the running rigging system for a yacht.
-
-The RunningRigging class manages dynamic rope instantiation, configuration overrides, automatic port/starboard pairing, and provides robust error handling for rope retrieval.
-
-Classes:
-    RunningRigging: Manages a yacht's running rigging system.
-"""
-
 from .database import RopeDatabase
 from config import ROPES_DB_PATH
 from .rope_utils import normalize_rope_type
@@ -39,6 +18,27 @@ from .ropes.sheets_and_guys.sheets.asym_spinnaker_sheet import AsymSpinSheet
 from .ropes.sheets_and_guys.sheets.code_zero_sheet import CodeZeroSheet
 from .ropes.sheets_and_guys.sheets.trisail_sheet import TrisailSheet
 from .ropes.sheets_and_guys.guys.sym_spin_guy import SymSpinGuy
+
+"""
+rope_factory.py
+---------------
+Factory for creating rope objects based on type and configuration in the running rigging management system.
+
+- Maps rope type names to rope classes
+- Instantiates rope objects with correct parameters
+- Used by RopeService and other modules to generate ropes dynamically
+"""
+
+"""
+RunningRigging module
+---------------------
+This module defines the RunningRigging class, representing the running rigging system for a yacht.
+
+The RunningRigging class manages dynamic rope instantiation, configuration overrides, automatic port/starboard pairing, and provides robust error handling for rope retrieval.
+
+Classes:
+    RunningRigging: Manages a yacht's running rigging system.
+"""
 
 
 class Factory:

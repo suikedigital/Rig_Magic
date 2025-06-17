@@ -97,10 +97,10 @@ class TrisailHalyard(Halyard):
             float: The halyard length, rounded up to the nearest 0.5 meter.
         """
         raw_length = (
-            saildata["trisail_i"] +
-            sqrt(saildata["trisail_i"] ** 2 + saildata["trisail_j"] ** 2) +
-            led_aft +
-            self.halyard_length_safety_margin
+            saildata["trisail_i"]
+            + sqrt(saildata["trisail_i"] ** 2 + saildata["trisail_j"] ** 2)
+            + led_aft
+            + self.halyard_length_safety_margin
         )
         return self.round_up_half_meter(raw_length)
 

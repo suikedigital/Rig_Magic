@@ -70,10 +70,10 @@ class MainHalyard(Halyard):
         """
         # Typical main halyard: 2x luff length (P), plus foot (E), plus led_aft, plus margin
         raw_length = (
-            (saildata.p * 2) +
-            sqrt(saildata.p ** 2 + saildata.e ** 2) +
-            self.led_aft +
-            self.halyard_length_safety_margin
+            (saildata.p * 2)
+            + sqrt(saildata.p ** 2 + saildata.e ** 2)
+            + self.led_aft
+            + self.halyard_length_safety_margin
         )
         return self.round_up_half_meter(raw_length)
 
