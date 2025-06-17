@@ -16,7 +16,7 @@ class Trimaran:
         return 0.5 * self.hull_length * self.beam_width
 
     def display_specs(self):
-        print(f"Trimaran Specifications:")
+        print("Trimaran Specifications:")
         print(f"Hull Length: {self.hull_length} meters")
         print(f"Beam Width: {self.beam_width} meters")
         print(f"Draft Depth: {self.draft_depth} meters")
