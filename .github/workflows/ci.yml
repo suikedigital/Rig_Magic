@@ -1,5 +1,8 @@
 name: CI for Monorepo
 # This GitHub Actions workflow is designed to build and test multiple microservices in a monorepo.
+permissions:
+  contents: write
+
 on:
   push:
     branches: [main]
