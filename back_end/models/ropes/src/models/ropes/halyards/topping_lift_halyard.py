@@ -11,6 +11,7 @@ from .base_halyard import Halyard
 from ...components.termination import Termination
 from ...components.rope_construction import RopeConstructionType
 
+
 class ToppingLiftHalyard(Halyard):
     default_upper_termination = Termination(term_type="Covered Splice", hardware="Shackle")
     default_lower_termination = Termination(term_type="Pull Through Whipping", hardware=None)

@@ -10,8 +10,9 @@ from back_end.logger import get_logger
 
 logger = get_logger(__name__)
 
+
 class SailData:
-    def __init__(self, yacht_id,  i, j, p, e, base_id=None, **kwargs):
+    def __init__(self, yacht_id, i, j, p, e, base_id=None, **kwargs):
         """
         Represents the sail data for a yacht.
 
@@ -45,7 +46,7 @@ class SailData:
         self.staysail_j = kwargs.get("staysail_j", j)
         self.trisail_i = kwargs.get("trisail_i", i)
         self.trisail_j = kwargs.get("trisail_j", j)
-        
+
         # Any other extras as attributes (lowercased for consistency)
         for key, value in kwargs.items():
             setattr(self, key.lower(), value)
@@ -53,7 +54,7 @@ class SailData:
     def to_dict(self):
         d = self.__dict__.copy()
         return d
-    
+
     def strip_base_keys(self):
         # Remove base keys from the dictionary
         base_keys = {"yacht_id", "i", "j", "p", "e"}
@@ -66,14 +67,14 @@ class SailData:
         i = data.get("i")
         j = data.get("j")
         p = data.get("p")
-        e =  data.get("e")
+        e = data.get("e")
         base_keys = {"yacht_id", "i", "j", "p", "e", }
         kwargs = {k: v for k, v in data.items() if k not in base_keys}
         return cls(yacht_id, i, j, p, e, **kwargs)
-    
+
     def __str__(self):
         return f"SailData(yacht_id={self.yacht_id}, i={self.i}, j={self.j}, p={self.p}, e={self.e} kwargs={self.strip_base_keys()})"
-    
+
 if __name__ == "__main__":
     # Example usage
     sail_data = SailData(

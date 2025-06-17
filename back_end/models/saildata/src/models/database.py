@@ -2,10 +2,10 @@ import sqlite3
 from .saildata import SailData
 from config import SAILDATA_DB_PATH
 import json
-import logging
 from back_end.logger import get_logger
 
 logger = get_logger(__name__)
+
 
 class SailDataDatabase:
     def __init__(self, db_path=SAILDATA_DB_PATH):

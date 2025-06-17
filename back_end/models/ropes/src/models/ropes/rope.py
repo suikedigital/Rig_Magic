@@ -9,10 +9,11 @@ Classes:
     Rope: Abstract base class for all running rigging ropes.
 """
 
-import math 
+import math
 
 from ..components.termination import Termination
 from ..components.rope_construction import RopeConstruction, RopeConstructionType
+
 
 class Rope:
     """
@@ -36,7 +37,18 @@ class Rope:
         lower_termination (Termination, optional): Lower termination object.
         **kwargs: Additional keyword arguments for extensibility.
     """
-    def __init__(self, yacht_id, construction_type: RopeConstructionType, diameter: int, length: float, colour: str = None, upper_termination: Termination = None, lower_termination: Termination = None, **kwargs):
+
+    def __init__(
+        self,
+        yacht_id,
+        construction_type: RopeConstructionType,
+        diameter: int,
+        length: float,
+        colour: str = None,
+        upper_termination: Termination = None,
+        lower_termination: Termination = None,
+        **kwargs
+    ):
         self.yacht = yacht_id
         self.construction_type = construction_type
         self.diameter = diameter

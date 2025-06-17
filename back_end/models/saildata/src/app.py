@@ -7,6 +7,7 @@ from .service import SailDataService
 app = FastAPI()
 saildata_service = SailDataService()
 
+
 class SailDataRequest(BaseModel):
     yacht_id: int
     i: float
@@ -16,6 +17,7 @@ class SailDataRequest(BaseModel):
     base_id: Optional[int] = None
     extras: Optional[Dict[str, Any]] = None
 
+
 @app.post("/saildata/")
 def add_saildata(req: SailDataRequest):
     data = req.dict()
@@ -23,6 +25,7 @@ def add_saildata(req: SailDataRequest):
     data.update(extras)
     saildata_service.save_saildata_from_dict(data["yacht_id"], data)
     return {"status": "ok"}
+
 
 @app.get("/saildata/{yacht_id}")
 def get_saildata(yacht_id: int):
@@ -33,9 +36,11 @@ def get_saildata(yacht_id: int):
         return saildata.to_dict()
     return saildata
 
+
 @app.get("/saildata/debug/list_ids")
 def list_ids():
     return saildata_service.db.list_yacht_ids()
+
 
 @app.delete("/saildata/{yacht_id}")
 def delete_saildata(yacht_id: int):

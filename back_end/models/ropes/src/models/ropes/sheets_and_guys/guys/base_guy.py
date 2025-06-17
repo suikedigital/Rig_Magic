@@ -13,7 +13,6 @@ from ...rope import Rope
 from ....components.termination import Termination
 
 
-
 class Guy(Rope, ABC):
     """
     Abstract base class for all guy rope types.
@@ -36,7 +35,7 @@ class Guy(Rope, ABC):
         colour (str): Colour of the rope.
         type (str): Rope type label (default: "Guy").
     """
-    def __init__(self, yacht, 
+    def __init__(self, yacht,
                  colour: Optional[str] = None,
                  construction: Optional[str] = None,
                  upper_termination: Optional[Termination] = None,
@@ -73,7 +72,7 @@ class Guy(Rope, ABC):
             f"Upper: {self.upper_termination}\n"
             f"Lower: {self.lower_termination}\n"
         )
-    
+
     @abstractmethod
     def calc_length(self) -> float:
         """
@@ -92,4 +91,4 @@ class Guy(Rope, ABC):
         Returns:
             float: The calculated diameter in millimeters.
         """
-        return  str(NotImplementedError("Diameter calculation not implemented yet."))
+        return str(NotImplementedError("Diameter calculation not implemented yet."))

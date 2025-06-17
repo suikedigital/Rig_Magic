@@ -8,8 +8,10 @@ from back_end.logger import get_logger
 
 logger = get_logger(__name__)
 
+
 class SailDataService:
     _thread_local = threading.local()
+
     def __init__(self, db_path=SAILDATA_DB_PATH, api_url=None):
         self.db = SailDataDatabase(db_path)
         self.api_url = api_url or "http://localhost:8001"  # Default saildata API URL
@@ -62,8 +64,8 @@ class SailDataService:
                 data = resp.json()
                 cache[yacht_id] = data
                 return data
-        except Exception as e:
-            pass  # Fallback to DB if HTTP fails
+        except Exception:
+            pass  # Remove unused variable 'e' (F841)
         result = self.db.get_saildata_by_yacht(yacht_id)
         if result is None:
             return None
@@ -79,5 +81,6 @@ class SailDataService:
 
     def close(self):
         self.db.close()
+
 
 # Ensure requests is in requirements.txt
