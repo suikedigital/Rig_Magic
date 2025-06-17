@@ -69,7 +69,13 @@ class SailData:
         j = data.get("j")
         p = data.get("p")
         e = data.get("e")
-        base_keys = {"yacht_id", "i", "j", "p", "e", }
+        base_keys = {
+            "yacht_id",
+            "i",
+            "j",
+            "p",
+            "e",
+        }
         kwargs = {k: v for k, v in data.items() if k not in base_keys}
         return cls(yacht_id, i, j, p, e, **kwargs)
 
@@ -80,13 +86,6 @@ class SailData:
 if __name__ == "__main__":
     # Example usage
     sail_data = SailData(
-        yacht_id=1,
-        i=10,
-        j=5,
-        p=15,
-        e=7,
-        codezero_i=12,
-        jib_i=8,
-        jib_j=4
+        yacht_id=1, i=10, j=5, p=15, e=7, codezero_i=12, jib_i=8, jib_j=4
     )
     print(sail_data.to_dict())

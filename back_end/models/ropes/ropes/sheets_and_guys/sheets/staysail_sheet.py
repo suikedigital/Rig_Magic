@@ -38,19 +38,25 @@ class StaysailSheet(Sheet):
         lower_termination (Termination, optional): Lower end termination. Defaults to class default.
         **kwargs: Additional keyword arguments for extensibility.
     """
-    default_upper_termination = Termination(term_type="Splice", hardware="Small-Bail Snap Shackle")
+
+    default_upper_termination = Termination(
+        term_type="Splice", hardware="Small-Bail Snap Shackle"
+    )
     default_lower_termination = Termination(term_type="Whipping", hardware=None)
     default_colour = "Silver Grey"
 
-    def __init__(self, yacht, 
-                 colour: Optional[str] = None,
-                 construction_type: RopeConstructionType = None,
-                 diameter: int = None,
-                 length: float = None,
-                 side: Optional[str] = None,
-                 upper_termination: Optional[Termination] = None,
-                 lower_termination: Optional[Termination] = None,
-                 **kwargs):
+    def __init__(
+        self,
+        yacht,
+        colour: Optional[str] = None,
+        construction_type: RopeConstructionType = None,
+        diameter: int = None,
+        length: float = None,
+        side: Optional[str] = None,
+        upper_termination: Optional[Termination] = None,
+        lower_termination: Optional[Termination] = None,
+        **kwargs
+    ):
         """
         Initialize a StaysailSheet instance.
         Calculates length if not provided, and passes all arguments to the base Sheet class.
@@ -81,7 +87,7 @@ class StaysailSheet(Sheet):
             **kwargs
         )
         self.type = "Staysail Sheet"
-    
+
     def calc_length(self, yacht) -> float:
         """
         Calculate the length of the staysail sheet based on yacht dimensions.
@@ -93,8 +99,10 @@ class StaysailSheet(Sheet):
             float: The calculated and rounded-up length in meters.
         """
         # Example: 2.1 * J + 1.7 * LOA (can be adjusted as needed)
-        return round_up_half_meter(2.1 * yacht.saildata.staysail_j + 1.7 * yacht.boat_length)
-        
+        return round_up_half_meter(
+            2.1 * yacht.saildata.staysail_j + 1.7 * yacht.boat_length
+        )
+
     def calc_diameter(self) -> float:
         """
         Calculate the diameter of the sheet.
@@ -105,4 +113,4 @@ class StaysailSheet(Sheet):
         Note:
             Not yet implemented. Raises NotImplementedError.
         """
-        return  str(NotImplementedError("Diameter calculation not implemented yet."))
+        return str(NotImplementedError("Diameter calculation not implemented yet."))

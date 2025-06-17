@@ -32,18 +32,21 @@ def create_user_yacht_from_base(base_yacht_id, user_id, overrides=None):
     # 3. Apply any overrides
     # 4. Return new yacht_id
     pass
-    
+
+
 def get_full_yacht_profile(yacht_id):
     # 1. Query each microservice for yacht_id
     # 2. Assemble and return a complete profile dictionary
     pass
+
 
 def delete_yacht(yacht_id):
     # 1. Delete yacht from user_yachts
     # 2. Delete all related data in hull, rig, sails, etc.
     pass
 
+
 # ---
 
-# **In summary:**  
+# **In summary:**
 # `workflow.py` is where you put orchestration logic that coordinates multiple microservices to implement real-world business processes and user actions.

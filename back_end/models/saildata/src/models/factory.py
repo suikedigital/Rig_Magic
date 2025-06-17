@@ -19,5 +19,9 @@ class SailDataFactory:
             p=data.get("p"),
             e=data.get("e"),
             base_id=data.get("base_id"),
-            **{k: v for k, v in data.items() if k not in ["yacht_id", "i", "j", "p", "e", "base_id"]}
+            **{
+                k: v
+                for k, v in data.items()
+                if k not in ["yacht_id", "i", "j", "p", "e", "base_id"]
+            }
         )

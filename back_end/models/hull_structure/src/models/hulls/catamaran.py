@@ -3,7 +3,16 @@ from .base import BaseHull
 
 
 class Catamaran(BaseHull):
-    def __init__(self, yacht_id, loa: int, lwl: int, beam: int, displacement: int, ballast: int, construction: str):
+    def __init__(
+        self,
+        yacht_id,
+        loa: int,
+        lwl: int,
+        beam: int,
+        displacement: int,
+        ballast: int,
+        construction: str,
+    ):
         """
         Initialize a monohull yacht with its dimensions and characteristics.
 

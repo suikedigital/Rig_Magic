@@ -14,6 +14,7 @@ from back_end.logger import get_logger
 
 logger = get_logger(__name__)
 
+
 def main_menu():
     logger.info("\nYacht Management System")
     logger.info("1. Search for a base yacht")
@@ -22,6 +23,7 @@ def main_menu():
     logger.info("4. Exit")
     return input("Choose an option: ")
 
+
 def search_base_yachts(services):
     logger.info("\nAvailable Base Yachts:")
     yachts = []
@@ -29,15 +31,18 @@ def search_base_yachts(services):
         row, columns = services.profile_service.db.get_by_yacht_id(yid)
         if row:
             yacht = services.profile_service.db.get_by_yacht_id(yid)[0]
-            if yacht and columns[columns.index('base_id')] is None:
+            if yacht and columns[columns.index("base_id")] is None:
                 yachts.append((yid, row, columns))
     if not yachts:
         logger.info("No base yachts found.")
         return None
     for yid, row, columns in yachts:
         profile = services.profile_service.get_profile(yid)
-        logger.info(f"ID: {profile.yacht_id} | Class: {profile.yacht_class} | Model: {profile.model} | Designer: {profile.designer}")
+        logger.info(
+            f"ID: {profile.yacht_id} | Class: {profile.yacht_class} | Model: {profile.model} | Designer: {profile.designer}"
+        )
     return yachts
+
 
 def create_user_yacht(services, user_id):
     base_yachts = search_base_yachts(services)
@@ -61,11 +66,14 @@ def create_user_yacht(services, user_id):
         production_start=base_profile.production_start,
         production_end=base_profile.production_end,
         country_of_origin=base_profile.country_of_origin,
-        notes=(base_profile.notes or "") + f" (User {user_id})"
+        notes=(base_profile.notes or "") + f" (User {user_id})",
     )
     services.profile_service.save_profile(user_profile)
-    logger.info(f"Created your yacht with ID {new_yacht_id} based on base yacht {base_id}.")
+    logger.info(
+        f"Created your yacht with ID {new_yacht_id} based on base yacht {base_id}."
+    )
     # TODO: Call other services to initialize hull, rig, sails, etc.
+
 
 def view_or_modify_yacht(services, user_id):
     yacht_id = int(input("Enter your yacht ID: "))
@@ -84,6 +92,7 @@ def view_or_modify_yacht(services, user_id):
         services.profile_service.save_profile(profile)
         logger.info("Notes updated.")
 
+
 def main():
     user_id = input("Enter your user ID: ")
     services = Services()
@@ -101,6 +110,7 @@ def main():
         else:
             logger.info("Invalid choice.")
     services.profile_service.close()
+
 
 if __name__ == "__main__":
     main()

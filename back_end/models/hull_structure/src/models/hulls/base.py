@@ -6,13 +6,22 @@ class BaseHull(ABC):
     Abstract base class for yacht hulls.
     """
 
-    def __init__(self, yacht_id, loa: int, lwl: int, beam: int, displacement: int, ballast: int, construction: str):
-        self.yacht_id = yacht_id                # Unique identifier for the yacht
-        self.loa = loa                          # LOA (Length Overall) mm
-        self.lwl = lwl                          # LWL (Length Waterline) mm
-        self.beam = beam                        # Beam (width) mm
-        self.displacement = displacement        # Displacement (weight) kg
-        self.ballast = ballast                  # Ballast weight (kg)
+    def __init__(
+        self,
+        yacht_id,
+        loa: int,
+        lwl: int,
+        beam: int,
+        displacement: int,
+        ballast: int,
+        construction: str,
+    ):
+        self.yacht_id = yacht_id  # Unique identifier for the yacht
+        self.loa = loa  # LOA (Length Overall) mm
+        self.lwl = lwl  # LWL (Length Waterline) mm
+        self.beam = beam  # Beam (width) mm
+        self.displacement = displacement  # Displacement (weight) kg
+        self.ballast = ballast  # Ballast weight (kg)
         self.construction = construction
 
     @abstractmethod
@@ -27,7 +36,7 @@ class BaseHull(ABC):
             "draft": self.draft,
             "displacement": self.displacement,
             "ballast": self.ballast,
-            "construction": self.construction
+            "construction": self.construction,
         }
 
     def displacement_factor(self) -> float:

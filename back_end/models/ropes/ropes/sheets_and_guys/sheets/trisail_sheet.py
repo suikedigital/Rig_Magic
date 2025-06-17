@@ -38,19 +38,25 @@ class TrisailSheet(Sheet):
         lower_termination (Termination, optional): Lower end termination. Defaults to class default.
         **kwargs: Additional keyword arguments for extensibility.
     """
-    default_upper_termination = Termination(term_type="Splice", hardware="Small-Bail Snap Shackle")
+
+    default_upper_termination = Termination(
+        term_type="Splice", hardware="Small-Bail Snap Shackle"
+    )
     default_lower_termination = Termination(term_type="Whipping", hardware=None)
     default_colour = "Solid Orange"
 
-    def __init__(self, yacht, 
-                 colour: Optional[str] = None,
-                 construction_type: RopeConstructionType = None,
-                 diameter: int = None,
-                 length: float = None,
-                 side: Optional[str] = None,
-                 upper_termination: Optional[Termination] = None,
-                 lower_termination: Optional[Termination] = None,
-                 **kwargs):
+    def __init__(
+        self,
+        yacht,
+        colour: Optional[str] = None,
+        construction_type: RopeConstructionType = None,
+        diameter: int = None,
+        length: float = None,
+        side: Optional[str] = None,
+        upper_termination: Optional[Termination] = None,
+        lower_termination: Optional[Termination] = None,
+        **kwargs
+    ):
         """
         Initialize a TrisailSheet instance.
         Calculates length if not provided, and passes all arguments to the base Sheet class.
@@ -81,7 +87,7 @@ class TrisailSheet(Sheet):
             **kwargs
         )
         self.type = "Trisail Sheet"
-    
+
     def calc_length(self, yacht) -> float:
         """
         Calculate the length of the trisail sheet based on yacht dimensions.
@@ -92,8 +98,9 @@ class TrisailSheet(Sheet):
         Returns:
             float: The calculated and rounded-up length in meters.
         """
-        return round_up_half_meter(1.8 * yacht.saildata.trisail_j + 1.5 * yacht.boat_length)
-        
+        return round_up_half_meter(
+            1.8 * yacht.saildata.trisail_j + 1.5 * yacht.boat_length
+        )
 
     def calc_diameter(self) -> float:
         """
@@ -105,4 +112,4 @@ class TrisailSheet(Sheet):
         Note:
             Not yet implemented. Raises NotImplementedError.
         """
-        return  str(NotImplementedError("Diameter calculation not implemented yet."))
+        return str(NotImplementedError("Diameter calculation not implemented yet."))

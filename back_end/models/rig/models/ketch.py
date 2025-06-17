@@ -1,5 +1,6 @@
 from back_end.models.rig.models.rig import Rig
 
+
 class Ketch(Rig):
     """
     Represents a ketch rigged yacht with specific sail and rigging configurations.
@@ -13,5 +14,9 @@ class Ketch(Rig):
     """
 
     def __init__(self, yacht_id: int, boom_above_deck: float = None):
-        super().__init__(yacht_id=yacht_id, rig_type=self.__class__.__name__, boom_above_deck=boom_above_deck)
+        super().__init__(
+            yacht_id=yacht_id,
+            rig_type=self.__class__.__name__,
+            boom_above_deck=boom_above_deck,
+        )
         self.boom_above_deck = boom_above_deck

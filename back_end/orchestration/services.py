@@ -47,4 +47,3 @@ class Services:
         self.settings_service = SettingsService()
         self.user_yacht_service = UserYachtService()
         self.base_yacht_service = BaseYachtService()
-

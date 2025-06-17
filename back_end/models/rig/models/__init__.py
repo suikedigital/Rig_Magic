@@ -5,11 +5,4 @@ from .ketch import Ketch
 from .sloop import Sloop
 from .yawl import Yawl
 
-__all__ = [
-    'CatBoat',
-    'Cutter',
-    'FractionalSloop',
-    'Ketch',
-    'Sloop',
-    'Yawl'
-]
+__all__ = ["CatBoat", "Cutter", "FractionalSloop", "Ketch", "Sloop", "Yawl"]

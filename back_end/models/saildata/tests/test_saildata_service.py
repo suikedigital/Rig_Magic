@@ -2,11 +2,13 @@ import os
 import sys
 import pytest
 import tempfile
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../src")))
 
 from src.models.saildata import SailData
 from src.models.factory import SailDataFactory
 from src.saildata_service import SailDataService
+
 
 @pytest.fixture
 def temp_db_path():
@@ -14,6 +16,7 @@ def temp_db_path():
     os.close(fd)
     yield path
     os.remove(path)
+
 
 def test_saildata_factory_and_to_dict():
     saildata = SailDataFactory.create(1, 10, 5, 15, 7, codezero_i=12, jib_i=8, jib_j=4)
@@ -25,6 +28,7 @@ def test_saildata_factory_and_to_dict():
     assert d["jib_i"] == 8
     assert d["jib_j"] == 4
 
+
 def test_saildata_from_dict():
     data = {
         "yacht_id": 2,
@@ -34,7 +38,7 @@ def test_saildata_from_dict():
         "main_e": 8,
         "codezero_i": 13,
         "jib_i": 9,
-        "jib_j": 5
+        "jib_j": 5,
     }
     saildata = SailDataFactory.from_dict(data)
     assert saildata.yacht_id == 2
@@ -43,6 +47,7 @@ def test_saildata_from_dict():
     assert saildata.codezero_i == 13
     assert saildata.jib_i == 9
     assert saildata.jib_j == 5
+
 
 def test_saildata_service_save_and_get(temp_db_path):
     service = SailDataService(db_path=temp_db_path)
@@ -54,6 +59,7 @@ def test_saildata_service_save_and_get(temp_db_path):
     assert loaded.staysail_i == 14
     service.close()
 
+
 def test_saildata_service_save_from_dict(temp_db_path):
     service = SailDataService(db_path=temp_db_path)
     data = {
@@ -62,7 +68,7 @@ def test_saildata_service_save_from_dict(temp_db_path):
         "genoa_j": 8,
         "main_p": 18,
         "main_e": 10,
-        "trisail_i": 15
+        "trisail_i": 15,
     }
     service.save_saildata_from_dict(data)
     loaded = service.get_saildata(4)
@@ -70,6 +76,7 @@ def test_saildata_service_save_from_dict(temp_db_path):
     assert loaded.yacht_id == 4
     assert loaded.trisail_i == 15
     service.close()
+
 
 def test_saildata_service_overwrite(temp_db_path):
     service = SailDataService(db_path=temp_db_path)
@@ -83,16 +90,19 @@ def test_saildata_service_overwrite(temp_db_path):
     assert loaded.jib_i == 16
     service.close()
 
+
 def test_saildata_service_get_nonexistent(temp_db_path):
     service = SailDataService(db_path=temp_db_path)
     loaded = service.get_saildata(999)
     assert loaded is None
     service.close()
 
+
 def test_saildata_factory_kwargs():
     saildata = SailDataFactory.create(6, 16, 11, 21, 13, custom_field=42, jib_i=17)
     assert saildata.custom_field == 42
     assert saildata.jib_i == 17
+
 
 def test_saildata_to_dict_and_from_dict_roundtrip():
     saildata = SailDataFactory.create(7, 18, 12, 22, 14, staysail_j=19)

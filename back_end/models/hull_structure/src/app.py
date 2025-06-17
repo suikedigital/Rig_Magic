@@ -93,6 +93,7 @@ def delete_all(yacht_id: int):
 def delete_keel(yacht_id: int):
     hull_service.db = None  # Reset if needed
     from .models.database import KeelDatabase
+
     db = KeelDatabase(hull_service.db_path)
     db.delete_keel_by_yacht(yacht_id)
     db.close()
@@ -103,6 +104,7 @@ def delete_keel(yacht_id: int):
 def delete_rudder(yacht_id: int):
     hull_service.db = None  # Reset if needed
     from .models.database import RudderDatabase
+
     db = RudderDatabase(hull_service.db_path)
     db.delete_rudder_by_yacht(yacht_id)
     db.close()

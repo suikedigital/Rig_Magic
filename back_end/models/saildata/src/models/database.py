@@ -15,7 +15,8 @@ class SailDataDatabase:
 
     def _create_table(self):
         with sqlite3.connect(self.db_path) as conn:
-            conn.execute('''
+            conn.execute(
+                """
                 CREATE TABLE IF NOT EXISTS saildata (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     yacht_id INTEGER NOT NULL,
@@ -26,7 +27,8 @@ class SailDataDatabase:
                     e INTEGER,
                     data TEXT NOT NULL
                 )
-            ''')
+            """
+            )
             conn.commit()
 
     def delete_saildata_by_yacht(self, yacht_id):
@@ -50,15 +52,16 @@ class SailDataDatabase:
                     saildata.j,
                     saildata.p,
                     saildata.e,
-                    data_json
-                )
+                    data_json,
+                ),
             )
             conn.commit()
 
     def get_saildata_by_yacht(self, yacht_id):
         with sqlite3.connect(self.db_path) as conn:
             cursor = conn.execute(
-                "SELECT id, yacht_id, i, j, p, e, data FROM saildata WHERE yacht_id = ?", (yacht_id,)
+                "SELECT id, yacht_id, i, j, p, e, data FROM saildata WHERE yacht_id = ?",
+                (yacht_id,),
             )
             row = cursor.fetchone()
             if row:

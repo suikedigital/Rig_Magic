@@ -5,6 +5,7 @@ from .service import RigService
 app = FastAPI()
 rig_service = RigService()
 
+
 @app.get("/rig/{yacht_id}")
 def get_rig(yacht_id: int):
     rig = rig_service.get_rig(yacht_id)

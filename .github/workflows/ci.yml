@@ -50,18 +50,6 @@ jobs:
         pip install black
         if [ -d "src" ]; then black src/; fi
 
-    - name: Commit and push auto-fixed code (Python only)
-      if: contains(matrix.service, 'back_end/')
-      working-directory: ${{ matrix.service }}
-      run: |
-        git config user.name "github-actions"
-        git config user.email "github-actions@github.com"
-        git add src/
-        git diff --cached --quiet || git commit -m "chore: auto-format code with black"
-        # Try to push, if it fails, pull/rebase and try again
-        git push || (git pull --rebase && git push)
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Run tests (Python only)
       if: contains(matrix.service, 'back_end/')

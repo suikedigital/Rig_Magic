@@ -1,5 +1,6 @@
 from .rig import Rig
 
+
 class Cutter(Rig):
     """
     Represents a cutter rigged yacht with specific sail and rigging configurations.
@@ -18,4 +19,8 @@ class Cutter(Rig):
     """
 
     def __init__(self, yacht_id: int, boom_above_deck: float = None):
-        super().__init__(yacht_id=yacht_id, rig_type=self.__class__.__name__, boom_above_deck=boom_above_deck)
+        super().__init__(
+            yacht_id=yacht_id,
+            rig_type=self.__class__.__name__,
+            boom_above_deck=boom_above_deck,
+        )

@@ -1,5 +1,6 @@
 from .settings import Settings
 
+
 class SettingsFactory:
     @staticmethod
     def from_dict(data: dict):
@@ -8,7 +9,7 @@ class SettingsFactory:
             wind_speed_in_knots=data["wind_speed_in_knots"],
             length_safety_factor=data["length_safety_factor"],
             halyard_load_safety_factor=data["halyard_load_safety_factor"],
-            dynamic_load_safety_factor=data["dynamic_load_safety_factor"]
+            dynamic_load_safety_factor=data["dynamic_load_safety_factor"],
         )
 
     @staticmethod
@@ -19,5 +20,5 @@ class SettingsFactory:
             wind_speed_in_knots=row[1],
             length_safety_factor=row[2],
             halyard_load_safety_factor=row[3],
-            dynamic_load_safety_factor=row[4]
+            dynamic_load_safety_factor=row[4],
         )

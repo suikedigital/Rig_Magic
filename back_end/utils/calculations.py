@@ -2,7 +2,6 @@
 Utility functions for rope and rigging calculations.
 """
 
-
 import math
 
 
@@ -10,7 +9,7 @@ def sheet_load_kg(
     force_newtons: float,
     sheet_angle_deg: float,
     safety_factor: float = 1.5,
-    dynamic_factor: float = 1.5
+    dynamic_factor: float = 1.5,
 ) -> float:
     """
     Calculate the sheet line load in kilograms.
@@ -38,10 +37,10 @@ def example_usage():
 
     Adjust the values to match your sail and conditions.
     """
-    sail_area = 40.0            # m², projected area
-    wind_speed = 20.0           # knots, apparent
-    halyard_angle = 35          # degrees
-    sheet_angle = 25            # degrees
+    sail_area = 40.0  # m², projected area
+    wind_speed = 20.0  # knots, apparent
+    halyard_angle = 35  # degrees
+    sheet_angle = 25  # degrees
 
     # Calculate aerodynamic force
     force_n = aerodynamic_force(sail_area, wind_speed)

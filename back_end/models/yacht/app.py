@@ -28,11 +28,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 # --- Models ---
 class KeelCreateRequest(BaseModel):
     keel_type: str
     draft: float
     base_id: Optional[int] = None
+
 
 class RopeTypeRequest(BaseModel):
     yacht_id: int
@@ -40,10 +42,12 @@ class RopeTypeRequest(BaseModel):
     led_aft: float = 0.0
     config: dict = None
 
+
 class SailTypeRequest(BaseModel):
     yacht_id: int
     sail_type: str
     config: dict = None
+
 
 class YachtCreateRequest(BaseModel):
     yacht_id: Optional[int] = None
@@ -60,6 +64,7 @@ class YachtCreateRequest(BaseModel):
     ropes: Optional[List[Dict[str, Any]]] = None
     # Add more as needed
 
+
 # --- Microservice Registry ---
 MICROSERVICES = {
     "profile": f"{PROFILE_API}/profile/{{yacht_id}}",
@@ -71,6 +76,7 @@ MICROSERVICES = {
     "ropes": f"{ROPES_API}/ropes/{{yacht_id}}",
 }
 
+
 @app.get("/yachts/search")
 def search_yachts(query: str = Query("")):
     # Call profile microservice to get all profiles
@@ -80,14 +86,16 @@ def search_yachts(query: str = Query("")):
         profiles = resp.json()
     except Exception as e:
         raise HTTPException(status_code=502, detail=f"Profile service unavailable: {e}")
-    
+
     # Search relevant fields
     query_lower = query.lower()
+
     def matches(profile):
         for field in ["yacht_class", "model", "builder", "designer", "version"]:
             value = profile.get(field, "")
             if value and query_lower in str(value).lower():
                 return True
         return False
+
     results = [p for p in profiles if matches(p)]
     return {"results": results}

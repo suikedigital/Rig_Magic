@@ -2,4 +2,6 @@
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-HULL_STRUCTURE_DB_PATH = os.environ.get("HULL_STRUCTURE_DB_PATH", os.path.join(BASE_DIR, "../data.db"))
+HULL_STRUCTURE_DB_PATH = os.environ.get(
+    "HULL_STRUCTURE_DB_PATH", os.path.join(BASE_DIR, "../data.db")
+)

@@ -2,11 +2,18 @@ from .config import RIG_DB_PATH
 from .models.factory import RigFactory
 from .models.database import RigDatabase
 
+
 class RigService:
     def __init__(self, db_path=RIG_DB_PATH):
         self.db_path = db_path
 
-    def create_rig(self, rig_type: str, yacht_id: int, boom_above_deck: float = None, base_id: int = None):
+    def create_rig(
+        self,
+        rig_type: str,
+        yacht_id: int,
+        boom_above_deck: float = None,
+        base_id: int = None,
+    ):
         return RigFactory.create_rig(rig_type, yacht_id, boom_above_deck, base_id)
 
     def save_rig(self, rig):

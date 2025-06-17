@@ -18,9 +18,15 @@ class HullStructureFactory:
     def create_hull(hull_type, yacht_id, loa, lwl, beam, displacement, ballast):
         hull_type = str(hull_type).strip().lower()
         if hull_type == "monohull":
-            return Monohull(yacht_id, loa, lwl, beam, displacement, ballast, construction="GRP")
+            return Monohull(
+                yacht_id, loa, lwl, beam, displacement, ballast, construction="GRP"
+            )
         if hull_type == "trimaran":
-            return Trimaran(yacht_id, loa, lwl, beam, displacement, ballast, construction="GRP")
+            return Trimaran(
+                yacht_id, loa, lwl, beam, displacement, ballast, construction="GRP"
+            )
         if hull_type == "catamaran":
-            return Catamaran(yacht_id, loa, lwl, beam, displacement, ballast, construction="GRP")
+            return Catamaran(
+                yacht_id, loa, lwl, beam, displacement, ballast, construction="GRP"
+            )
         raise ValueError(f"Unknown hull type: {hull_type}")

@@ -58,16 +58,18 @@ class HullStructureService:
 
         db = HullDatabase(self.db_path)
         # Extract all required fields from the hull object
-        yacht_id = getattr(hull, 'yacht_id', None)
-        hull_type = getattr(hull, 'hull_type', None)
-        loa = getattr(hull, 'loa', None)
-        lwl = getattr(hull, 'lwl', None)
-        beam = getattr(hull, 'beam', None)
-        displacement = getattr(hull, 'displacement', None)
-        ballast = getattr(hull, 'ballast', None)
-        construction = getattr(hull, 'construction', None)
+        yacht_id = getattr(hull, "yacht_id", None)
+        hull_type = getattr(hull, "hull_type", None)
+        loa = getattr(hull, "loa", None)
+        lwl = getattr(hull, "lwl", None)
+        beam = getattr(hull, "beam", None)
+        displacement = getattr(hull, "displacement", None)
+        ballast = getattr(hull, "ballast", None)
+        construction = getattr(hull, "construction", None)
         db.delete_hull_by_yacht(yacht_id)  # Ensure only one hull per yacht
-        db.save_hull(yacht_id, hull_type, loa, lwl, beam, displacement, ballast, construction)
+        db.save_hull(
+            yacht_id, hull_type, loa, lwl, beam, displacement, ballast, construction
+        )
         db.close()
 
     def get_hull(self, yacht_id):
@@ -78,7 +80,18 @@ class HullStructureService:
         db.close()
         if row:
             # Unpack all columns including construction
-            _, yacht_id, base_id, hull_type, loa, lwl, beam, displacement, ballast, construction = row
+            (
+                _,
+                yacht_id,
+                base_id,
+                hull_type,
+                loa,
+                lwl,
+                beam,
+                displacement,
+                ballast,
+                construction,
+            ) = row
             return {
                 "yacht_id": yacht_id,
                 "base_id": base_id,
@@ -88,7 +101,7 @@ class HullStructureService:
                 "beam": beam,
                 "displacement": displacement,
                 "ballast": ballast,
-                "construction": construction
+                "construction": construction,
             }
         return None
 

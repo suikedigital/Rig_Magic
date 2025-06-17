@@ -39,7 +39,9 @@ class SailDataService:
             trisail_j=base_yacht.trisail_j,
         )
         self.save_saildata(saildata)
-        logger.info(f"Sail data initialized for yacht {yacht_id} based on base yacht {base_yacht.id}.")
+        logger.info(
+            f"Sail data initialized for yacht {yacht_id} based on base yacht {base_yacht.id}."
+        )
 
     def save_saildata(self, saildata: SailData):
         # Ensure only one entry per yacht_id by deleting before saving
@@ -52,7 +54,7 @@ class SailDataService:
 
     def get_saildata(self, yacht_id):
         # Use a thread-local cache to avoid repeated HTTP requests for the same yacht_id within a request
-        if not hasattr(self._thread_local, 'saildata_cache'):
+        if not hasattr(self._thread_local, "saildata_cache"):
             self._thread_local.saildata_cache = {}
         cache = self._thread_local.saildata_cache
         if yacht_id in cache:
