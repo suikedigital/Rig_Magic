@@ -12,7 +12,8 @@ def get_connection():
 def initialize_db():
     conn = get_connection()
     c = conn.cursor()
-    c.execute("""
+    c.execute(
+        """
     CREATE TABLE IF NOT EXISTS users (
         user_id TEXT PRIMARY KEY,
         role TEXT NOT NULL,
@@ -23,6 +24,7 @@ def initialize_db():
         payment_info TEXT,
         company_name TEXT
     )
-    """)
+    """
+    )
     conn.commit()
     conn.close()
