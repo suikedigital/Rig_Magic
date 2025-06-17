@@ -59,7 +59,7 @@ jobs:
         git add src/
         git diff --cached --quiet || git commit -m "chore: auto-format code with black"
         # Try to push, if it fails, pull/rebase and try again
-        git push || (git pull --rebase && git push]
+        git push || (git pull --rebase && git push)
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
