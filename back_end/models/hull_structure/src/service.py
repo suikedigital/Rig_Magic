@@ -14,16 +14,18 @@ class HullStructureService:
         This method should be called after the base yacht is created.
         """
         pass
-        
+
     def save_keel(self, yacht_id, keel_type, draft, base_id=None):
         from .models.database import KeelDatabase
+
         db = KeelDatabase(self.db_path)
-        db.delete_keel_by_yacht(yacht_id)       # Ensure only one keel per yacht
+        db.delete_keel_by_yacht(yacht_id)  # Ensure only one keel per yacht
         db.save_keel(yacht_id, base_id, keel_type, draft)
         db.close()
 
     def get_keel(self, yacht_id):
         from .models.database import KeelDatabase
+
         db = KeelDatabase(self.db_path)
         row = db.get_keel_by_yacht(yacht_id)
         db.close()
@@ -34,6 +36,7 @@ class HullStructureService:
 
     def save_rudder(self, yacht_id, rudder_type):
         from .models.database import RudderDatabase
+
         db = RudderDatabase(self.db_path)
         db.delete_rudder_by_yacht(yacht_id)  # Ensure only one rudder per yacht
         db.save_rudder(yacht_id, rudder_type)
@@ -41,6 +44,7 @@ class HullStructureService:
 
     def get_rudder(self, yacht_id):
         from .models.database import RudderDatabase
+
         db = RudderDatabase(self.db_path)
         row = db.get_rudder_by_yacht(yacht_id)
         db.close()
@@ -51,6 +55,7 @@ class HullStructureService:
 
     def save_hull(self, hull):
         from .models.database import HullDatabase
+
         db = HullDatabase(self.db_path)
         # Extract all required fields from the hull object
         yacht_id = getattr(hull, 'yacht_id', None)
@@ -67,6 +72,7 @@ class HullStructureService:
 
     def get_hull(self, yacht_id):
         from .models.database import HullDatabase
+
         db = HullDatabase(self.db_path)
         row = db.get_hull_by_yacht(yacht_id)
         db.close()
@@ -88,7 +94,7 @@ class HullStructureService:
 
     def delete_all_by_yacht(self, yacht_id):
         from .models.database import KeelDatabase, RudderDatabase, HullDatabase
+
         KeelDatabase(self.db_path).delete_keel_by_yacht(yacht_id)
         RudderDatabase(self.db_path).delete_rudder_by_yacht(yacht_id)
         HullDatabase(self.db_path).delete_hull_by_yacht(yacht_id)
-        

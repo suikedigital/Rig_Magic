@@ -75,6 +75,7 @@ class SailData:
     def __str__(self):
         return f"SailData(yacht_id={self.yacht_id}, i={self.i}, j={self.j}, p={self.p}, e={self.e} kwargs={self.strip_base_keys()})"
 
+
 if __name__ == "__main__":
     # Example usage
     sail_data = SailData(

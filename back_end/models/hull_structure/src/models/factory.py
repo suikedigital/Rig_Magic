@@ -24,4 +24,3 @@ class HullStructureFactory:
         if hull_type == "catamaran":
             return Catamaran(yacht_id, loa, lwl, beam, displacement, ballast, construction="GRP")
         raise ValueError(f"Unknown hull type: {hull_type}")
-    
