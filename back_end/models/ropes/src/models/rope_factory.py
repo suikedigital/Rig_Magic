@@ -22,7 +22,6 @@ Classes:
 from .database import RopeDatabase
 from config import ROPES_DB_PATH
 from .rope_utils import normalize_rope_type
-from .ropes.halyards.base_halyard import BaseHalyard
 from .ropes.halyards.main_halyard import MainHalyard
 from .ropes.halyards.jib_halyard import JibHalyard
 from .ropes.halyards.genoa_halyard import GenoaHalyard
@@ -31,8 +30,6 @@ from .ropes.halyards.spinnaker_halyard import SpinnakerHalyard
 from .ropes.halyards.code_zero_halyard import CodeZeroHalyard
 from .ropes.halyards.topping_lift_halyard import ToppingLiftHalyard
 from .ropes.halyards.trisail_halyard import TrisailHalyard
-from .ropes.rope import Rope
-from .ropes.sheets_and_guys.sheets.base_sheet import BaseSheet
 from .ropes.sheets_and_guys.sheets.mainsheet import Mainsheet
 from .ropes.sheets_and_guys.sheets.jib_sheet import JibSheet
 from .ropes.sheets_and_guys.sheets.genoa_sheet import GenoaSheet
@@ -41,7 +38,6 @@ from .ropes.sheets_and_guys.sheets.sym_spinnaker_sheet import SymSpinSheet
 from .ropes.sheets_and_guys.sheets.asym_spinnaker_sheet import AsymSpinSheet
 from .ropes.sheets_and_guys.sheets.code_zero_sheet import CodeZeroSheet
 from .ropes.sheets_and_guys.sheets.trisail_sheet import TrisailSheet
-from .ropes.sheets_and_guys.guys.base_guy import BaseGuy
 from .ropes.sheets_and_guys.guys.sym_spin_guy import SymSpinGuy
 
 
