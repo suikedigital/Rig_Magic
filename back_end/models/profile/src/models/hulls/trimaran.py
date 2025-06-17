@@ -20,7 +20,7 @@ class Trimaran:
         print(f"Draft Depth: {self.draft_depth} meters")
 
     def __str__(self):
-        return f"Trimaran: {self.name}"
+        return f"Trimaran hull: {self.name}"
 
 
 # Add 2 blank lines before each top-level function/class as per E302
