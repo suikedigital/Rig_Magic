@@ -196,7 +196,7 @@ class BaseYachtDatabase:
         ''')
         self.conn.commit()
         return True
-    
+
     def get_yacht(self, yacht_id):
         cursor = self.conn.cursor()
         cursor.execute('SELECT * FROM yachts WHERE id = ?', (yacht_id,))
