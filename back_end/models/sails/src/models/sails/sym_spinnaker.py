@@ -51,10 +51,11 @@ class SymSpinnaker(BaseSail):
         aerodynamic_force(wind_speed_knots, lift_coefficient=1.0, air_density=1.225):
             Returns the aerodynamic force (Newtons) on the sail for a given wind speed and coefficients.
     """
+
     def __init__(self, saildata, luff=None, leech=None, foot=None, yacht_id=None):
         luff = luff if luff is not None else get_val(saildata, "spin_i")
         foot = foot if foot is not None else get_val(saildata, "spin_j")
-        leech = leech if leech is not None else sqrt(luff ** 2 + foot ** 2)
+        leech = leech if leech is not None else sqrt(luff**2 + foot**2)
         super().__init__(saildata, luff, leech, foot, yacht_id=yacht_id)
 
     @property

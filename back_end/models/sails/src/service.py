@@ -22,7 +22,9 @@ class SailService:
                 logger.debug(f"[DEBUG] saildata HTTP response: {data}")
                 return data
             else:
-                logger.warning(f"[DEBUG] saildata HTTP error: {resp.status_code} {resp.text}")
+                logger.warning(
+                    f"[DEBUG] saildata HTTP error: {resp.status_code} {resp.text}"
+                )
         except Exception as e:
             logger.error(f"[DEBUG] saildata HTTP exception: {e}")
         return None
@@ -47,14 +49,18 @@ class SailService:
         if base_yacht.stormjib is True:
             self.add_sail_type(yacht_id, "storm_jib")
         self.generate_sails(yacht_id)
-        print(f"Sails initialized for yacht {yacht_id} based on base yacht {base_yacht.id}.")
+        print(
+            f"Sails initialized for yacht {yacht_id} based on base yacht {base_yacht.id}."
+        )
 
     def _get_factory(self, yacht_id):
         logger.debug(f"[DEBUG] _get_factory called for yacht_id={yacht_id}")
         saildata = self._fetch_saildata_http(yacht_id)
         logger.debug(f"[DEBUG] _fetch_saildata_http({yacht_id}) returned: {saildata}")
         if saildata is None:
-            raise ValueError(f"No saildata found for yacht_id={yacht_id}. Cannot create SailFactory.")
+            raise ValueError(
+                f"No saildata found for yacht_id={yacht_id}. Cannot create SailFactory."
+            )
         return SailFactory(saildata, yacht_id)
 
     def add_sail_type(self, yacht_id, sail_type, config=None):
@@ -73,14 +79,20 @@ class SailService:
         self.db.delete_sails_by_yacht(yacht_id)
         factory.generate_all_sails_on_boat()
         for sail_type, sail in factory.sails.items():
-            print(f"{sail_type} generated with config: {factory.sail_config.get(sail_type, {})}")
+            print(
+                f"{sail_type} generated with config: {factory.sail_config.get(sail_type, {})}"
+            )
             self.db.save_sail(sail.to_dict())
 
     def get_sail(self, yacht_id, sail_type):
-        logger.debug(f"[DEBUG] get_sail called with yacht_id={yacht_id}, sail_type={sail_type}")
+        logger.debug(
+            f"[DEBUG] get_sail called with yacht_id={yacht_id}, sail_type={sail_type}"
+        )
         sail_type_str = normalize_sail_type(sail_type)
         factory = self._get_factory(yacht_id)
-        logger.debug(f"[DEBUG] SailFactory.sails_possible_on_boat: {factory.sails_possible_on_boat}")
+        logger.debug(
+            f"[DEBUG] SailFactory.sails_possible_on_boat: {factory.sails_possible_on_boat}"
+        )
         logger.debug(f"[DEBUG] SailFactory.sails: {factory.sails}")
         sail = factory.get(sail_type_str)
         logger.debug(f"[DEBUG] SailFactory.get({sail_type_str}) returned: {sail}")
@@ -92,7 +104,17 @@ class SailService:
 
     def get_sails_from_db(self, yacht_id):
         rows = self.db.get_sails_by_yacht(yacht_id)
-        keys = ["id", "yacht_id", "base_id", "sail_type", "luff", "leech", "foot", "area", "config"]
+        keys = [
+            "id",
+            "yacht_id",
+            "base_id",
+            "sail_type",
+            "luff",
+            "leech",
+            "foot",
+            "area",
+            "config",
+        ]
         result = []
         for row in rows:
             d = dict(zip(keys, row))
@@ -106,7 +128,9 @@ class SailService:
         sail = factory.get(sail_type_str)
         if sail:
             aero_force = sail.aerodynamic_force(wind_speed)
-            print(f"Aero force for {sail_type_str} at {wind_speed} m/s: {aero_force:.2f} N (yacht_id: {yacht_id})")
+            print(
+                f"Aero force for {sail_type_str} at {wind_speed} m/s: {aero_force:.2f} N (yacht_id: {yacht_id})"
+            )
             return aero_force
         else:
             print(f"Sail {sail_type_str} not found for yacht {yacht_id}")
@@ -117,17 +141,25 @@ class SailService:
         try:
             factory = self._get_factory(yacht_id)
         except Exception as e:
-            logger.error(f"[DEBUG] Exception in get_possible_sails for yacht_id={yacht_id}: {e}")
+            logger.error(
+                f"[DEBUG] Exception in get_possible_sails for yacht_id={yacht_id}: {e}"
+            )
             raise
         factory.load_possible_sails_from_db()
         # Return a list of dicts with type and config (minimal info for overview)
         result = []
         for sail_type in factory.sails_possible_on_boat:
             config = factory.sail_config.get(sail_type, {})
-            result.append({
-                "type": sail_type.value,
-                **({"area": config.get("area")} if config and "area" in config else {})
-            })
+            result.append(
+                {
+                    "type": sail_type.value,
+                    **(
+                        {"area": config.get("area")}
+                        if config and "area" in config
+                        else {}
+                    ),
+                }
+            )
         return result
 
     def add_possible_sail(self, yacht_id, sail_type, config=None):
@@ -148,11 +180,12 @@ class SailService:
         # Remove from DB directly
         with self.db.db_path and self.db.db_path:
             import sqlite3
+
             with sqlite3.connect(self.db.db_path) as conn:
                 cursor = conn.cursor()
                 cursor.execute(
                     "DELETE FROM sails_possible WHERE yacht_id = ? AND sail_type = ?",
-                    (yacht_id, sail_type_str)
+                    (yacht_id, sail_type_str),
                 )
                 conn.commit()
         # Reload possible sails

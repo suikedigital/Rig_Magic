@@ -18,6 +18,7 @@ Class Details:
     - Area is calculated as 0.5 * luff * foot.
     - Inherits aerodynamic_force() from BaseSail for force estimation.
 """
+
 from math import sqrt
 
 from .base_sail import BaseSail
@@ -51,13 +52,19 @@ class CodeZero(BaseSail):
         aerodynamic_force(wind_speed_knots, lift_coefficient=1.0, air_density=1.225):
             Returns the aerodynamic force (Newtons) on the sail for a given wind speed and coefficients.
     """
+
     def __init__(self, saildata, luff=None, leech=None, foot=None, yacht_id=None):
         # Convert mm to meters if values are > 100 (assume mm if so)
         def mm_to_m(val):
             return val / 1000 if val and val > 100 else val
+
         luff = mm_to_m(luff if luff is not None else get_val(saildata, "codezero_i"))
         foot = mm_to_m(foot if foot is not None else get_val(saildata, "codezero_j"))
-        leech = mm_to_m(leech if leech is not None else (sqrt(luff ** 2 + foot ** 2) if luff and foot else None))
+        leech = mm_to_m(
+            leech
+            if leech is not None
+            else (sqrt(luff**2 + foot**2) if luff and foot else None)
+        )
         super().__init__(saildata, luff, leech, foot, yacht_id=yacht_id)
 
     @property

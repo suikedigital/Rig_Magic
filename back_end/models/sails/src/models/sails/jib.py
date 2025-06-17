@@ -18,6 +18,7 @@ Class Details:
     - Area is calculated as 0.5 * luff * foot.
     - Inherits aerodynamic_force() from BaseSail for force estimation.
 """
+
 from math import sqrt
 from .base_sail import BaseSail
 
@@ -50,13 +51,16 @@ class Jib(BaseSail):
         aerodynamic_force(wind_speed_knots, lift_coefficient=1.0, air_density=1.225):
             Returns the aerodynamic force (Newtons) on the sail for a given wind speed and coefficients.
     """
+
     def __init__(self, saildata, luff=None, leech=None, foot=None, yacht_id=None):
         # Default luff: hypotenuse of I and J
-        default_luff = sqrt(get_val(saildata, "jib_i") ** 2 + get_val(saildata, "jib_j") ** 2)
+        default_luff = sqrt(
+            get_val(saildata, "jib_i") ** 2 + get_val(saildata, "jib_j") ** 2
+        )
         luff = luff if luff is not None else default_luff
         foot = foot if foot is not None else get_val(saildata, "jib_j")
         # Estimate leech as sqrt(luff^2 + foot^2) if not provided
-        leech = leech if leech is not None else sqrt(luff ** 2 + foot ** 2)
+        leech = leech if leech is not None else sqrt(luff**2 + foot**2)
         super().__init__(saildata, luff, leech, foot, yacht_id=yacht_id)
 
     @property

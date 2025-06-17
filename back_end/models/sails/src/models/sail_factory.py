@@ -33,7 +33,7 @@ class SailFactory:
         SailType.MAINSAIL: Mainsail,
         SailType.SYMSPINNAKER: SymSpinnaker,
         SailType.ASYMSPINNAKER: AsymSpinnaker,
-        SailType.TRISAIL: Trisail
+        SailType.TRISAIL: Trisail,
     }
 
     def __init__(self, saildata: dict, yacht_id):
@@ -83,7 +83,9 @@ class SailFactory:
     def generate_all_sails_on_boat(self):
         self.load_possible_sails_from_db()
         if not isinstance(self.saildata, dict):
-            raise ValueError(f"No saildata found for yacht_id={self.yacht_id}. Cannot generate sails.")
+            raise ValueError(
+                f"No saildata found for yacht_id={self.yacht_id}. Cannot generate sails."
+            )
         for sail_type in self.sails_possible_on_boat:
             sail_class = self._registry[sail_type]
             config = self.sail_config.get(sail_type, {})
@@ -98,28 +100,48 @@ class SailFactory:
                 if missing:
                     raise ValueError(f"Missing required saildata for Genoa: {missing}")
             # ...add similar checks for other sail types as needed...
-            self.sails[sail_type] = sail_class(self.saildata, yacht_id=self.yacht_id, **filtered_config)
+            self.sails[sail_type] = sail_class(
+                self.saildata, yacht_id=self.yacht_id, **filtered_config
+            )
 
     def get(self, sail_type):
         sail_type_str = normalize_sail_type(sail_type)
         sail_type_enum = SailType(sail_type_str)
-        print(f"[DEBUG] SailFactory.get called with sail_type={sail_type_enum} (type: {type(sail_type_enum)})")
+        print(
+            f"[DEBUG] SailFactory.get called with sail_type={sail_type_enum} (type: {type(sail_type_enum)})"
+        )
         print(f"[DEBUG] SailFactory.sails keys: {list(self.sails.keys())}")
         sail = self.sails.get(sail_type_enum, None)
-        print(f"[DEBUG] SailFactory.get: trying sail_type={sail_type_enum}, found: {sail}")
+        print(
+            f"[DEBUG] SailFactory.get: trying sail_type={sail_type_enum}, found: {sail}"
+        )
         if sail is not None:
             return sail
         # Try to reconstruct from DB if not in memory
         db = Database(SAILS_DB_PATH)
         row = db.get_sail_by_yacht_and_type(self.yacht_id, sail_type_enum.value)
         if row:
-            keys = ["id", "yacht_id", "base_id", "sail_type", "luff", "leech", "foot", "area", "config"]
+            keys = [
+                "id",
+                "yacht_id",
+                "base_id",
+                "sail_type",
+                "luff",
+                "leech",
+                "foot",
+                "area",
+                "config",
+            ]
             sail_dict = dict(zip(keys, row))
             sail_class = self._registry[sail_type_enum]
-            config = eval(sail_dict.get("config", "{}")) if sail_dict.get("config") else {}
+            config = (
+                eval(sail_dict.get("config", "{}")) if sail_dict.get("config") else {}
+            )
             sail_obj = sail_class(self.saildata, yacht_id=self.yacht_id, **config)
             self.sails[sail_type_enum] = sail_obj
-            print(f"[DEBUG] SailFactory.get: reconstructed {sail_type_enum} from DB: {sail_obj}")
+            print(
+                f"[DEBUG] SailFactory.get: reconstructed {sail_type_enum} from DB: {sail_obj}"
+            )
             return sail_obj
         print(f"[DEBUG] SailFactory.get: could not find {sail_type_enum} in DB either")
         return None

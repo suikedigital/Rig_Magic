@@ -41,7 +41,9 @@ class BaseSail(ABC):
             Returns the aerodynamic force (Newtons) on the sail for a given wind speed and coefficients.
     """
 
-    def __init__(self, saildata, luff: float, leech: float, foot: float, yacht_id=None, **kwargs):
+    def __init__(
+        self, saildata, luff: float, leech: float, foot: float, yacht_id=None, **kwargs
+    ):
         """
         Initialize a sail with its geometric properties.
 
@@ -69,7 +71,12 @@ class BaseSail(ABC):
         """
         pass
 
-    def aerodynamic_force(self, wind_speed_knots: float, lift_coefficient: float = 1.0, air_density: float = 1.225) -> float:
+    def aerodynamic_force(
+        self,
+        wind_speed_knots: float,
+        lift_coefficient: float = 1.0,
+        air_density: float = 1.225,
+    ) -> float:
         """
         Estimate the aerodynamic force (in Newtons) acting on a sail.
 
@@ -90,7 +97,7 @@ class BaseSail(ABC):
                 V = wind speed (m/s)
         """
         wind_speed_mps = wind_speed_knots * 0.514444  # Convert knots to m/s
-        return 0.5 * air_density * self.area * lift_coefficient * (wind_speed_mps ** 2)
+        return 0.5 * air_density * self.area * lift_coefficient * (wind_speed_mps**2)
 
     def to_dict(self):
         # Standard fields

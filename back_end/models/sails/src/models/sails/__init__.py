@@ -13,5 +13,5 @@ __all__ = [
     "Genoa",
     "Jib",
     "Staysail",
-    "SymSpinnaker"
+    "SymSpinnaker",
 ]
