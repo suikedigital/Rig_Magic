@@ -12,17 +12,6 @@ Provides shared logic for:
 All halyard subclasses should inherit from this class and implement their own calc_length method.
 """
 
-"""
-BaseHalyard module
------------------
-This module defines the BaseHalyard class, representing the base class for all halyards in the running rigging system.
-
-The BaseHalyard class provides common logic for halyard construction, default terminations, and dynamic diameter calculation based on sail load and yacht configuration.
-
-Classes:
-    BaseHalyard: Abstract base class for halyard ropes.
-"""
-
 from math import radians, sin
 from abc import ABC, abstractmethod
 
