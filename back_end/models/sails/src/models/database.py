@@ -23,7 +23,7 @@ class Database:
                 area REAL,
                 config TEXT
             )
-            """)    
+            """)
             # New table for possible sails on a yacht
             cursor.execute("""
             CREATE TABLE IF NOT EXISTS sails_possible (
@@ -60,7 +60,7 @@ class Database:
             cursor = conn.cursor()
             cursor.execute("SELECT * FROM sails WHERE yacht_id = ?", (yacht_id,))
             return cursor.fetchall()
-    
+
     def get_sails_by_type(self, sail_type):
         sail_type = normalize_sail_type(sail_type)
         with sqlite3.connect(self.db_path) as conn:
@@ -110,7 +110,3 @@ class Database:
             cursor = conn.cursor()
             cursor.execute("DELETE FROM sails_possible WHERE yacht_id = ?", (yacht_id,))
             conn.commit()
-
-    """
-    Additional methods for sail management can be added here.
-    """
