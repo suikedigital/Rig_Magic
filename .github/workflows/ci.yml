@@ -58,7 +58,8 @@ jobs:
         git config user.email "github-actions@github.com"
         git add src/
         git diff --cached --quiet || git commit -m "chore: auto-format code with black"
-        git push
+        # Try to push, if it fails, pull/rebase and try again
+        git push || (git pull --rebase && git push]
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
