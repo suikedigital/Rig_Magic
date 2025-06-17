@@ -9,14 +9,6 @@ class UserYachtFactory:
         base_yacht = BaseYachtService().get_base_yacht_by_id(base_yacht_id)
         if not base_yacht:
             raise ValueError(f"Base yacht with id {base_yacht_id} not found.")
-        # Create UserYacht object
-        user_yacht = UserYacht(
-            yacht_id=None,  # Will be set by DB
-            base_yacht_id=base_yacht_id,
-            owner_id=owner_id,
-            name=name,
-            services=services,
-        )
         # Save to DB and get new yacht_id
         # yacht_id = UserYachtService().save_user_yacht(user_yacht)  # Uncomment and fix if UserYachtService is implemented
         yacht_id = None  # Placeholder

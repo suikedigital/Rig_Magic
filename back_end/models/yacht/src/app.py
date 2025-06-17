@@ -37,16 +37,19 @@ class KeelCreateRequest(BaseModel):
     draft: float
     base_id: Optional[int] = None
 
+
 class RopeTypeRequest(BaseModel):
     yacht_id: int
     rope_type: str
     led_aft: float = 0.0
     config: dict = None
 
+
 class SailTypeRequest(BaseModel):
     yacht_id: int
     sail_type: str
     config: dict = None
+
 
 class YachtCreateRequest(BaseModel):
     yacht_id: Optional[int] = None
@@ -62,6 +65,7 @@ class YachtCreateRequest(BaseModel):
     sails: Optional[List[Dict[str, Any]]] = None
     ropes: Optional[List[Dict[str, Any]]] = None
     # Add more as needed
+
 
 # --- Microservice Registry ---
 MICROSERVICES = {

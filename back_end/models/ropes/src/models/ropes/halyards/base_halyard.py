@@ -185,13 +185,3 @@ class Halyard(Rope, ABC):
         """
         if hasattr(self, 'construction') and self.construction is not None:
             self.construction.diameter = self.diameter
-
-
-from .main_halyard import MainHalyard
-from .jib_halyard import JibHalyard
-from .genoa_halyard import GenoaHalyard
-from .staysail_halyard import StaysailHalyard
-from .spinnaker_halyard import SpinnakerHalyard
-from .code_zero_halyard import CodeZeroHalyard
-from .topping_lift_halyard import ToppingLiftHalyard
-from .trisail_halyard import TrisailHalyard

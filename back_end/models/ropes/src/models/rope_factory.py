@@ -22,9 +22,6 @@ Classes:
 from .database import RopeDatabase
 from config import ROPES_DB_PATH
 from .rope_utils import normalize_rope_type
-from .components.rope_construction import RopeConstruction
-from .components.termination import Termination
-from .ropes.halyards.base_halyard import BaseHalyard
 from .ropes.halyards.main_halyard import MainHalyard
 from .ropes.halyards.jib_halyard import JibHalyard
 from .ropes.halyards.genoa_halyard import GenoaHalyard
