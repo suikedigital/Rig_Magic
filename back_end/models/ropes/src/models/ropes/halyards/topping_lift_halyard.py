@@ -90,10 +90,10 @@ class ToppingLiftHalyard(Halyard):
             float: The halyard length, rounded up to the nearest 0.5 meter.
         """
         raw_length = (
-            self.saildata["main_p"] +
-            sqrt(self.saildata["main_p"] ** 2 + self.saildata["main_e"] ** 2) +
-            self.led_aft +
-            self.halyard_length_safety_margin
+            self.saildata["main_p"]
+            + sqrt(self.saildata["main_p"] ** 2 + self.saildata["main_e"] ** 2)
+            + self.led_aft
+            + self.halyard_length_safety_margin
         )
         return self.round_up_half_meter(raw_length)
 

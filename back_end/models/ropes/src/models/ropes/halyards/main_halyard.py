@@ -70,25 +70,25 @@ class MainHalyard(Halyard):
         """
         # Typical main halyard: 2x luff length (P), plus foot (E), plus led_aft, plus margin
         raw_length = (
-            (saildata.p * 2) +
-            sqrt(saildata.p ** 2 + saildata.e ** 2) +
-            self.led_aft +
-            self.halyard_length_safety_margin
+            (saildata.p * 2)
+            + sqrt(saildata.p ** 2 + saildata.e ** 2)
+            + self.led_aft
+            + self.halyard_length_safety_margin
         )
         return self.round_up_half_meter(raw_length)
 
     def is_valid(self):
         return (
-            self.length is not None and
-            self.diameter is not None and
-            self.material is not None and
-            self.cover is not None and
-            self.core is not None and
-            self.termination is not None and
-            self.construction is not None and
-            self.breaking_load is not None and
-            self.stretch is not None and
-            self.weight is not None and
-            self.price is not None and
-            self.notes is not None
+            self.length is not None
+            and self.diameter is not None
+            and self.material is not None
+            and self.cover is not None
+            and self.core is not None
+            and self.termination is not None
+            and self.construction is not None
+            and self.breaking_load is not None
+            and self.stretch is not None
+            and self.weight is not None
+            and self.price is not None
+            and self.notes is not None
         )

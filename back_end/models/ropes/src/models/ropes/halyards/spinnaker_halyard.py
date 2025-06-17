@@ -72,10 +72,10 @@ class SpinnakerHalyard(Halyard):
             float: The halyard length, rounded up to the nearest 0.5 meter.
         """
         raw_length = (
-            self.yacht.saildata.spin_i +
-            sqrt(self.yacht.saildata.spin_i ** 2 + self.yacht.saildata.spin_j ** 2) +
-            self.led_aft +
-            self.halyard_length_safety_margin
+            self.yacht.saildata.spin_i
+            + sqrt(self.yacht.saildata.spin_i ** 2 + self.yacht.saildata.spin_j ** 2)
+            + self.led_aft
+            + self.halyard_length_safety_margin
         )
         return self.round_up_half_meter(raw_length)
 
