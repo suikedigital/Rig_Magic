@@ -102,7 +102,8 @@ class Database:
                 (yacht_id,)
             )
             # Normalize all sail_type values on load
-            return [(normalize_sail_type(row[0]), row[1]) for row in cursor.fetchall()]
+            sails = [(normalize_sail_type(row[0]), row[1]) for row in cursor.fetchall()]
+        return sails
 
     def delete_possible_sails(self, yacht_id):
         with sqlite3.connect(self.db_path) as conn:

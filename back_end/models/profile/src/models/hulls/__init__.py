@@ -1,1 +1,3 @@
-# Remove unused imports of Catamaran, Monohull, Trimaran
+from .catamaran import Catamaran
+from .monohull import Monohull
+from .trimaran import Trimaran

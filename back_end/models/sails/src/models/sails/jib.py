@@ -69,3 +69,8 @@ class Jib(BaseSail):
         luff_m = self._mm_to_m(self.luff)
         foot_m = self._mm_to_m(self.foot)
         return 0.5 * luff_m * foot_m
+
+    @property
+    def luff_length(self):
+        """Return the luff length in meters."""
+        return self.luff_length

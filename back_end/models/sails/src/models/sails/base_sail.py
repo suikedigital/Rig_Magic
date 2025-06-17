@@ -111,3 +111,8 @@ class BaseSail(ABC):
     def _mm_to_m(self, val):
         """Convert mm to meters if value is likely in mm (val > 100)."""
         return val / 1000 if val and val > 100 else val
+
+    @property
+    def luff_length(self):
+        """Return the luff length (meters)."""
+        return self.luff

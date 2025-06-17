@@ -1,5 +1,4 @@
 from ...service import BaseYachtService
-from .user_yacht import UserYacht
 
 
 class UserYachtFactory:

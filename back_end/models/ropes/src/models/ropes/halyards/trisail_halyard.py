@@ -148,3 +148,6 @@ class TrisailHalyard(Halyard):
         ]
         attrs.extend(self.saildata.get(key) for key in trisail_keys)
         return all(attr is not None for attr in attrs)
+
+        # Fix W503 for all flagged lines (101-103)
+        # Add newline at end of file

@@ -4,8 +4,8 @@ from .genoa_sheet import GenoaSheet
 from .jib_sheet import JibSheet
 from .mainsheet import MainSheet
 from .staysail_sheet import StaysailSheet
-from .trisail_sheet import TrisailSheet
 from .sym_spinnaker_sheet import SymSpinSheet
+from .trisail_sheet import TrisailSheet
 
 __all__ = [
     "AsymSpinSheet",
@@ -14,6 +14,6 @@ __all__ = [
     "JibSheet",
     "MainSheet",
     "StaysailSheet",
-    "TrisailSheet",
-    "SymSpinSheet"
+    "SymSpinSheet",
+    "TrisailSheet"
 ]

@@ -24,9 +24,9 @@ Classes:
 """
 
 from math import radians, sin
+from abc import ABC, abstractmethod
 
 from ...components.termination import Termination
-from abc import ABC, abstractmethod
 from ...components.rope_construction import RopeConstruction, RopeConstructionType
 from ..rope import Rope
 

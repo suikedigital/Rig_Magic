@@ -66,3 +66,12 @@ class AsymSpinnaker(BaseSail):
         luff_m = self._mm_to_m(self.luff)
         foot_m = self._mm_to_m(self.foot)
         return 0.5 * luff_m * foot_m
+
+    @property
+    def luff_length(self):
+        """
+        Get the luff length in meters.
+        Returns:
+            float: The luff length (m).
+        """
+        return self.luff_length

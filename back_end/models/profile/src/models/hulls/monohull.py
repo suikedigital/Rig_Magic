@@ -17,4 +17,8 @@ def some_top_level_function():
 
 
 class Monohull:
-    pass
+    def __init__(self, hull_material):
+        self.hull_material = hull_material
+
+    def __str__(self):
+        return f"Monohull with {self.hull_material} hull material."
