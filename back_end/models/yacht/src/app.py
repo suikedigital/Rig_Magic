@@ -31,7 +31,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# --- Models ---
+
 class KeelCreateRequest(BaseModel):
     keel_type: str
     draft: float
