@@ -129,7 +129,9 @@ def get_yacht(yacht_id: int):
             data = resp.json()
             logger.debug(f"[DEBUG] {key}:", data)
             # Tolerant: found_any if any non-empty dict or non-empty list
-            if (isinstance(data, dict) and data) or (isinstance(data, list) and len(data) > 0):
+            if (isinstance(data, dict) and data) or (
+                isinstance(data, list) and len(data) > 0
+            ):
                 found_any = True
                 logger.debug(f"[DEBUG] found_any set True by {key}")
             result[key] = data
@@ -145,7 +147,9 @@ def get_yacht(yacht_id: int):
     logger.debug(f"[DEBUG] Final found_any: {found_any}")
     logger.debug(f"[DEBUG] Final result: {result}")
     if not found_any:
-        raise HTTPException(status_code=404, detail="Yacht not found in any microservice")
+        raise HTTPException(
+            status_code=404, detail="Yacht not found in any microservice"
+        )
     if errors:
         result["errors"] = errors
     return result
@@ -194,7 +198,9 @@ def create_yacht(req: YachtCreateRequest):
     # Saildata
     if req.saildata:
         try:
-            resp = requests.post(f"{SAILDATA_API}/saildata/", json=req.saildata, timeout=5)
+            resp = requests.post(
+                f"{SAILDATA_API}/saildata/", json=req.saildata, timeout=5
+            )
             resp.raise_for_status()
             responses["saildata"] = resp.json()
         except Exception as e:
@@ -203,7 +209,9 @@ def create_yacht(req: YachtCreateRequest):
     if req.sails:
         for sail in req.sails:
             try:
-                resp = requests.post(f"{SAILS_API}/sails/add_sail_type", json=sail, timeout=5)
+                resp = requests.post(
+                    f"{SAILS_API}/sails/add_sail_type", json=sail, timeout=5
+                )
                 resp.raise_for_status()
                 responses.setdefault("sails", []).append(resp.json())
             except Exception as e:
@@ -212,7 +220,9 @@ def create_yacht(req: YachtCreateRequest):
     if req.ropes:
         for rope in req.ropes:
             try:
-                resp = requests.post(f"{ROPES_API}/ropes/add_rope_type", json=rope, timeout=5)
+                resp = requests.post(
+                    f"{ROPES_API}/ropes/add_rope_type", json=rope, timeout=5
+                )
                 resp.raise_for_status()
                 responses.setdefault("ropes", []).append(resp.json())
             except Exception as e:
@@ -224,11 +234,23 @@ def create_yacht(req: YachtCreateRequest):
             for sail_type in req.possible_sails:
                 sail_payload = {
                     "yacht_id": yacht_id,
-                    "sail_type": sail_type if isinstance(sail_type, str) else sail_type.get("sail_type"),
-                    "config": sail_type.get("config") if isinstance(sail_type, dict) else None
+                    "sail_type": (
+                        sail_type
+                        if isinstance(sail_type, str)
+                        else sail_type.get("sail_type")
+                    ),
+                    "config": (
+                        sail_type.get("config") if isinstance(sail_type, dict) else None
+                    ),
                 }
-                logger.info(f"[Orchestrator] POST /sails/possible/{yacht_id} payload: {sail_payload}")
-                resp = requests.post(f"{SAILS_API}/sails/possible/{yacht_id}", json=sail_payload, timeout=5)
+                logger.info(
+                    f"[Orchestrator] POST /sails/possible/{yacht_id} payload: {sail_payload}"
+                )
+                resp = requests.post(
+                    f"{SAILS_API}/sails/possible/{yacht_id}",
+                    json=sail_payload,
+                    timeout=5,
+                )
                 resp.raise_for_status()
             responses["possible_sails"] = "ok"
         except Exception as e:
@@ -240,11 +262,23 @@ def create_yacht(req: YachtCreateRequest):
             for rope_type in req.possible_ropes:
                 rope_payload = {
                     "yacht_id": yacht_id,
-                    "rope_type": rope_type if isinstance(rope_type, str) else rope_type.get("rope_type"),
-                    "config": rope_type.get("config") if isinstance(rope_type, dict) else None
+                    "rope_type": (
+                        rope_type
+                        if isinstance(rope_type, str)
+                        else rope_type.get("rope_type")
+                    ),
+                    "config": (
+                        rope_type.get("config") if isinstance(rope_type, dict) else None
+                    ),
                 }
-                logger.info(f"[Orchestrator] POST /ropes/possible/{yacht_id} payload: {rope_payload}")
-                resp = requests.post(f"{ROPES_API}/ropes/possible/{yacht_id}", json=rope_payload, timeout=5)
+                logger.info(
+                    f"[Orchestrator] POST /ropes/possible/{yacht_id} payload: {rope_payload}"
+                )
+                resp = requests.post(
+                    f"{ROPES_API}/ropes/possible/{yacht_id}",
+                    json=rope_payload,
+                    timeout=5,
+                )
                 resp.raise_for_status()
             responses["possible_ropes"] = "ok"
         except Exception as e:

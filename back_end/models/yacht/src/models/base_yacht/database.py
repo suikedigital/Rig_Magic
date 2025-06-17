@@ -7,7 +7,8 @@ class BaseYachtDatabase:
         self.create_table()
 
     def create_table(self):
-        self.conn.execute('''
+        self.conn.execute(
+            """
         CREATE TABLE IF NOT EXISTS base_yachts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             yacht_class TEXT,
@@ -193,13 +194,14 @@ class BaseYachtDatabase:
             d3_wire_lower TEXT,
             d3_wire_length INTEGER
         )
-        ''')
+        """
+        )
         self.conn.commit()
         return True
 
     def get_yacht(self, yacht_id):
         cursor = self.conn.cursor()
-        cursor.execute('SELECT * FROM yachts WHERE id = ?', (yacht_id,))
+        cursor.execute("SELECT * FROM yachts WHERE id = ?", (yacht_id,))
         return cursor.fetchone()
 
     def close(self):
