@@ -47,7 +47,7 @@ class ProfurlSelector:
         ("C520", 19)
     }
 
-    def spec_profurl(self, loa, sail_area, stay_diameter, clevis_pin_diameter, rod=False):
+    def spec_furlers(self, loa, sail_area, stay_diameter, clevis_pin_diameter, rod=False):
         possible_furlers = []
         for unit_name, min_loa, max_loa, max_sa, max_wire_dia, max_rod_dia, clevis_pin_range in self.Furler_Specs:
             if min_loa <= loa <= max_loa and max_sa >= sail_area and stay_diameter <= max_wire_dia:

@@ -15,7 +15,7 @@ class FacnorFurler:
             f"Foil section={self.foil_section}, RequiresEyeTurnbuckle={self.requires_eye_turnbuckle}>"
         )
 
-class FacnorFurlerSelector:
+class FacnorSelector:
     FURLER_SPECS = [
         # Facnor furler specifications
         # Unit name, Halyard Swivel, foil section, Min LOA (m), Max LOA (m), Min Wire Dia (mm), Max Wire Dia (mm)
@@ -48,11 +48,11 @@ class FacnorFurlerSelector:
         ("Facnor LS-330", 22),
     }
 
-    def spec_facnors(self, loa, forstay_wire_diameter):
+    def spec_furlers(self, loa, stay_diameter):
         possible_furlers = []
-        for unit_name, hal_swivel, foil_section, min_loa, max_loa, min_dia, max_dia in selector.FURLER_SPECS:
-            if min_loa <= loa <= max_loa and min_dia <= forstay_wire_diameter <= max_dia:
-                requires_eye_turnbuckle = (unit_name, forstay_wire_diameter) in selector.REQUIRES_EYE_TURNBUCKLE
+        for unit_name, hal_swivel, foil_section, min_loa, max_loa, min_dia, max_dia in self.FURLER_SPECS:
+            if min_loa <= loa <= max_loa and min_dia <= stay_diameter <= max_dia:
+                requires_eye_turnbuckle = (unit_name, stay_diameter) in self.REQUIRES_EYE_TURNBUCKLE
                 model = FacnorFurler(
                     unit_name, hal_swivel, foil_section, min_loa, max_loa, min_dia, max_dia, requires_eye_turnbuckle
                 )
@@ -61,13 +61,13 @@ class FacnorFurlerSelector:
 
 
 if __name__ == "__main__":
-    selector = FacnorFurlerSelector()
+    selector = FacnorSelector()
     loa = 11000  # Example LOA in mm
-    forstay_wire_diameter = 7  # Example diameter in mm
-    matching_furlers = selector.spec_facnors(loa, forstay_wire_diameter)
+    stay_diameter = 7  # Example diameter in mm
+    matching_furlers = selector.spec_facnors(loa, stay_diameter)
     
     if matching_furlers:
-        print(f"Possible Facnor furlers for LOA={loa} and forstay diameter={forstay_wire_diameter}:")
+        print(f"Possible Facnor furlers for LOA={loa} and forstay diameter={stay_diameter}:")
         for furler in matching_furlers:
             print(furler)
             if furler.requires_eye_turnbuckle:
