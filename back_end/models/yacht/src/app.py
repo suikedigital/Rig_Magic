@@ -10,7 +10,7 @@ from pydantic import BaseModel
 from typing import Optional, Dict, Any, List, Union
 import requests
 from fastapi.middleware.cors import CORSMiddleware
-from back_end.logger import get_logger
+from src.logger import get_logger
 
 logger = get_logger(__name__)
 

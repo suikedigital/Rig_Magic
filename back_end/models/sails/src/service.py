@@ -3,7 +3,7 @@ from config import SAILS_DB_PATH, SAILDATA_API_URL
 from .models.sail_factory import SailFactory
 from .models.database import Database
 from .models.sail_utils import normalize_sail_type
-from back_end.logger import get_logger
+from src.logger import get_logger
 
 logger = get_logger(__name__)
 

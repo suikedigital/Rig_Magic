@@ -2,7 +2,7 @@ import sqlite3
 from .saildata import SailData
 from config import SAILDATA_DB_PATH
 import json
-from back_end.logger import get_logger
+from src.logger import get_logger
 
 logger = get_logger(__name__)
 

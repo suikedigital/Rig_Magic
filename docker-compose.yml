@@ -68,6 +68,15 @@ services:
     ports:
       - "8001:8001"
 
+  furler:
+    build:
+      context: ./back_end/models/furlers
+      dockerfile: Dockerfile
+    container_name: furler
+    command: uvicorn main:app --host 0.0.0.0 --port 8002
+    ports:
+      - "8002:8002"
+
   front_end:
     build: ./front_end
     ports:

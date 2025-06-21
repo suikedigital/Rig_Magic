@@ -3,7 +3,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import Optional, Dict, Any
 from .service import RopeService
-from back_end.logger import get_logger
+from src.logger import get_logger
 
 app = FastAPI()
 rope_service = RopeService()

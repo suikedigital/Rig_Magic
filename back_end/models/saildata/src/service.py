@@ -4,7 +4,7 @@ from .models.database import SailDataDatabase
 from config import SAILDATA_DB_PATH
 import requests
 import threading
-from back_end.logger import get_logger
+from src.logger import get_logger
 
 logger = get_logger(__name__)
 

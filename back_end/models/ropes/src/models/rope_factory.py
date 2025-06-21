@@ -9,7 +9,7 @@ from .ropes.halyards.spinnaker_halyard import SpinnakerHalyard
 from .ropes.halyards.code_zero_halyard import CodeZeroHalyard
 from .ropes.halyards.topping_lift_halyard import ToppingLiftHalyard
 from .ropes.halyards.trisail_halyard import TrisailHalyard
-from .ropes.sheets_and_guys.sheets.mainsheet import Mainsheet
+from .ropes.sheets_and_guys.sheets.mainsheet import MainSheet
 from .ropes.sheets_and_guys.sheets.jib_sheet import JibSheet
 from .ropes.sheets_and_guys.sheets.genoa_sheet import GenoaSheet
 from .ropes.sheets_and_guys.sheets.staysail_sheet import StaysailSheet
@@ -73,7 +73,7 @@ class Factory:
         "CodeZeroSheet": CodeZeroSheet,
         "GenoaSheet": GenoaSheet,
         "JibSheet": JibSheet,
-        "Mainsheet": Mainsheet,
+        "Mainsheet": MainSheet,
         "StaysailSheet": StaysailSheet,
         "TrisailSheet": TrisailSheet,
         "SymSpinSheet": SymSpinSheet,

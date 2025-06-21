@@ -70,7 +70,10 @@ def generate_sails(req: GenerateSailsRequest):
 
 @app.get("/sails/{yacht_id}/{sail_type}")
 def get_sail(yacht_id: int, sail_type: str):
-    sail = sail_service.get_sail(yacht_id, sail_type)
+    try:
+        sail = sail_service.get_sail(yacht_id, sail_type)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
     if not sail:
         raise HTTPException(status_code=404, detail="Sail not found")
     return sail
@@ -78,12 +81,18 @@ def get_sail(yacht_id: int, sail_type: str):
 
 @app.get("/sails/{yacht_id}")
 def get_sails(yacht_id: int):
-    return sail_service.get_sails_from_db(yacht_id)
+    try:
+        return sail_service.get_sails_from_db(yacht_id)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
 
 
 @app.get("/sails/{yacht_id}/{sail_type}/aero_force")
 def get_aero_force(yacht_id: int, sail_type: str, wind_speed: float):
-    force = sail_service.get_aero_force(yacht_id, sail_type, wind_speed)
+    try:
+        force = sail_service.get_aero_force(yacht_id, sail_type, wind_speed)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
     if force is None:
         raise HTTPException(status_code=404, detail="Sail or force not found")
     return {"aero_force": force}
