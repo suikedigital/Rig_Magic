@@ -17,9 +17,11 @@ export function YachtAdminList() {
       setLoading(true)
       setError(null)
       try {
-        const apiBase = getApiBase()
-        const res = await fetch(`${apiBase}/yachts/search?query=&boat_type=all`)
+        const apiBase = getApiBase('yacht')
+        console.log('[YachtAdminList] apiBase:', apiBase)
+        const res = await fetch(`${apiBase}/yachts/search?query=`)
         const data = await res.json()
+        console.log('Admin fetched yachts:', data)
         // Sort by yacht_id descending, take last 10
         const sorted = Array.isArray(data) ? [...data].sort((a, b) => Number(b.yacht_id) - Number(a.yacht_id)).slice(0, 10) : []
         setYachts(sorted)
@@ -36,7 +38,7 @@ export function YachtAdminList() {
     setDeleting(id)
     setError(null)
     try {
-      const apiBase = getApiBase()
+      const apiBase = getApiBase('yacht')
       const res = await fetch(`${apiBase}/yacht/${id}`, { method: "DELETE" })
       if (!res.ok) throw new Error("Delete failed")
       setYachts(yachts => yachts.filter(y => String(y.yacht_id) !== String(id)))

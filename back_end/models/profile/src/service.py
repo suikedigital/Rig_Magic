@@ -1,4 +1,4 @@
-from config import PROFILE_DB_PATH
+from .config import PROFILE_DB_PATH
 
 from .models.database import YachtProfileDatabase
 from .models.factory import YachtProfileFactory
@@ -16,8 +16,10 @@ class YachtProfileService:
         profile_data = {
             "yacht_id": yacht_id,
             "base_id": base_id,
+            "name": getattr(base_yacht, "name", None),  # NEW: user-given name
             "yacht_class": base_yacht.yacht_class,
             "model": base_yacht.model,
+            "spec": getattr(base_yacht, "spec", None),  # NEW: performance spec
             "version": base_yacht.version,
             "builder": base_yacht.builder,
             "designer": base_yacht.designer,
@@ -43,6 +45,11 @@ class YachtProfileService:
             profile_dict["base_id"] = base_id
         elif "base_id" not in profile_dict:
             profile_dict["base_id"] = None
+        # Ensure 'name' and 'spec' are present (nullable)
+        if "name" not in profile_dict:
+            profile_dict["name"] = None
+        if "spec" not in profile_dict:
+            profile_dict["spec"] = None
         self.db.insert(profile_dict)
 
     def get_profile(self, yacht_id):

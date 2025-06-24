@@ -1,11 +1,21 @@
-from fastapi import FastAPI, HTTPException, Request, Depends
+from fastapi import FastAPI, HTTPException, Request, Depends, Body
 from src.models import BaseUser  # Only BaseUser is used
 import src.services as services
 from src.database import initialize_db
 from jose import jwt, JWTError
 import os
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+# Enable CORS for local frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 initialize_db()
 
@@ -76,3 +86,14 @@ def health():
 @app.get("/users/", response_model=list[BaseUser])
 def list_users():
     return services.list_users()
+
+
+@app.post("/users/{user_id}/add_yacht")
+def add_yacht_to_user_endpoint(user_id: str, yacht_id: str = Body(..., embed=True)):
+    user = services.get_user(user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    if yacht_id not in user.yacht_ids:
+        user.yacht_ids.append(yacht_id)
+        services.save_user(user)
+    return user

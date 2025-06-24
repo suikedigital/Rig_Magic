@@ -6,8 +6,10 @@ class YachtProfile:
         self,
         yacht_id: int,
         base_id: int = None,
+        name: str = None,  # NEW: user-given name
         yacht_class: str = None,
         model: str = None,
+        spec: str = None,  # NEW: performance spec
         version: str = None,
         builder: str = None,
         designer: str = None,
@@ -21,8 +23,10 @@ class YachtProfile:
         self.id = id
         self.yacht_id = yacht_id
         self.base_id = base_id
+        self.name = name
         self.yacht_class = yacht_class  # e.g., "Swan 48"
         self.model = model  # e.g., "Oceanis"
+        self.spec = spec  # e.g., "IRC 1.050"
         self.version = version  # e.g., "MKII"
         self.designer = designer  # e.g., "Sparkman & Stephens"
         self.builder = builder  # e.g., "Nautor's Swan"

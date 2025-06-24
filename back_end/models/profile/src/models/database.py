@@ -1,5 +1,5 @@
 import sqlite3
-from config import PROFILE_DB_PATH
+from ..config import PROFILE_DB_PATH
 
 
 class YachtProfileDatabase:
@@ -15,8 +15,10 @@ class YachtProfileDatabase:
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 yacht_id INTEGER NOT NULL,
                 base_id INTEGER,
+                name TEXT, -- NEW: user-given name
                 yacht_class TEXT,
                 model TEXT,
+                spec TEXT, -- NEW: performance spec
                 version TEXT,
                 builder TEXT,
                 designer TEXT,

@@ -6,10 +6,8 @@ import logger from '../../../logger';
 
 // Fetch yacht data from orchestrator API
 async function getBoat(id: string) {
-  const apiBase = getApiBase();
-  const apiUrl = `${apiBase}/yacht/${id}` // CHANGED: singular endpoint
-  logger.info('[BoatPage] API Base URL:', { apiBase });
-  logger.info('[BoatPage] Fetching yacht from:', { apiUrl });
+  const apiUrl = `${getApiBase('yacht')}/yacht/${id}` // Use yacht service
+  logger.info('[BoatPage] API Base URL:', { apiUrl });
   try {
     const res = await fetch(apiUrl)
     if (!res.ok) {
@@ -25,10 +23,8 @@ async function getBoat(id: string) {
 
 // Fetch possible sails for base yachts
 async function getPossibleSails(id: string) {
-  const apiBase = getApiBase();
-  const apiUrl = `${apiBase}/sails/possible/${id}`
-  logger.info('[BoatPage] API Base URL:', { apiBase });
-  logger.info('[BoatPage] Fetching possible sails from:', { apiUrl });
+  const apiUrl = `${getApiBase('sails')}/sails/possible/${id}`
+  logger.info('[BoatPage] API Base URL:', { apiUrl });
   try {
     const res = await fetch(apiUrl)
     if (!res.ok) return []
@@ -41,10 +37,8 @@ async function getPossibleSails(id: string) {
 
 // Fetch possible ropes for base yachts
 async function getPossibleRopes(id: string) {
-  const apiBase = getApiBase();
-  const apiUrl = `${apiBase}/ropes/possible/${id}`
-  logger.info('[BoatPage] API Base URL:', { apiBase });
-  logger.info('[BoatPage] Fetching possible ropes from:', { apiUrl });
+  const apiUrl = `${getApiBase('ropes')}/ropes/possible/${id}`
+  logger.info('[BoatPage] API Base URL:', { apiUrl });
   try {
     const res = await fetch(apiUrl)
     if (!res.ok) return []

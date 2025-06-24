@@ -4,13 +4,15 @@ Yacht API Orchestrator (entrypoint)
 This file is the entrypoint for the yacht orchestrator microservice.
 """
 
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Body, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from typing import Optional, Dict, Any, List, Union
 import requests
 from fastapi.middleware.cors import CORSMiddleware
 from src.logger import get_logger
+import sys
+import traceback
 
 logger = get_logger(__name__)
 
@@ -20,6 +22,7 @@ SAILS_API = "http://sails:8020"
 ROPES_API = "http://ropes:8010"
 HULL_API = "http://hull_structure:8004"
 PROFILE_API = "http://profile:8003"
+USER_PROFILE_API = "http://user_profile:8005"
 
 app = FastAPI()
 
@@ -95,14 +98,13 @@ def search_yachts(query: str = Query("", description="Free-form search query")):
     query_lower = query.lower()
     results = []
     for profile in profiles:
-        base_id = profile.get("base_id")
-        if base_id not in (0, None, "0", "null", "None", ""):
-            continue  # Only return yachts with base_id 0, null, or none
         for field in search_fields:
             value = str(profile.get(field, "")).lower()
             if query_lower in value:
                 results.append(profile)
                 break
+    # Sort by yacht_id descending and limit to 10
+    results = sorted(results, key=lambda x: int(x.get("yacht_id", 0)), reverse=True)[:10]
     return results
 
 
@@ -381,3 +383,132 @@ def delete_yacht(yacht_id: int):
     if errors:
         return JSONResponse(status_code=207, content=result)
     return {"status": "ok", **result}
+
+
+def add_yacht_to_user(user_id: str, yacht_id: int):
+    """
+    Add a yacht to the user's yacht_ids list using the dedicated endpoint.
+    """
+    resp = requests.post(
+        f"{USER_PROFILE_API}/users/{user_id}/add_yacht",
+        json={"yacht_id": str(yacht_id)},
+        timeout=5,
+    )
+    if resp.status_code != 200:
+        raise HTTPException(status_code=resp.status_code, detail=f"Failed to add yacht to user: {resp.text}")
+    return resp.json()
+
+
+def clone_yacht(yacht_id: int, user_id: int, name: str = None, spec: str = None, notes: str = None):
+    """
+    Clone a yacht by copying its profile, hull, keel, rudder, saildata, sails, and ropes.
+    Assign the new yacht to the user by updating their yacht_ids list.
+    Optionally override name, spec, notes.
+    """
+    print(f"[clone_yacht] called with yacht_id={yacht_id}, user_id={user_id}, name={name}, spec={spec}, notes={notes}", flush=True)
+    logger.info(f"[clone_yacht] called with yacht_id={yacht_id}, user_id={user_id}, name={name}, spec={spec}, notes={notes}")
+    try:
+        yacht = get_yacht(yacht_id)
+        print(f"[clone_yacht] get_yacht returned: {yacht}", flush=True)
+        yacht_data = yacht.dict() if hasattr(yacht, 'dict') else dict(yacht)
+        base_id = yacht_data.pop("yacht_id", None)
+        yacht_data["base_id"] = base_id
+        # Override profile fields if provided
+        if "profile" in yacht_data and isinstance(yacht_data["profile"], dict):
+            if name:
+                yacht_data["profile"]["model"] = name
+            if spec:
+                yacht_data["profile"]["spec"] = spec
+            if notes:
+                yacht_data["profile"]["notes"] = notes
+        # Remove possible_sails and possible_ropes from yacht_data before creation
+        possible_sails = yacht_data.pop("possible_sails", None)
+        possible_ropes = yacht_data.pop("possible_ropes", None)
+        print(f"[clone_yacht] yacht_data for create_yacht: {yacht_data}", flush=True)
+        create_result = create_yacht(YachtCreateRequest(**yacht_data))
+        print(f"[clone_yacht] create_yacht result: {create_result}", flush=True)
+        # Try to extract new yacht_id from the profile response
+        new_yacht_id = None
+        if isinstance(create_result, dict):
+            profile_resp = create_result.get("responses", {}).get("profile")
+            if profile_resp and isinstance(profile_resp, dict):
+                new_yacht_id = profile_resp.get("yacht_id") or profile_resp.get("id")
+        if not new_yacht_id:
+            print("[clone_yacht] Could not determine new yacht_id", flush=True)
+            logger.error("[clone_yacht] Could not determine new yacht_id")
+            raise HTTPException(status_code=500, detail="Could not determine new yacht_id")
+        # --- Now POST possible_sails and possible_ropes with new_yacht_id ---
+        if possible_sails:
+            for sail_type in possible_sails:
+                sail_payload = {
+                    "yacht_id": new_yacht_id,
+                    "sail_type": sail_type if isinstance(sail_type, str) else sail_type.get("sail_type") or sail_type.get("type"),
+                    "config": sail_type.get("config") if isinstance(sail_type, dict) else None,
+                }
+                logger.info(f"[Orchestrator] POST /sails/possible/{new_yacht_id} payload: {sail_payload}")
+                requests.post(f"{SAILS_API}/sails/possible/{new_yacht_id}", json=sail_payload, timeout=5)
+        if possible_ropes:
+            for rope_type in possible_ropes:
+                rope_payload = {
+                    "yacht_id": new_yacht_id,
+                    "rope_type": rope_type if isinstance(rope_type, str) else rope_type.get("rope_type"),
+                    "config": rope_type.get("config") if isinstance(rope_type, dict) else None,
+                }
+                logger.info(f"[Orchestrator] POST /ropes/possible/{new_yacht_id} payload: {rope_payload}")
+                requests.post(f"{ROPES_API}/ropes/possible/{new_yacht_id}", json=rope_payload, timeout=5)
+        add_yacht_to_user(user_id, new_yacht_id)
+        print(f"[clone_yacht] Successfully cloned yacht. new_yacht_id={new_yacht_id}", flush=True)
+        logger.info(f"[clone_yacht] Successfully cloned yacht. new_yacht_id={new_yacht_id}")
+        return {"new_yacht_id": new_yacht_id}
+    except HTTPException as e:
+        print(f"[clone_yacht] HTTPException: {e}", flush=True)
+        logger.error(f"[clone_yacht] HTTPException: {e}")
+        raise HTTPException(status_code=e.status_code, detail=f"Yacht not found: {e.detail}")
+    except Exception as e:
+        print(f"[clone_yacht] Exception: {e}", flush=True)
+        logger.error(f"[clone_yacht] Exception: {e}")
+        raise
+
+
+@app.post("/yacht/clone")
+def clone_yacht_endpoint(data: dict = Body(...)):
+    print("[clone_yacht_endpoint] called with data:", data, flush=True)
+    logger.info(f"[clone_yacht_endpoint] called with data: {data}")
+    original_yacht_id = data.get("originalBoatId")
+    user_id = data.get("userId")
+    name = data.get("name")
+    spec = data.get("spec")
+    notes = data.get("notes")
+    if not original_yacht_id or not user_id:
+        print("[clone_yacht_endpoint] Missing originalBoatId or userId", flush=True)
+        logger.error("[clone_yacht_endpoint] Missing originalBoatId or userId")
+        raise HTTPException(status_code=400, detail="Missing originalBoatId or userId")
+    try:
+        result = clone_yacht(original_yacht_id, user_id, name=name, spec=spec, notes=notes)
+        print(f"[clone_yacht_endpoint] clone_yacht result: {result}", flush=True)
+        logger.info(f"[clone_yacht_endpoint] clone_yacht result: {result}")
+        return result
+    except Exception as e:
+        print(f"[clone_yacht_endpoint] Exception: {e}", flush=True)
+        logger.error(f"[clone_yacht_endpoint] Exception: {e}")
+        raise
+
+
+# Global exception handler for FastAPI
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    print("UNCAUGHT EXCEPTION:", exc, flush=True)
+    traceback.print_exc()
+    return JSONResponse(
+        status_code=500,
+        content={"detail": str(exc)},
+    )
+
+
+def handle_exception(exc_type, exc_value, exc_traceback):
+    print("UNCAUGHT EXCEPTION (sys):", exc_value, flush=True)
+    traceback.print_exception(exc_type, exc_value, exc_traceback)
+
+
+sys.excepthook = handle_exception
+

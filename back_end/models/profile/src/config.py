@@ -1,8 +1,5 @@
 # config.py for the profile microservice
 import os
 
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-PROFILE_DB_PATH = os.environ.get(
-    "PROFILE_DB_PATH", os.path.join(BASE_DIR, "../data.db")
-)
+SRC_DIR = os.path.dirname(os.path.abspath(__file__))
+PROFILE_DB_PATH = os.path.join(SRC_DIR, "data.db")

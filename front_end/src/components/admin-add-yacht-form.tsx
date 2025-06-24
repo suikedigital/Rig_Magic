@@ -92,7 +92,9 @@ export function AdminAddYachtForm() {
     setSubmitting(true)
     setResult(null)
     try {
-      const apiBase = getApiBase()
+      // Use the correct API base for the yacht service
+      const apiBase = getApiBase('yacht')
+      console.log('[AdminAddYachtForm] apiBase:', apiBase)
       // Generate a random yacht_id (timestamp-based)
       const yacht_id = Date.now()
       // Compose payload for orchestrator
@@ -167,7 +169,13 @@ export function AdminAddYachtForm() {
         setPossibleSails([])
         setPossibleRopes([])
       } else {
-        setResult("Failed to add yacht. Check input and try again.")
+        // Try to get error details from backend
+        let errorMsg = "Failed to add yacht. Check input and try again."
+        try {
+          const errorData = await res.json()
+          if (errorData && errorData.detail) errorMsg += ` (${errorData.detail})`
+        } catch {}
+        setResult(errorMsg)
       }
     } catch (e) {
       setResult("Error: " + (e as Error).message)

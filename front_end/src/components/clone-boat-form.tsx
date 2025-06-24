@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -13,37 +12,18 @@ import { Textarea } from "@/components/ui/textarea"
 import type { Boat } from "@/lib/types"
 import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/hooks/use-auth"
+import { getApiBase } from "@/lib/getApiBase"
 
 interface CloneBoatFormProps {
   originalBoat: Boat
 }
 
 const boatSpecs = [
-  {
-    id: "day-cruiser",
-    name: "Day Cruiser",
-    description: "Optimized for day sailing and coastal cruising",
-  },
-  {
-    id: "ocean-spec",
-    name: "Ocean Spec",
-    description: "Built for offshore and ocean sailing",
-  },
-  {
-    id: "club-racer",
-    name: "Club Racer",
-    description: "Performance setup for club racing",
-  },
-  {
-    id: "full-race",
-    name: "Full Race",
-    description: "Maximum performance racing configuration",
-  },
-  {
-    id: "luxury",
-    name: "Luxury",
-    description: "Premium materials and comfort-focused setup",
-  },
+  { id: "day-cruiser", name: "Day Cruiser", description: "Optimized for day sailing and coastal cruising" },
+  { id: "ocean-spec", name: "Ocean Spec", description: "Built for offshore and ocean sailing" },
+  { id: "club-racer", name: "Club Racer", description: "Performance setup for club racing" },
+  { id: "full-race", name: "Full Race", description: "Maximum performance racing configuration" },
+  { id: "luxury", name: "Luxury", description: "Premium materials and comfort-focused setup" },
 ]
 
 export function CloneBoatForm({ originalBoat }: CloneBoatFormProps) {
@@ -61,11 +41,31 @@ export function CloneBoatForm({ originalBoat }: CloneBoatFormProps) {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate API call to clone boat
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    // Debug: log the payload
+    const payload = {
+      originalBoatId: originalBoat.yacht_id, // CHANGED from originalBoat.id
+      name: formData.name,
+      spec: formData.spec,
+      notes: formData.notes,
+      userId: user?.id,
+    }
+    console.log('[CloneBoatForm] Submitting clone payload:', payload)
 
-    // Create cloned boat ID
-    const clonedBoatId = `${originalBoat.id}-clone-${Date.now()}`
+    // Use the yacht API URL for cloning
+    const apiBase = getApiBase('yacht')
+    const res = await fetch(`${apiBase}/yacht/clone`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    })
+
+    if (!res.ok) {
+      toast({ title: "Error", description: "Failed to clone boat." })
+      setIsSubmitting(false)
+      return
+    }
+
+    const { new_yacht_id } = await res.json()
 
     toast({
       title: "Boat cloned successfully!",
@@ -73,7 +73,7 @@ export function CloneBoatForm({ originalBoat }: CloneBoatFormProps) {
     })
 
     setIsSubmitting(false)
-    router.push(`/my-boats/${clonedBoatId}`)
+    router.push(`/my-boats/${new_yacht_id}`)
   }
 
   return (

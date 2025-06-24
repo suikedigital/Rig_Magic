@@ -12,8 +12,10 @@ profile_service = YachtProfileService()
 class ProfileRequest(BaseModel):
     yacht_id: int
     base_id: Optional[int] = None
+    name: Optional[str] = None  # NEW: user-given name
     yacht_class: Optional[str] = None
     model: Optional[str] = None
+    spec: Optional[str] = None  # NEW: performance spec
     version: Optional[str] = None
     builder: Optional[str] = None
     designer: Optional[str] = None
@@ -28,8 +30,10 @@ class ProfileResponse(BaseModel):
     id: Optional[int] = None
     yacht_id: Optional[int] = None
     base_id: Optional[int] = None
+    name: Optional[str] = None  # NEW: user-given name
     yacht_class: Optional[str] = None
     model: Optional[str] = None
+    spec: Optional[str] = None  # NEW: performance spec
     version: Optional[str] = None
     builder: Optional[str] = None
     designer: Optional[str] = None
@@ -46,7 +50,11 @@ class ProfileResponse(BaseModel):
 @app.post("/profile/")
 def add_profile(req: ProfileRequest):
     profile_service.save_profile(req.dict())
-    return {"status": "ok"}
+    # Fetch and return the full profile, including yacht_id
+    profile = profile_service.get_profile(req.yacht_id)
+    if not profile:
+        raise HTTPException(status_code=500, detail="Profile creation failed")
+    return profile.__dict__
 
 
 @app.get("/profile/all")

@@ -4,7 +4,7 @@ services:
       context: ./back_end/models/yacht
       dockerfile: Dockerfile
     container_name: yacht
-    command: uvicorn src.app:app --host 0.0.0.0 --port 8050
+    command: uvicorn src.app:app --host 0.0.0.0 --port 8050 --log-level debug
     ports:
       - "8050:8050"
     depends_on:
@@ -13,6 +13,7 @@ services:
       - sails
       - hull_structure
       - saildata
+    # Add volume if yacht uses a DB
 
   profile:
     build:
@@ -22,6 +23,8 @@ services:
     command: uvicorn src.app:app --host 0.0.0.0 --port 8003
     ports:
       - "8003:8003"
+    volumes:
+      - ./back_end/models/profile/src/data.db:/app/src/data.db
 
   user_profile:
     build:
@@ -30,8 +33,10 @@ services:
     container_name: user_profile
     command: uvicorn src.app:app --host 0.0.0.0 --port 8005
     ports:
-      - "8005:8000"
-    
+      - "8005:8005"
+    volumes:
+      - ./back_end/models/user_profile/src/data.db:/app/src/data.db
+
   ropes:
     build:
       context: ./back_end/models/ropes
@@ -40,6 +45,8 @@ services:
     command: uvicorn src.app:app --host 0.0.0.0 --port 8010
     ports:
       - "8010:8010"
+    volumes:
+      - ./back_end/models/ropes/src/data.db:/app/src/data.db
 
   sails:
     build:
@@ -49,6 +56,8 @@ services:
     command: uvicorn src.app:app --host 0.0.0.0 --port 8020
     ports:
       - "8020:8020"
+    volumes:
+      - ./back_end/models/sails/src/data.db:/app/src/data.db
 
   hull_structure:
     build:
@@ -58,6 +67,8 @@ services:
     command: uvicorn src.app:app --host 0.0.0.0 --port 8004
     ports:
       - "8004:8004"
+    volumes:
+      - ./back_end/models/hull_structure/src/data.db:/app/src/data.db
 
   saildata:
     build:
@@ -67,6 +78,8 @@ services:
     command: uvicorn src.app:app --host 0.0.0.0 --port 8001
     ports:
       - "8001:8001"
+    volumes:
+      - ./back_end/models/saildata/src/data.db:/app/src/data.db
 
   furler:
     build:
@@ -76,14 +89,33 @@ services:
     command: uvicorn main:app --host 0.0.0.0 --port 8002
     ports:
       - "8002:8002"
+    # Add volume if furler uses a DB
 
   front_end:
     build: ./front_end
     ports:
-      - "3000:3000"
+      - "${FRONTEND_PORT:-3000}:3000"
     env_file:
       - ./front_end/.env.local
+    environment:
+      - NEXT_PUBLIC_YACHT_API_URL=${NEXT_PUBLIC_YACHT_API_URL:-http://yacht:8050}
+      - NEXT_PUBLIC_PROFILE_API_URL=${NEXT_PUBLIC_PROFILE_API_URL:-http://profile:8003}
+      - NEXT_PUBLIC_USER_PROFILE_API_URL=${NEXT_PUBLIC_USER_PROFILE_API_URL:-http://user_profile:8005}
+      - NEXT_PUBLIC_ROPES_API_URL=${NEXT_PUBLIC_ROPES_API_URL:-http://ropes:8010}
+      - NEXT_PUBLIC_SAILS_API_URL=${NEXT_PUBLIC_SAILS_API_URL:-http://sails:8020}
+      - NEXT_PUBLIC_HULL_STRUCTURE_API_URL=${NEXT_PUBLIC_HULL_STRUCTURE_API_URL:-http://hull_structure:8004}
+      - NEXT_PUBLIC_SAILDATA_API_URL=${NEXT_PUBLIC_SAILDATA_API_URL:-http://saildata:8001}
+      - NEXT_PUBLIC_FURLER_API_URL=${NEXT_PUBLIC_FURLER_API_URL:-http://furler:8002}
+      - NEXT_PUBLIC_AUTH_API_URL=${NEXT_PUBLIC_AUTH_API_URL:-http://auth_service:3000}
     depends_on:
+      - yacht
+      - profile
+      - user_profile
+      - ropes
+      - sails
+      - hull_structure
+      - saildata
+      - furler
       - auth_service
     restart: unless-stopped
 
@@ -92,7 +124,7 @@ services:
       context: ./auth_service
       dockerfile: Dockerfile
     ports:
-      - "3001:3000" # Map host 3001 to container 3000 so frontend can reach it at auth_service:3001
+      - "${AUTH_SERVICE_PORT:-3001}:3000"
     env_file:
       - ./auth_service/.env.local
     restart: unless-stopped

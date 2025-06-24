@@ -1,6 +1,6 @@
 import sqlite3
 from .saildata import SailData
-from config import SAILDATA_DB_PATH
+from ..config import SAILDATA_DB_PATH
 import json
 from src.logger import get_logger
 

@@ -23,93 +23,69 @@ export function Navigation() {
   const pathname = usePathname()
 
   return (
-    <>
-      <div className="pt-5 px-25">
-        <nav
-          className="
-              max-w-6xl mx-auto
-              rounded-full
-              border
-              bg-card
-              backdrop-blur 
-              shadow-lg
-              overflow-hidden
-            "
-        >
-          <div className="container mx-auto px-4">
-            <div className="flex h-16 items-center justify-between relative">
-              {/* Left side navigation */}
-              <div className="flex items-center space-x-4">
-                {user && (
-                  <Link href="/my-boats">
-                    <Button variant="ghost" className="flex items-center gap-2">
-                      <Ship className="h-4 w-4" />
-                      My Boats
-                    </Button>
-                  </Link>
-                )}
-              </div>
-
-              {/* Centered Logo */}
-              <Link href="/" className="absolute left-1/2 transform -translate-x-1/2 flex items-center">
-                <img src="/Logo.png" alt="Rig Magic Logo" className="h-12 w-auto" />
-              </Link>
-
-              {/* Right side navigation */}
-              <div className="flex items-center space-x-4">
-                {user ? (
-                  <>
-                    <CartButton />
-
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                          <Avatar className="h-8 w-8">
-                            <AvatarImage src={user.image ?? "/placeholder.svg"} alt={user.name ?? "User"} />
-                            <AvatarFallback>
-                              {(user.name ?? "U")
-                                .split(" ")
-                                .map((n) => n[0])
-                                .join("")}
-                            </AvatarFallback>
-                          </Avatar>
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent className="w-56" align="end" forceMount>
-                        <DropdownMenuLabel className="font-normal">
-                          <div className="flex flex-col space-y-1">
-                            <p className="text-sm font-medium leading-none">{user.name}</p>
-                            <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
-                          </div>
-                        </DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => router.push("/profile")}>
-                          <User className="mr-2 h-4 w-4" />
-                          <span>Profile</span>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => router.push("/settings")}>
-                          <Settings className="mr-2 h-4 w-4" />
-                          <span>Settings</span>
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => signOut()}>
-                          <LogOut className="mr-2 h-4 w-4" />
-                          <span>Log out</span>
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </>
-                ) : (
-                  <>
-                    <CartButton />
-                    <Button onClick={() => signIn(undefined, { callbackUrl: window.location.origin })}>Sign In</Button>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-        </nav>
-      </div>
-    </>
+    <div className="pt-5">
+      <nav className="w-full flex items-center justify-between px-8">
+        {/* Left: Logo Section */}
+        <div className="glass bg-card border rounded-full px-6 py-2 shadow-lg flex items-center">
+          <Link href="/" className="font-bold italic text-2xl tracking-tight text-primary">
+            Rig Magic
+          </Link>
+        </div>
+        {/* Right: Actions Section */}
+        <div className="glass bg-card border rounded-full px-4 py-2 shadow-lg flex items-center space-x-4">
+          {user && (
+            <Link href="/my-boats">
+              <Button variant="ghost" className="flex items-center gap-2">
+                <Ship className="h-4 w-4" />
+              </Button>
+            </Link>
+          )}
+          <CartButton />
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src={user.image ?? "/placeholder.svg"} alt={user.name ?? "User"} />
+                    <AvatarFallback>
+                      {(user.name ?? "U")
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")}
+                    </AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-[320px] mt-2 glass bg-card border rounded-xl shadow-lg" align="end" forceMount>
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium leading-none">{user.name}</p>
+                    <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => router.push("/profile")}>
+                  <User className="mr-2 h-4 w-4" />
+                  <span>Profile</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => router.push("/settings")}>
+                  <Settings className="mr-2 h-4 w-4" />
+                  <span>Settings</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => signOut()}>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Log out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button onClick={() => signIn(undefined, { callbackUrl: window.location.origin })}>
+              Sign In
+            </Button>
+          )}
+        </div>
+      </nav>
+    </div>
   )
 }

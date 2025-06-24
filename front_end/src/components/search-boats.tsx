@@ -19,7 +19,7 @@ export function SearchBoats() {
   }
 
   return (
-    <div className="bg-card rounded-xl p-6 shadow-sm border max-w-2xl mx-auto">
+    <div className="glass bg-card rounded-xl p-6 shadow-sm max-w-2xl mx-auto">
       <h2 className="text-xl font-semibold mb-4">Find Your Yacht</h2>
       <form onSubmit={handleSearch} className="space-y-4">
         <div className="flex flex-col md:flex-row gap-4">

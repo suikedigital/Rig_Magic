@@ -1,4 +1,4 @@
-from config import ROPES_DB_PATH
+from .config import ROPES_DB_PATH
 from .models.rope_factory import Factory
 from .models.database import RopeDatabase
 from .models.rope_utils import normalize_rope_type

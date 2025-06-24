@@ -1,7 +1,7 @@
 from .models.saildata import SailData
 from .models.factory import SailDataFactory
 from .models.database import SailDataDatabase
-from config import SAILDATA_DB_PATH
+from .config import SAILDATA_DB_PATH
 import requests
 import threading
 from src.logger import get_logger

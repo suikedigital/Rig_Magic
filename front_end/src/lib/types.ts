@@ -1,5 +1,6 @@
 export interface Boat {
   id: string
+  yacht_id?: number // Added for orchestrator compatibility
   name: string
   yacht_class?: string // Added for compatibility with BoatOverview
   model: string

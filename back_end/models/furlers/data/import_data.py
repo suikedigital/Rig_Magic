@@ -1,11 +1,14 @@
-from back_end.models.furlers.src.database import create_tables
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from src.database import create_tables
 create_tables()
 
 import sqlite3
-import os
 
 DB_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src', 'data.db'))
-from back_end.models.furlers.data.temp_data import (
+from data.temp_data import (
     FURLEX_PART_NUMBERS,
     FURLEX_LINK_PLATES,
     PROFURL_SELECTION_CRITERIA,
@@ -128,7 +131,7 @@ def import_harken_rod_adapters():
         conn.commit()
 
 def import_harken_selection_criteria():
-    from back_end.models.furlers.data.temp_data import HARKEN_SELECTION_CRITERIA
+    from data.temp_data import HARKEN_SELECTION_CRITERIA
     if not HARKEN_SELECTION_CRITERIA:
         return
     with sqlite3.connect(DB_PATH) as conn:
@@ -305,7 +308,7 @@ def import_profurl_reefing_kits():
         conn.commit()
 
 def import_facnor_requires_eye_turnbuckle():
-    from back_end.models.furlers.data.temp_data import FACNOR_REQUIRES_EYE_TURNBUCKLE
+    from data.temp_data import FACNOR_REQUIRES_EYE_TURNBUCKLE
     with sqlite3.connect(DB_PATH) as conn:
         count = 0
         for unit_name, stay_diameter in FACNOR_REQUIRES_EYE_TURNBUCKLE:

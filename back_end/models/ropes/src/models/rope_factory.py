@@ -1,5 +1,5 @@
 from .database import RopeDatabase
-from config import ROPES_DB_PATH
+from ..config import ROPES_DB_PATH
 from .rope_utils import normalize_rope_type
 from .ropes.halyards.main_halyard import MainHalyard
 from .ropes.halyards.jib_halyard import JibHalyard

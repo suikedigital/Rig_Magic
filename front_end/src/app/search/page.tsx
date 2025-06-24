@@ -3,8 +3,8 @@ import { BoatSearchResults } from "@/components/boat-search-results"
 import { getApiBase } from "@/lib/getApiBase"
 
 // Helper to fetch and normalize minimal boat data for a search result card
-async function fetchMinimalBoat(apiBase: string, id: string) {
-  const apiUrl = `${apiBase}/yacht/${id}` // CHANGED: singular endpoint
+async function fetchMinimalBoat(id: string) {
+  const apiUrl = `${getApiBase('yacht')}/yacht/${id}` // Use yacht service
   const res = await fetch(apiUrl)
   if (!res.ok) return null
   const boatData = await res.json()
@@ -47,8 +47,7 @@ export default async function SearchPage({
   const params = await searchParams
   const query = params?.query || ""
   const boat_type = params?.boat_type || "all"
-  const apiBase = getApiBase()
-  const searchUrl = `${apiBase}/yachts/search?query=${encodeURIComponent(query)}&boat_type=${encodeURIComponent(boat_type)}`
+  const searchUrl = `${getApiBase('yacht')}/yachts/search?query=${encodeURIComponent(query)}&boat_type=${encodeURIComponent(boat_type)}`
   const res = await fetch(searchUrl)
   const data = await res.json()
   let boats: any[] = []
@@ -57,7 +56,7 @@ export default async function SearchPage({
       data.map(async (boat: any) => {
         const yachtId = boat.yacht_id || boat.id
         // Fetch minimal boat data for card
-        return await fetchMinimalBoat(apiBase, yachtId)
+        return await fetchMinimalBoat(yachtId)
       })
     )
     boats = boats.filter(Boolean) // Remove nulls if any fetch failed

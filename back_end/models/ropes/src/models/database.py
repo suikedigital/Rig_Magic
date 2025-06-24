@@ -9,7 +9,7 @@ Handles SQLite database integration for rope storage and retrieval in the runnin
 """
 
 import sqlite3
-from config import ROPES_DB_PATH
+from ..config import ROPES_DB_PATH
 from .rope_utils import normalize_rope_type
 
 

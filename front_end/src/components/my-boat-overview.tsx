@@ -28,71 +28,28 @@ export function MyBoatOverview({ boatId }: MyBoatOverviewProps) {
       return
     }
 
-    // Mock boat data - in real app, fetch user's boat
-    // For demo, we'll create a mock boat
-    const mockBoat: Boat = {
-      id: boatId,
-      name: "My Sea Breeze",
-      manufacturer: "Catalina",
-      model: "34",
-      year: 2018,
-      type: "Cruiser",
-      designer: "Gerry Douglas",
-      description: "My customized cruising sailboat",
-      hull: {
-        length: 34.0,
-        waterlineLength: 29.5,
-        beam: 11.3,
-        draft: 5.5,
-        displacement: 5400,
-        ballast: 2200,
-        material: "Fiberglass",
-        keelType: "Fin Keel",
-        hullType: "Monohull",
-        rudderType: "Spade Rudder",
-        ballastRatio: 40.7,
-        displacementLengthRatio: 280,
-        sailAreaDisplacementRatio: 16.8,
-        capsizeScreeningValue: 2.1,
-      },
-      rig: {
-        type: "Sloop",
-        mastType: "Deck Stepped",
-        mastHeight: 48.5,
-        mastMaterial: "Aluminum",
-        boomLength: 12.8,
-        boomMaterial: "Aluminum",
-        standingRigging: {
-          forestay: { material: "1x19 Stainless Steel", diameter: 8 },
-          backstay: { material: "1x19 Stainless Steel", diameter: 8 },
-          shrouds: { material: "1x19 Stainless Steel", diameter: 6 },
-        },
-        runningRigging: {
-          halyards: { count: 3, material: "Polyester/Dyneema" },
-          sheets: { count: 4, material: "Polyester Double Braid" },
-        },
-      },
-      sailData: {
-        I: 42.0,
-        J: 13.5,
-        P: 38.0,
-        E: 12.8,
-        mainsailArea: 243,
-        foretriangle: 284,
-        totalSailArea100: 527,
-        totalSailArea150: 669,
-        spinnakerArea: 850,
-        downwindSailArea: 1093,
-        sailAreaDisplacementRatio: 16.8,
-        displacementLengthRatio: 280,
-        ballastDisplacementRatio: 40.7,
-        capsizeScreeningValue: 2.1,
-      },
-      sails: [],
-      ropes: [],
+    // Fetch the real boat data for this user and boatId
+    const fetchBoat = async () => {
+      try {
+        // Fetch user profile to get yacht_ids
+        const userRes = await fetch(`${process.env.NEXT_PUBLIC_PROFILE_API_URL}/users/${user.id}`)
+        if (!userRes.ok) throw new Error("Failed to fetch user profile")
+        const userProfile = await userRes.json()
+        const yachtIds = userProfile.yacht_ids || []
+        if (!yachtIds.includes(boatId)) {
+          setBoat(null)
+          return
+        }
+        // Fetch the yacht details
+        const boatRes = await fetch(`${process.env.NEXT_PUBLIC_YACHT_API_URL}/yacht/${boatId}`)
+        if (!boatRes.ok) throw new Error("Failed to fetch boat data")
+        const boatData = await boatRes.json()
+        setBoat({ ...boatData, id: boatId })
+      } catch (err) {
+        setBoat(null)
+      }
     }
-
-    setBoat(mockBoat)
+    fetchBoat()
   }, [user, router, boatId])
 
   if (!boat) {

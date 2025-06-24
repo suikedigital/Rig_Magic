@@ -20,11 +20,53 @@ export default function MyBoatsPage() {
       return
     }
 
-    // Mock user boats - in real app, fetch from API
-    const mockUserBoats: Boat[] = [
-      // This would be populated with user's cloned boats
-    ]
-    setUserBoats(mockUserBoats)
+    // Fetch user's boats from backend
+    async function fetchUserBoats() {
+      try {
+        // 1. Get user profile (to get yacht_ids)
+        const userProfileRes = await fetch(`${process.env.NEXT_PUBLIC_USER_PROFILE_API_URL}/users/${user.id}`)
+        if (!userProfileRes.ok) {
+          console.log('Failed to fetch user profile', userProfileRes.status)
+          return setUserBoats([])
+        }
+        const userProfile = await userProfileRes.json()
+        console.log('Fetched userProfile:', userProfile)
+        const yachtIds: string[] = userProfile.yacht_ids || []
+        console.log('User yachtIds:', yachtIds)
+        if (yachtIds.length === 0) return setUserBoats([])
+        // 2. Fetch each yacht's details
+        const boats: Boat[] = await Promise.all(
+          yachtIds.map(async (yachtId) => {
+            console.log('Fetching yacht:', yachtId)
+            const yachtRes = await fetch(`${process.env.NEXT_PUBLIC_YACHT_API_URL}/yacht/${yachtId}`)
+            if (!yachtRes.ok) {
+              console.log('Failed to fetch yacht', yachtId, yachtRes.status)
+              return null
+            }
+            const yacht = await yachtRes.json()
+            console.log('Fetched yacht:', yacht)
+            // Map backend yacht to Boat type (add more fields as needed)
+            return {
+              id: yacht.yacht_id?.toString() || yachtId,
+              name: yacht.profile?.model || yacht.profile?.name || `Yacht ${yachtId}`,
+              model: yacht.profile?.model || "",
+              type: yacht.profile?.yacht_class || "",
+              hull: yacht.hull || {},
+              rig: yacht.rig || {},
+              sailData: yacht.saildata || {},
+              sails: yacht.sails || [],
+              ropes: yacht.ropes || [],
+              // ...add more fields as needed
+            } as Boat
+          })
+        )
+        setUserBoats(boats.filter(Boolean))
+      } catch (err) {
+        console.error('Error in fetchUserBoats:', err)
+        setUserBoats([])
+      }
+    }
+    fetchUserBoats()
   }, [user, router])
 
   if (!user) {
