@@ -1,36 +1,50 @@
 import { SearchBoats } from "@/components/search-boats"
-import { Carousel } from "@/components/ui/carousel"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
+} from "@/components/ui/carousel"
 
 export default function Home() {
   return (
-    <main className="w-full py-8">
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between py-14 gap-8 w-full">
-        {/* Left: Massive, Hard Left-Aligned Title & Subtitle */}
-        <div className="flex-1 flex flex-col items-start justify-start pl-0">
-          <h1 className="text-[7vw] md:text-[8vw] font-extrabold tracking-tight mb-4 italic text-transparent bg-clip-text bg-gradient-to-br from-rigMagicBlue to-blue-900 leading-none drop-shadow-lg text-left">
-            Rig Magic
-          </h1>
-          <h2 className="text-3xl md:text-5xl font-semibold mb-2 text-primary text-left">
-            Because Owning Your Yacht
-          </h2>
-          <h2 className="text-3xl md:text-5xl font-semibold mb-2 text-primary text-left">
-            Shouldn't Be a
-          </h2>
-          <h2 className="text-4xl md:text-6xl font-extrabold mb-4 text-rigMagicBlue italic drop-shadow text-left">
-            Rigamarole
-          </h2>
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-xl text-left">
-            Every System. Every Detail. Under Control.
-          </p>
-        </div>
-        {/* Right: Carousel */}
-        <div className="flex-1 flex justify-center w-full max-w-md">
-          <Carousel />
+    <main className="w-full pt-20 py-8 flex flex-col items-center">
+      <div className="flex flex-col md:flex-row items-center justify-center py-14 gap-8 w-full">
+        {/* Centered, Larger Carousel */}
+        <div className="w-full max-w-4xl flex justify-center mx-auto scale-125">
+          <Carousel>
+            <CarouselContent>
+              <CarouselItem>
+                <div className="p-10 bg-card rounded-2xl shadow-xl flex flex-col items-center text-center">
+                  <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Shop Rigging" className="mb-6 rounded-lg w-full h-60 object-cover" />
+                  <h3 className="text-2xl font-bold mb-3 text-primary">All your boat, data in one place</h3>
+                  <p className="text-muted-foreground text-lg">Copy one of our yacht assest, and keep all infomation about your boat in one place</p>
+                </div>
+              </CarouselItem>
+              <CarouselItem>
+                <div className="p-10 bg-card rounded-2xl shadow-xl flex flex-col items-center text-center">
+                  <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80" alt="Manage Boats" className="mb-6 rounded-lg w-full h-60 object-cover" />
+                  <h3 className="text-2xl font-bold mb-3 text-primary">Build, Customise and Create</h3>
+                  <p className="text-muted-foreground text-lg">Add, customize, and create all your yacht equipment, all in one place.</p>
+                </div>
+              </CarouselItem>
+              <CarouselItem>
+                <div className="p-10 bg-card rounded-2xl shadow-xl flex flex-col items-center text-center">
+                  <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" alt="Service & Support" className="mb-6 rounded-lg w-full h-60 object-cover" />
+                  <h3 className="text-2xl font-bold mb-3 text-primary">Yacht Services</h3>
+                  <p className="text-muted-foreground text-lg">Book maintenance, get reminders, and access expert support anytime.</p>
+                </div>
+              </CarouselItem>
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
         </div>
       </div>
 
       {/* Prominent Search */}
-      <div className="my-8">
+      <div className="my-8 w-full flex justify-center">
         <SearchBoats />
       </div>
     </main>

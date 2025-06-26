@@ -2,22 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
   :root {
-    --background: 245 60% 10%; /* Deep navy-indigo */
-    --foreground: 220 20% 95%; /* Soft light gray-blue */
+    --background: 245 60% 10%;
+    --foreground: 220 20% 95%;
     --card: 240 100% 100% / 0.08;
     --card-foreground: 240 20% 95%;
-
     --primary: 220 100% 60%;
     --primary-glow: 220 100% 70%;
     --primary-foreground: 0 0% 100%;
-
     --accent: 280 100% 80%;
     --accent-glow: 280 100% 88%;
     --accent-foreground: 260 100% 15%;
-
     --radius: 1rem;
     --glass-blur: 16px;
     --glass-saturate: 180%;
@@ -36,9 +32,9 @@
     font-family: 'Inter', sans-serif;
     line-height: 1.6;
     transition: all 0.3s ease;
-}
+  }
 
-    .glass {
+  .glass {
     background-color: hsla(240, 100%, 100%, 0.08);
     backdrop-filter: blur(10px) saturate(180%);
     -webkit-backdrop-filter: blur(10px) saturate(180%);
@@ -47,14 +43,15 @@
     border-radius: 1rem;
     transition: all 0.3s ease;
   }
+}
 
+@layer components {
   .btn-glow {
     @apply px-4 py-2 rounded-lg font-semibold text-white;
     background: linear-gradient(145deg, hsl(220,100%,60%), hsl(220,100%,70%));
     box-shadow: 0 0 12px hsl(220,100%,70%);
     transition: transform 0.2s ease, box-shadow 0.3s ease;
   }
-
   .btn-glow:hover {
     transform: translateY(-2px);
     box-shadow: 0 0 16px hsl(220,100%,70%);

@@ -1,5 +1,6 @@
 "use client"
 
+import React from "react"
 import { useState } from "react"
 import Link from "next/link"
 import { useRouter, usePathname } from "next/navigation"
@@ -13,25 +14,35 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { User, Settings, LogOut, Ship } from "lucide-react"
+import { User, Settings, LogOut, Ship, LogIn } from "lucide-react"
 import { useAuth } from "@/hooks/use-auth"
 import { CartButton } from "@/components/cart-button"
+import { FcGoogle } from "react-icons/fc"
+import { FaApple } from "react-icons/fa"
 
-export function Navigation() {
+type NavigationProps = {
+  centerContent?: React.ReactNode
+}
+
+export function Navigation({ centerContent }: NavigationProps) {
   const { user, signIn, signOut } = useAuth()
   const router = useRouter()
   const pathname = usePathname()
 
   return (
-    <div className="pt-5">
-      <nav className="w-full flex items-center justify-between px-8">
-        {/* Left: Logo Section */}
+    <nav className="fixed top-0 left-0 w-full z-50 pointer-events-none">
+      <div className="flex items-start justify-between w-full px-6 py-4 pointer-events-auto">
+        {/* Left: Logo Bar */}
         <div className="glass bg-card border rounded-full px-6 py-2 shadow-lg flex items-center">
           <Link href="/" className="font-bold italic text-2xl tracking-tight text-primary">
             Rig Magic
           </Link>
         </div>
-        {/* Right: Actions Section */}
+        {/* Center: Custom Content */}
+        <div className="flex-1 flex justify-center items-center">
+          {centerContent}
+        </div>
+        {/* Right: Actions Bar */}
         <div className="glass bg-card border rounded-full px-4 py-2 shadow-lg flex items-center space-x-4">
           {user && (
             <Link href="/my-boats">
@@ -80,12 +91,40 @@ export function Navigation() {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Button onClick={() => signIn(undefined, { callbackUrl: window.location.origin })}>
-              Sign In
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="h-8 w-8 p-0 flex items-center justify-center">
+                  <LogIn className="h-6 w-6" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                className="glass bg-card border rounded-xl shadow-lg mt-2 w-full min-w-[48px] max-w-[160px] px-2 py-2 flex flex-col items-stretch"
+                align="end"
+                sideOffset={8}
+              >
+                <DropdownMenuItem
+                  onClick={() => signIn("google", { callbackUrl: window.location.origin })}
+                  className="p-0 m-0 bg-transparent hover:bg-muted rounded-full flex items-center justify-center"
+                  asChild
+                >
+                  <Button variant="ghost" className="h-8 w-full p-0 flex items-center justify-center">
+                    <FcGoogle className="h-6 w-6" />
+                  </Button>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => signIn("apple", { callbackUrl: window.location.origin })}
+                  className="p-0 m-0 bg-transparent hover:bg-muted rounded-full flex items-center justify-center"
+                  asChild
+                >
+                  <Button variant="ghost" className="h-8 w-full p-0 flex items-center justify-center">
+                    <FaApple className="h-6 w-6 text-black" />
+                  </Button>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           )}
         </div>
-      </nav>
-    </div>
+      </div>
+    </nav>
   )
 }

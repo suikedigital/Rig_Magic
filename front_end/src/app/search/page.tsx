@@ -1,5 +1,6 @@
-import { SearchBoats } from "@/components/search-boats"
+import { SearchBoatsNav } from "@/components/search-boats-nav"
 import { BoatSearchResults } from "@/components/boat-search-results"
+import { Navigation } from "@/components/navigation"
 import { getApiBase } from "@/lib/getApiBase"
 
 // Helper to fetch and normalize minimal boat data for a search result card
@@ -62,14 +63,11 @@ export default async function SearchPage({
     boats = boats.filter(Boolean) // Remove nulls if any fetch failed
   }
   return (
-    <main className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Search Results</h1>
-
-      <div className="mb-8">
-        <SearchBoats />
-      </div>
-
-      <BoatSearchResults boats={boats} />
-    </main>
+    <>
+      <Navigation centerContent={<SearchBoatsNav />} />
+      <main className="container mx-auto px-4 py-8 pt-20">
+        <BoatSearchResults boats={boats} />
+      </main>
+    </>
   )
 }

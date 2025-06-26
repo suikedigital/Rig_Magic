@@ -7,7 +7,6 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
 import { fontSans } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
-import { Navigation } from "@/components/navigation"
 import AppInitializer from "@/components/app-initializer";
 import { Poppins } from "next/font/google";
 
@@ -34,7 +33,6 @@ export default function RootLayout({
         <Providers>
           <CartProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-              <Navigation />
                 <AppInitializer>
                   {children}
                 </AppInitializer>

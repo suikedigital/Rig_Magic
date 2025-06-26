@@ -17,7 +17,6 @@ export default async function CloneBoatPage({ params }: { params: { id: string }
 
   return (
     <main className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Clone: {boat.name}</h1>
       <CloneBoatForm originalBoat={boat} />
     </main>
   )

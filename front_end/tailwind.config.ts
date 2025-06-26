@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-import { fontFamily } from "tailwindcss/defaultTheme"; // Added import
+import { fontFamily } from "tailwindcss/defaultTheme";
 
 const config: Config = {
   darkMode: ["class"],
@@ -26,12 +26,12 @@ const config: Config = {
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
-          glow: 'hsl(220,100%,70%)', // new
+          glow: 'hsl(220,100%,70%)',
         },
         accent: {
           DEFAULT: 'hsl(var(--accent))',
           foreground: 'hsl(var(--accent-foreground))',
-          glow: 'hsl(280,100%,88%)', // new
+          glow: 'hsl(280,100%,88%)',
         },
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',
@@ -65,7 +65,6 @@ const config: Config = {
           border: 'hsl(var(--sidebar-border))',
           ring: 'hsl(var(--sidebar-ring))'
         },
-        // Flat color fallbacks for quick use
         'primary-glow': 'hsl(220,100%,70%)',
         'accent-glow': 'hsl(280,100%,88%)',
         'background-flat': 'hsl(245,60%,10%)',
@@ -75,46 +74,24 @@ const config: Config = {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
-        xl: '1rem', // new
+        xl: '1rem',
       },
       boxShadow: {
-        glass: '0 4px 24px rgba(0,0,0,0.3)', // new
-        glow: '0 0 12px hsl(220,100%,70%)',  // new
+        glass: '0 4px 24px rgba(0,0,0,0.3)',
+        glow: '0 0 12px hsl(220,100%,70%)',
       },
       fontFamily: {
         sans: ["var(--font-poppins)", ...fontFamily.sans],
       },
       keyframes: {
         'accordion-down': {
-          from: {
-            height: '0'
-          },
-          to: {
-            height: 'var(--radix-accordion-content-height)'
-          }
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' }
         },
         'accordion-up': {
-          from: {
-            height: 'var(--radix-accordion-content-height)'
-          },
-          to: {
-            height: '0'
-          }
-        },
-        'fade-in': { // Added for splash screen
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-        'fade-out': { // Added for splash screen
-          '0%': { opacity: '1' },
-          '100%': { opacity: '0' },
-        },
-      },
-      animation: {
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out',
-        'fade-in': 'fade-in 0.5s ease-out forwards', // Added for splash screen
-        'fade-out': 'fade-out 0.5s ease-out forwards', // Added for splash screen
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' }
+        }
       }
     }
   },
